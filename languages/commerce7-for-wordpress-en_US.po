@@ -1,0 +1,164 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: 2019-03-14 11:46-0600\n"
+"PO-Revision-Date: 2019-03-14 11:46-0600\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: en_US\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.2.1\n"
+"X-Poedit-Basepath: ..\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-KeywordsList: __;esc_html_e\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: class-c7wp.php:189
+msgid "Commerce7 for Wordpress"
+msgstr ""
+
+#: class-c7wp.php:229
+msgid "Tenant ID"
+msgstr ""
+
+#: class-c7wp.php:240
+msgid "Display Cart Box?"
+msgstr ""
+
+#: class-c7wp.php:251
+msgid "Cart Box Location"
+msgstr ""
+
+#: class-c7wp.php:262
+msgid "Cart Box Theme"
+msgstr ""
+
+#: includes/beaver-c7wp/beaver-c7wp.php:16
+#: includes/beaver-c7wp/beaver-c7wp.php:18
+#: includes/cornerstone/definition.php:16 includes/elementor.php:46
+#: includes/wpbakery.php:19
+msgid "Commerce7"
+msgstr ""
+
+#: includes/beaver-c7wp/beaver-c7wp.php:17
+msgid "Add Commerce7 content to your layouts."
+msgstr ""
+
+#: includes/beaver-c7wp/beaver-c7wp.php:29
+msgid "Settings"
+msgstr ""
+
+#: includes/beaver-c7wp/beaver-c7wp.php:32
+msgid "Commerce7 Content"
+msgstr ""
+
+#: includes/beaver-c7wp/beaver-c7wp.php:36 includes/elementor.php:98
+#: includes/wpbakery.php:29
+msgid "Content Type"
+msgstr ""
+
+#: includes/beaver-c7wp/beaver-c7wp.php:38 includes/cornerstone/controls.php:21
+#: includes/elementor.php:102 includes/wpbakery.php:33
+msgid "Default Content"
+msgstr ""
+
+#: includes/beaver-c7wp/beaver-c7wp.php:39 includes/cornerstone/controls.php:22
+#: includes/elementor.php:103 includes/wpbakery.php:34
+msgid "Personalization Block"
+msgstr ""
+
+#: includes/beaver-c7wp/beaver-c7wp.php:40 includes/cornerstone/controls.php:23
+#: includes/elementor.php:104 includes/wpbakery.php:35
+msgid "Buy Now Button"
+msgstr ""
+
+#: includes/beaver-c7wp/beaver-c7wp.php:41 includes/cornerstone/controls.php:24
+#: includes/elementor.php:105 includes/wpbakery.php:36
+msgid "Subscribe Form"
+msgstr ""
+
+#: includes/beaver-c7wp/beaver-c7wp.php:42 includes/cornerstone/controls.php:25
+#: includes/elementor.php:106 includes/wpbakery.php:37
+msgid "Collection Grid"
+msgstr ""
+
+#: includes/beaver-c7wp/beaver-c7wp.php:43 includes/elementor.php:107
+#: includes/wpbakery.php:38
+msgid "Login/Logout Link"
+msgstr ""
+
+#: includes/beaver-c7wp/beaver-c7wp.php:44 includes/elementor.php:108
+#: includes/wpbakery.php:39
+msgid "Cart Data Link"
+msgstr ""
+
+#: includes/beaver-c7wp/beaver-c7wp.php:49 includes/cornerstone/controls.php:35
+#: includes/elementor.php:116 includes/wpbakery.php:47
+msgid "Data"
+msgstr ""
+
+#: includes/cornerstone/controls.php:17
+msgid "Element Type"
+msgstr ""
+
+#: includes/cornerstone/controls.php:26
+msgid "Magic login link"
+msgstr ""
+
+#: includes/cornerstone/controls.php:27
+msgid "Magic cart link"
+msgstr ""
+
+#: includes/elementor.php:90
+msgid "Content"
+msgstr ""
+
+#: includes/template.options.page.php:49
+msgid "Settings Instructions"
+msgstr ""
+
+#: includes/template.options.page.php:60
+msgid "Add your tenant ID"
+msgstr ""
+
+#: includes/template.options.page.php:66
+#, php-format
+msgid ""
+"Visit your <a href=\"%s\" target=\"_blank\">Commerce7 Dashboard</a>. After "
+"logging in, note the URL in your address bar. The first part of the url is "
+"your Tenant ID. <br>For example: <strong>https://crazy-wines.admin.platform."
+"commerce7.com</strong> would mean <strong>crazy-wines</strong> is the Tenant "
+"ID. Type that ID in the setting above to enable the integration."
+msgstr ""
+
+#: includes/template.options.page.php:89
+msgid "Choose whether or not to enable the Cart Box"
+msgstr ""
+
+#: includes/template.options.page.php:93
+msgid ""
+"The Cart Box will contain a magic login/logut link, as well as the cart "
+"totals and a link for the flyout shopping cart. You should disable it here "
+"if you would prefer to place the login/logout link and cart link in your "
+"header with the shortcodes below."
+msgstr ""
+
+#: includes/template.options.page.php:103
+msgid "Choose the position of your Cart Box"
+msgstr ""
+
+#: includes/template.options.page.php:107
+msgid ""
+"The Cart Box can be positioned to any corner of the screen to accomodate "
+"different design layouts. Try all of them to find your preferred placement."
+msgstr ""
+
+#: includes/wpbakery.php:42
+msgid "Choose the type of content you would like to display."
+msgstr ""
+
+#: includes/wpbakery.php:49
+msgid "Enter the data for the content type, if applicable."
+msgstr ""
