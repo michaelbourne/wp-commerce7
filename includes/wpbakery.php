@@ -39,6 +39,7 @@ vc_map(
 					__( 'Cart Data Link', 'commerce7-for-wordpress' ) => 'cart',
 					__( 'Reservation Widget', 'commerce7-for-wordpress' ) => 'reservation',
 					__( 'General Form', 'commerce7-for-wordpress' ) => 'form',
+					__( 'Join\Edit Club Magic Button', 'commerce7-for-wordpress' ) => 'joinnow',
 				),
 				"std" => "default",
 				"description" => __( "Choose the type of content you would like to display.", "commerce7-for-wordpress" )

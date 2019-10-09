@@ -2,7 +2,7 @@
 /*
 Plugin Name: Commerce7 for WordPress
 Description: Integrate Commerce7 functionality into your WordPress site easily
-Version:     1.0.3
+Version:     1.0.5
 Author:      Michael Bourne
 Author URI:  https://ursa6.com
 License:     GPL3
@@ -30,7 +30,7 @@ if (! defined('ABSPATH')) {
 
 defined('C7WP_ROOT') or define('C7WP_ROOT', dirname(__FILE__));
 defined('C7WP_URI') or define('C7WP_URI', plugin_dir_url(__FILE__));
-defined('C7WP_VERSION') or define('C7WP_VERSION', '1.0.3');
+defined('C7WP_VERSION') or define('C7WP_VERSION', '1.0.5');
 
 
 /**
@@ -98,7 +98,8 @@ function c7wp_activate_plugin()
     update_option('c7wp_settings', $c7options);
 
     // set a default permalink structure if the installation has not yet done this
-    wp_install_maybe_enable_pretty_permalinks();
+    require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
+    if ( function_exists( 'wp_install_maybe_enable_pretty_permalinks' ) ) wp_install_maybe_enable_pretty_permalinks();
 }
 register_activation_hook(__FILE__, 'c7wp_activate_plugin');
 

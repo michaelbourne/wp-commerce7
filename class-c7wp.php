@@ -445,7 +445,9 @@ class C7WP {
 				'collection',
 				'login',
 				'cart',
-				'reservation'
+				'reservation',
+				'form',
+				'joinnow'
 			);
 
 			if ( !in_array($atts['type'], $allowed_types) ) $atts['type'] = 'default';
@@ -487,6 +489,10 @@ class C7WP {
 
 				case 'form':
 					$output .= '<div class="c7-form-wrapper" data-form-code="' . esc_attr($atts['data']) . '"></div>';
+					break;
+
+				case 'joinnow':
+					$output .= '<div class="c7-club-join-button" data-club-slug="' . esc_attr($atts['data']) . '"></div>';
 					break;
 
 				default:

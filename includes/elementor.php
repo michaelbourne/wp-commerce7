@@ -108,6 +108,7 @@ class C7WP_Elementor extends \Elementor\Widget_Base {
 					'cart' 				=> __( 'Cart Data Link', 'commerce7-for-wordpress' ),
 					'reservation' 		=> __( 'Reservation Widget', 'commerce7-for-wordpress' ),
 					'form' 				=> __( 'General Form', 'commerce7-for-wordpress' ),
+					'joinnow' 			=> __( 'Join/Edit Club magic button', 'commerce7-for-wordpress' ),
 				],
 			]
 		);

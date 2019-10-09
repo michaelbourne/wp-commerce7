@@ -3,8 +3,8 @@ Contributors: michaelbourne
 Donate link: https://www.paypal.me/yycpro
 Tags: commerce7
 Requires at least: 4.5
-Tested up to: 5.2.1
-Stable tag: 1.0.3
+Tested up to: 5.2.3
+Stable tag: 1.0.5
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.en.html
 
@@ -57,6 +57,12 @@ None yet
 
 == Changelog ==
 
+= 1.0.5 =
+* Added support for the new "Join Now / Edit Membership" magic button for clubs, which should be used on landing pages you've created for your clubs.
+
+= 1.0.4 =
+* Fix activation error
+
 = 1.0.3 =
 * Added support for Commerce7 forms widgets
 
@@ -72,8 +78,17 @@ None yet
 
 == Upgrade Notice ==
 
-= 1.0.2 =
+= 1.0.5 =
+Add support for new club join/edit magic button
+
+= 1.0.4 =
+Fix activation error
+
+= 1.0.3 =
 Added support for Commerce7 Forms
+
+= 1.0.2 =
+Fixed Elementor and Woocomerce conflict
 
 = 1.0.1 =
 Reservations support

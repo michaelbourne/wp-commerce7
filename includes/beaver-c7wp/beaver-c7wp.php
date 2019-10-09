@@ -44,6 +44,7 @@ FLBuilder::register_module( 'C7WP_flModule', array(
 							'cart' 				=> __( 'Cart Data Link', 'commerce7-for-wordpress' ),
 							'reservation' 		=> __( 'Reservation Widget', 'commerce7-for-wordpress' ),
 							'form' 				=> __( 'General Form', 'commerce7-for-wordpress' ),
+							'joinnow' 			=> __( 'Join/Edit Club Magic Button', 'commerce7-for-wordpress' ),
 						)
 					),
 					'cdata'     => array(

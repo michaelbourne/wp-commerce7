@@ -27,6 +27,7 @@ return array(
         array( 'value' => 'cart', 'label' => __( 'Magic cart link', 'commerce7-for-wordpress' ) ),
         array( 'value' => 'reservation', 'label' => __( 'Reservation Widget', 'commerce7-for-wordpress' ) ),
         array( 'value' => 'form', 'label' => __( 'General Form', 'commerce7-for-wordpress' ) ),
+        array( 'value' => 'joinnow', 'label' => __( 'Join/Edit Club Magic Button', 'commerce7-for-wordpress' ) ),
       ),
     ),
   ),
