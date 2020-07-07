@@ -3,8 +3,8 @@ Contributors: michaelbourne
 Donate link: https://www.paypal.me/yycpro
 Tags: commerce7
 Requires at least: 4.5
-Tested up to: 5.2.3
-Stable tag: 1.0.5
+Tested up to: 5.4.2
+Stable tag: 1.0.7
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.en.html
 
@@ -57,6 +57,14 @@ None yet
 
 == Changelog ==
 
+= 1.0.7 =
+* Added support for new front end widgets: Quick Shop, Login Form, Create Account Form, Buy Button (Slug support for variable products)
+* Code cleanup
+* Better internationalization support
+
+= 1.0.6 =
+* Added support for the brand new V1 front-end widgets from Commerce7, providing stores and customers a better checkout and club experience.
+
 = 1.0.5 =
 * Added support for the new "Join Now / Edit Membership" magic button for clubs, which should be used on landing pages you've created for your clubs.
 
@@ -77,6 +85,9 @@ None yet
 
 
 == Upgrade Notice ==
+
+= 1.0.6 =
+Added support for new V1 widgets
 
 = 1.0.5 =
 Add support for new club join/edit magic button

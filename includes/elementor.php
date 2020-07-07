@@ -1,15 +1,15 @@
 <?php
 /**
-* Elementor Integration
-*
-* @package   Commerce7 for WordPress
-* @author    Michael Bourne
-* @license   GPL3
-* @link      https://ursa6.com
-* @since     1.0.0
-*/
+ * Elementor Integration
+ *
+ * @package   wp-commerce7
+ * @author    Michael Bourne
+ * @license   GPL3
+ * @link      https://ursa6.com
+ * @since     1.0.0
+ */
 
-if( ! defined( 'ABSPATH' ) ) {
+if ( ! defined( 'ABSPATH' ) ) {
 	return;
 }
 
@@ -43,7 +43,7 @@ class C7WP_Elementor extends \Elementor\Widget_Base {
 	 * @return string Widget title.
 	 */
 	public function get_title() {
-		return __( 'Commerce7', 'commerce7-for-wordpress' );
+		return __( 'Commerce7', 'wp-commerce7' );
 	}
 
 	/**
@@ -87,28 +87,32 @@ class C7WP_Elementor extends \Elementor\Widget_Base {
 		$this->start_controls_section(
 			'content_section',
 			[
-				'label' 	=> __( 'Content', 'commerce7-for-wordpress' ),
-				'tab' 		=> \Elementor\Controls_Manager::TAB_CONTENT,
+				'label' => __( 'Content', 'wp-commerce7' ),
+				'tab'   => \Elementor\Controls_Manager::TAB_CONTENT,
 			]
 		);
 
 		$this->add_control(
 			'type',
 			[
-				'label' 	=> __( 'Content Type', 'commerce7-for-wordpress' ),
-				'type' 		=> \Elementor\Controls_Manager::SELECT,
-				'default' 	=> 'default',
-				'options' 	=> [
-					'default'  			=> __( 'Default Content', 'commerce7-for-wordpress' ),
-					'personalization' 	=> __( 'Personalization Block', 'commerce7-for-wordpress' ),
-					'buy' 				=> __( 'Buy Now Button', 'commerce7-for-wordpress' ),
-					'subscribe' 		=> __( 'Subscribe Form', 'commerce7-for-wordpress' ),
-					'collection' 		=> __( 'Collection Grid', 'commerce7-for-wordpress' ),
-					'login' 			=> __( 'Login/Logout Link', 'commerce7-for-wordpress' ),
-					'cart' 				=> __( 'Cart Data Link', 'commerce7-for-wordpress' ),
-					'reservation' 		=> __( 'Reservation Widget', 'commerce7-for-wordpress' ),
-					'form' 				=> __( 'General Form', 'commerce7-for-wordpress' ),
-					'joinnow' 			=> __( 'Join/Edit Club magic button', 'commerce7-for-wordpress' ),
+				'label'   => __( 'Content Type', 'wp-commerce7' ),
+				'type'    => \Elementor\Controls_Manager::SELECT,
+				'default' => 'default',
+				'options' => [
+					'default'  		  => __( 'Default Content', 'wp-commerce7' ),
+					'personalization' => __( 'Personalization Block', 'wp-commerce7' ),
+					'buy' 			  => __( 'Buy Now (SKU)', 'wp-commerce7' ),
+					'buyslug' 		  => __( 'Buy Now (Slug)', 'wp-commerce7' ),
+					'subscribe' 	  => __( 'Subscribe Form', 'wp-commerce7' ),
+					'collection' 	  => __( 'Collection Grid', 'wp-commerce7' ),
+					'login' 		  => __( 'Login/Logout Link', 'wp-commerce7' ),
+					'cart' 			  => __( 'Cart Data Link', 'wp-commerce7' ),
+					'reservation' 	  => __( 'Reservation Widget', 'wp-commerce7' ),
+					'form' 			  => __( 'General Form', 'wp-commerce7' ),
+					'joinnow' 		  => __( 'Join/Edit Club magic button', 'wp-commerce7' ),
+					'quickshop'		  => __( 'Quick Shop form', 'wp-commerce7' ),
+					'loginform'		  => __( 'Login Form', 'wp-commerce7' ),
+					'createaccount'	  => __( 'Create account form', 'wp-commerce7' ),
 				],
 			]
 		);
@@ -116,8 +120,8 @@ class C7WP_Elementor extends \Elementor\Widget_Base {
 		$this->add_control(
 			'data',
 			[
-				'label' 	=> __( 'Data', 'commerce7-for-wordpress' ),
-				'type' 		=> \Elementor\Controls_Manager::TEXT,
+				'label' => __( 'Data', 'wp-commerce7' ),
+				'type'  => \Elementor\Controls_Manager::TEXT,
 			]
 		);
 
@@ -140,13 +144,11 @@ class C7WP_Elementor extends \Elementor\Widget_Base {
 		$type = esc_attr( $settings['type'] );
 		$data = esc_attr( $settings['data'] );
 
-		echo do_shortcode('[c7wp type="' . $type . '" data="' . $data . '"]');
+		echo do_shortcode( '[c7wp type="' . $type . '" data="' . $data . '"]' );
 
 	}
 
-
 	protected function content_template() {}
 	public function render_plain_content( $instance = [] ) {}
-
 
 }
