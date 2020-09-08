@@ -5,7 +5,7 @@
  * Created Date: Thursday September 3rd 2020
  * Author: Michael Bourne
  * -----
- * Last Modified: Thursday, September 3rd 2020, 6:51:49 pm
+ * Last Modified: Tuesday, September 8th 2020, 3:02:19 pm
  * Modified By: Michael Bourne
  * -----
  * Copyright (c) 2020 URSA6
@@ -63,5 +63,5 @@ vc_map(
 				'description' => __( 'Enter the data for the content type, if applicable.', 'wp-commerce7' ),
 			),
 		),
-	),
+	)
 );

@@ -60,20 +60,12 @@ if ( ! defined( 'ABSPATH' ) ) {
                                         <h4 class="c7wp-box-content-title"><?php esc_html_e( 'Add your tenant ID', 'wp-commerce7' ); ?></h4>
                                         <span class="c7wp-box-content-text">
                                             <?php
-                                            /* translators: Options page step 1. KSES set to a, br, and i.  */
+                                            $tags = wp_kses_allowed_html();
+                                            /* translators: Options page step 1. KSES set to a, br, strong, and em.  */
                                             echo sprintf(
                                                 wp_kses(
                                                     __( 'Visit your <a href="%s" target="_blank">Commerce7 Dashboard</a>. After logging in, note the URL in your address bar. The first part of the url is your Tenant ID. <br>For example: <strong>https://crazy-wines.admin.platform.commerce7.com</strong> would mean <strong>crazy-wines</strong> is the Tenant ID. Type that ID in the setting above to enable the integration.', 'wp-commerce7' ),
-                                                    array(
-                                                        'a' => array(
-                                                            'href'   => array(),
-                                                            'target' => array(),
-                                                            'title'  => array(),
-                                                        ),
-                                                        'br' => array(),
-                                                        'i'  => array(),
-                                                        'strong' => array(),
-                                                    ),
+                                                    $tags
                                                 ),
                                                 esc_url( 'https://admin.platform.commerce7.com/login' )
                                             );
@@ -116,60 +108,29 @@ if ( ! defined( 'ABSPATH' ) ) {
                 </div>
             </div>
 
+            <div class="c7wp-row">
+                <div class="c7wp-column">
+                    <div class="c7wp-box c7wp-box-min-height">
+
+                        <header class="c7wp-box-header">
+                            <h2 class="c7wp-box-title"><?php esc_html_e( 'Need a hand?', 'wp-commerce7' ); ?></h2>
+                        </header>
+
+                        <div class="c7wp-box-content ">
+                            <p>Be sure to read the documentation first, as it covers everything from installation, to setup, and use of the plugins features.</p>
+                            <p>If you are looking for a professional agency to hire for your website build, contact us at 5FORESTS for a consultation.</p>
+                            <a href="https://c7wp.com/" target="_blank" style="display: block; color:#fff; background: #333; text-align: center; padding: 1em; font-weight: bold; text-decoration: none; margin-top: 3em;">Read the Docs</a>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
         </div>
 
 
         <div class="c7wp-sidebar">
-        <!--
-            <div class="c7wp-row">
-                <div class="c7wp-column">
-                    <div class="c7wp-box">
-                        <div class="c7wp-box-content">
-                            <img src="<?php echo esc_url( C7WP_URI . 'assets/newslettertitle.png' ); ?>" alt="Get The Newsletter" style="max-width: 100%;" />
 
-                            <p>The Must Read is your pocket-sized, weekly update on marketing trends and technology that are sure to impact your wine business. Guaranteed short enough you can read it with your Sunday morning coffee.</p>
-
-                            <link href="//cdn-images.mailchimp.com/embedcode/slim-10_7.css" rel="stylesheet" type="text/css">
-                            <style type="text/css">
-                                #mc_embed_signup input.button {
-                                    display: block;
-                                    width: 100%;
-                                    margin: 0 0 10px 0;
-                                    min-width: 90px;
-                                    background: linear-gradient(318.83deg, #356DDC 0%, #071E86 100%);
-                                    border: none;
-                                    box-sizing: border-box;
-                                    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.15);
-                                    border-radius: 0;
-                                    height: auto;
-                                    padding: 0.5em;
-                                    font-weight: bold;
-                                    letter-spacing: 0.08em;
-                                }
-                                #mc_embed_signup input.email {
-                                    border-radius: 0;
-                                    width: 100%;
-                                    padding: 1em 0.5em;
-                                }
-                                #mc_embed_signup form {
-                                    padding: 1em 0 0;
-                                }
-                            </style>
-                            <div id="mc_embed_signup">
-                                <form action="https://5forests.us19.list-manage.com/subscribe/post?u=4fa5056b9e7f0511b9cb03be4&amp;id=28abf325b7" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
-                                    <div id="mc_embed_signup_scroll">
-                                        <input type="email" value="" name="EMAIL" class="email" id="mce-EMAIL" placeholder="email address" required>
-                                        <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_4fa5056b9e7f0511b9cb03be4_28abf325b7" tabindex="-1" value=""></div>
-                                        <div class="clear"><input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button"></div>
-                                    </div>
-                                </form>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-            -->
             <div class="c7wp-row">
                 <div class="c7wp-column">
                     <div class="c7wp-box">
@@ -199,10 +160,10 @@ if ( ! defined( 'ABSPATH' ) ) {
                 <div class="c7wp-column">
                     <div class="c7wp-box">
                         <div class="c7wp-box-content ">
-                            <h2>Need help with this plugin?</h2>
-                            <p>Be sure to read the documentation first, as it covers everything from installation, to setup, and use of the plugins features.</p>
-                            <p>If you are looking for a professional agency to hire for your website build, contact us at 5FORESTS for a consultation.</p>
-                            <a href="https://c7wp.com/" target="_blank" style="display: block; color:#fff; background: #333; text-align: center; padding: 1em; font-weight: bold; text-decoration: none; margin-top: 3em;">Read the Docs</a>
+                            <h2>Using Facebook?</h2>
+                            <p>Facebook and Instagram advertising has proven very effective for many wineries. But not being able to properly track all your website and tasting room conversions limits your ability to generate effective lookalike audiences and stops you from reporting accurate ROI on your efforts.</p>
+                            <p>5forests has teamed up with Treefrog Digital to launch our new <strong>Facebook Conversion Track</strong> app to overcome those obstacles.</p>
+                            <a href="https://commerce7.treefrogdigital.com/facebook-conversion-tracking/" target="_blank" style="display: block; color:#fff; background: #4267B2; text-align: center; padding: 1em; font-weight: bold; text-decoration: none; margin-top: 3em;">Learn More</a>
                         </div>
                     </div>
                 </div>
