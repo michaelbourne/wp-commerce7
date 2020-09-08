@@ -1,0 +1,23 @@
+/* Beaver, Elementor, and Cornerstone UI tweaks */
+.fl-builder-edit .c7wp-wrap,
+.ember-application .c7wp-wrap,
+.elementor-editor-active .c7wp-wrap,
+.vc_element .c7wp-wrap  {
+	position: relative;
+	background: #efefef;
+	border: 1px dotted #333;
+	min-height: 2em;
+}
+.fl-builder-edit .c7wp-wrap::after,
+.ember-application .c7wp-wrap::after,
+.elementor-editor-active .c7wp-wrap::after,
+.vc_element .c7wp-wrap::after {
+    content: 'Commerce7 Content: ' attr(data-c7-type);
+    color: #333;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate(-50%,-50%);
+        -ms-transform: translate(-50%,-50%);
+            transform: translate(-50%,-50%);
+}

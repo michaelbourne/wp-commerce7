@@ -11,12 +11,12 @@
  * @wordpress-plugin
  * Plugin Name: Commerce7 for WordPress
  * Description: Integrate Commerce7 functionality into your WordPress site easily
- * Version: 1.0.7
+ * Version: 1.1.0
  * Author: Michael Bourne
  * Author URI: https://ursa6.com
  * Requires at least: 5.3
- * Tested up to: 5.4.2
- * Stable tag: 1.0.0
+ * Tested up to: 5.5.1
+ * Stable tag: 1.1.0
  * Requires PHP: 7.2
  * License: GPL3
  * License URI: https://www.gnu.org/licenses/gpl-3.0.en.html
@@ -26,7 +26,7 @@
  * Created Date: Friday September 27th 2019
  * Author: Michael Bourne
  * -----
- * Last Modified: Friday, June 12th 2020, 5:14:44 pm
+ * Last Modified: Thursday, September 3rd 2020, 10:35:53 am
  * Modified By: Michael Bourne
  * -----
  * Copyright (c) 2019 URSA6
@@ -46,7 +46,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 defined( 'C7WP_ROOT' ) || define( 'C7WP_ROOT', dirname( __FILE__ ) );
 defined( 'C7WP_URI' ) || define( 'C7WP_URI', plugin_dir_url( __FILE__ ) );
-defined( 'C7WP_VERSION' ) || define( 'C7WP_VERSION', '1.0.7' );
+defined( 'C7WP_VERSION' ) || define( 'C7WP_VERSION', '1.0.9' );
 
 
 /**
@@ -226,4 +226,4 @@ register_deactivation_hook( __FILE__, 'c7wp_deactivate_plugin' );
 
 
 // load plugin
-require_once 'class-c7wp.php';
+require_once 'includes/class-c7wp.php';

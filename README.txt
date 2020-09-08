@@ -3,8 +3,8 @@ Contributors: michaelbourne
 Donate link: https://www.paypal.me/yycpro
 Tags: commerce7
 Requires at least: 4.5
-Tested up to: 5.4.2
-Stable tag: 1.0.7
+Tested up to: 5.5.1
+Stable tag: 1.1.0
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.en.html
 
@@ -19,11 +19,12 @@ A free plugin for Commerce7 customers who wish to integrate their javascript wid
  
 *   Automatically create the needed pages and pass-through redirects for proper Commerce7 Integration
 *   Embed Commerce7 widgets into any page through the use of shortcodes
-*   Full integration with popular pagebuilders like Cornerstone, Elementor, Beaver Builder, and WPBakery
+*   Full integration with popular pagebuilders like Cornerstone, Elementor, Beaver Builder, and WPBakery\
+*   Full integration with Gutenberg
 
 This plugin relies on a third party service for it's functionality provided by [Commerce7](https://commerce7.com/). As an ecommerce solution, an SSL certificate is required on your website. Your privacy policy should be ammended to include the use of third party software for order processing. 
 
-Read the [Commerce7 for WordPress Documentation](https://demo.5forests.com) to get started.
+Read the [Commerce7 for WordPress Documentation](https://c7wp.com) to get started.
 
 
 == Installation ==
@@ -42,7 +43,7 @@ You can integrate your Commerce7 ecommerce account with your WordPress website, 
 
 = Is this plugin free? =
 
-You bet! This plugin is 100% free, however it relies on a 3rd party service from COmmerce7 that has multiple price points.
+You bet! This plugin is 100% free, however it relies on a 3rd party service from Commerce7 that has multiple price points.
 
 
 == Plugin Removal ==
@@ -52,18 +53,21 @@ Removing this plugin will render your widgets inactive.
 
 == Screenshots ==
 
-None yet
+1. **Plugin Settings** - Easy to install and set up, in many cases all you have to do is provide your tenant ID.
+2. **Gutenberg Integration** - Native Gutenberg blocks for all your Commerce7 front-end widgets.
+3. **Beaver Builder** - Native Beaver Builder modules for easy to use, drag and drop Commerce7 front-end widgets.
+4. **Elementor Integration** - Native Elementor widgets for easy to use, drag and drop Commerce7 front-end widgets.
 
 
 == Changelog ==
 
-= 1.0.7 =
-* Added support for new front end widgets: Quick Shop, Login Form, Create Account Form, Buy Button (Slug support for variable products)
-* Code cleanup
+= 1.1.0 =
+* Full Gutenberg support with custom blocks for all Commerce7 widgets
+* Massive expansion to Elementor page builder elements
+* Massive expansion to Beaver Builder page builder elements
+* Added new front end widgets: Quick Shop, Login Form, Create Account Form, Buy Button (Slug support for variable products)
+* Code structure and formatting cleanup
 * Better internationalization support
-
-= 1.0.6 =
-* Added support for the brand new V1 front-end widgets from Commerce7, providing stores and customers a better checkout and club experience.
 
 = 1.0.5 =
 * Added support for the new "Join Now / Edit Membership" magic button for clubs, which should be used on landing pages you've created for your clubs.
@@ -86,8 +90,8 @@ None yet
 
 == Upgrade Notice ==
 
-= 1.0.6 =
-Added support for new V1 widgets
+= 1.1.0=
+Large update, clear cache after update to prevent display issues
 
 = 1.0.5 =
 Add support for new club join/edit magic button

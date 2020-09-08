@@ -1,0 +1,12 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns="http://www.w3.org/2000/svg">
+<metadata>Copyright (C) 2020 by original authors @ fontello.com</metadata>
+<defs>
+<font id="c7wpicons" horiz-adv-x="1000" >
+<font-face font-family="c7wpicons" font-weight="400" font-stretch="normal" units-per-em="1000" ascent="850" descent="-150" />
+<missing-glyph horiz-adv-x="1000" />
+<glyph glyph-name="c7sm" unicode="&#xe800;" d="M452 822c-93-11-178-47-249-104s-125-135-150-224c-28-85-28-181-7-267 25-89 75-167 143-228 3-3 7-3 10-7h11c4 0 7 0 11 4 3 3 7 3 7 7 3 4 3 7 3 11v10c0 4 0 8-3 11-4 4-4 7-7 7-54 46-93 103-114 171s-25 139-14 206c10 68 39 132 81 189s100 96 164 125c64 28 135 39 203 32 68-7 135-32 192-72 57-39 103-92 135-156 32-64 47-132 43-199-3-82-32-161-82-225-46-64-114-117-188-146-75-28-153-35-232-17l285 537c4 7 7 18 7 29 0 3 0 7-3 10 0 4-4 7-8 11-3 3-7 3-10 7-4 0-7 4-14 0h-356c-7 0-18-4-25-7 0-7 0-11-4-14 0-4-3-7 0-11 0-4 0-7 4-11 0-7 0-10 3-14 7-7 15-7 25-7h303l-274-509c-25-39-11-61 39-75 67-18 135-18 203-7 67 14 131 39 188 82 57 39 103 93 136 153s53 128 56 196c4 67-3 139-28 203-25 64-64 121-110 170s-107 86-175 107c-64 18-131 29-199 22z" horiz-adv-x="996" />
+</font>
+</defs>
+</svg>

@@ -1,0 +1,37 @@
+.wp-block-c7wp-reservation {
+    overflow: hidden;
+    z-index: 1;
+}
+.wp-block-c7wp-reservation > div {
+    max-width: 100%;
+}
+.wp-block-c7wp-reservation strong {
+    margin-bottom: 1rem;
+    display: block;
+}
+
+.wp-block-c7wp-reservation label {
+    display: block;
+}
+.wp-block-c7wp-reservation input {
+    max-width: 100%;
+    margin-top: 0.5rem;
+    display: block;
+}
+.wp-block-c7wp-reservation::before {
+    content: '';
+    width: 200px;
+    height: 200px;
+    max-width: 100%;
+    max-height: 100%;
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-image: url('../../../../assets/c7bg.svg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center right;
+    opacity: 0.05;
+    pointer-events: none;
+    z-index: -1;
+}
