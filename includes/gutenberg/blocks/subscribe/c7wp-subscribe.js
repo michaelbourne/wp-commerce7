@@ -16,17 +16,19 @@
         keywords: [ 'commerce7', 'subscribe', 'personal' ],
         example: {},
 		attributes: {
-            data: {
+            nameFields: {
                 type: 'string',
                 source: 'attribute',
                 selector: '.c7-subscribe',
-                attribute: 'data-block-code',
+                attribute: 'data-has-name-fields',
             }
         },
 		edit: function( props ) {
 
-            function updateData( event ) {
-                props.setAttributes( { data: event } );
+            const updateData = function( value ) {
+                return props.setAttributes( {
+                    nameFields: value,
+                } );
             }
 
             return (
@@ -35,7 +37,6 @@
                     },
                     el( 'div', { 
                         className: 'c7-subscribe',
-                        'data-sku': props.attributes.data,
                         },
                         el(
                             'strong',
@@ -45,7 +46,7 @@
                         el(RadioControl, {
                             label: "Show Name Fields?",
                             help: "Enable or disable the first and last name fields from this form.",
-                            selected: props.attributes.data,
+                            selected: props.attributes.nameFields,
                             options: [{
                                 label: 'No',
                                 value: 'false'
@@ -67,7 +68,7 @@
                     },
                     el( 'div', { 
                         className: 'c7-subscribe',
-                        'data-has-name-fields': props.attributes.data,
+                        'data-has-name-fields': props.attributes.nameFields,
                         }
                     )
                 )

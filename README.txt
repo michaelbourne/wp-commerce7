@@ -3,8 +3,8 @@ Contributors: michaelbourne
 Donate link: https://www.paypal.me/yycpro
 Tags: commerce7
 Requires at least: 4.5
-Tested up to: 5.5.1
-Stable tag: 1.1.0
+Tested up to: 5.6
+Stable tag: 1.1.1
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.en.html
 
@@ -18,8 +18,8 @@ A free plugin for Commerce7 customers who wish to integrate their javascript wid
 = Plugin Features =
  
 *   Automatically create the needed pages and pass-through redirects for proper Commerce7 Integration
-*   Embed Commerce7 widgets into any page through the use of shortcodes
-*   Full integration with popular pagebuilders like Cornerstone, Elementor, Beaver Builder, and WPBakery\
+*   Embed Commerce7 widgets into any page through the use of shortcodes or pagebuilder elements
+*   Full integration with popular pagebuilders like Cornerstone, Elementor, Beaver Builder, and WPBakery
 *   Full integration with Gutenberg
 
 This plugin relies on a third party service for it's functionality provided by [Commerce7](https://commerce7.com/). As an ecommerce solution, an SSL certificate is required on your website. Your privacy policy should be ammended to include the use of third party software for order processing. 
@@ -60,6 +60,11 @@ Removing this plugin will render your widgets inactive.
 
 
 == Changelog ==
+
+= 1.1.1 = 
+* Fixed Subscription widget error in Gutenberg
+* Changed default code to HTML blocks for required pages.
+* Text update to Buy Button (slug) to reference Bundles.
 
 = 1.1.0 =
 * Full Gutenberg support with custom blocks for all Commerce7 widgets

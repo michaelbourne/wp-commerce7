@@ -8,8 +8,8 @@
     );
 
 	blocks.registerBlockType( 'c7wp/buyslug', {
-        title: __( 'Buy Button (Variable)' ), // The title of block in editor.
-        description: __( 'Place an add to cart button with price, quantity and variation fields for a single product.' ),
+        title: __( 'Buy Button (Variable/Bundle)' ), // The title of block in editor.
+        description: __( 'For products with multiple variations, or for bundles. Places an add to cart button with price, quantity and variation fields if applicable.' ),
 		icon: iconEl,
         category: 'commerce7', // The category of block in editor.
         keywords: [ 'commerce7', 'buy', 'button', 'cart', 'add to cart' ],
