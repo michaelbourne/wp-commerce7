@@ -3,8 +3,8 @@ Contributors: michaelbourne
 Donate link: https://www.paypal.me/yycpro
 Tags: commerce7
 Requires at least: 4.5
-Tested up to: 5.6
-Stable tag: 1.1.1
+Tested up to: 5.7.1
+Stable tag: 1.1.3
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.en.html
 
@@ -60,6 +60,12 @@ Removing this plugin will render your widgets inactive.
 
 
 == Changelog ==
+
+= 1.1.3 =
+* Added 'default content' Gutenberg block for better visualization when editing dynamic C7 pages.
+
+= 1.1.2 =
+* Small tweaks.
 
 = 1.1.1 = 
 * Fixed Subscription widget error in Gutenberg

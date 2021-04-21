@@ -11,12 +11,12 @@
  * @wordpress-plugin
  * Plugin Name: Commerce7 for WordPress
  * Description: Integrate Commerce7 functionality into your WordPress site easily
- * Version: 1.1.1
+ * Version: 1.1.3
  * Author: Michael Bourne
  * Author URI: https://ursa6.com
  * Requires at least: 5.3
- * Tested up to: 5.6
- * Stable tag: 1.1.1
+ * Tested up to: 5.7.1
+ * Stable tag: 1.1.23
  * Requires PHP: 7.2
  * License: GPL3
  * License URI: https://www.gnu.org/licenses/gpl-3.0.en.html
@@ -26,7 +26,7 @@
  * Created Date: Friday September 27th 2019
  * Author: Michael Bourne
  * -----
- * Last Modified: Tuesday, December 8th 2020, 12:02:53 pm
+ * Last Modified: Tuesday, April 13th 2021, 1:17:42 pm
  * Modified By: Michael Bourne
  * -----
  * Copyright (c) 2019 URSA6
@@ -46,7 +46,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 defined( 'C7WP_ROOT' ) || define( 'C7WP_ROOT', dirname( __FILE__ ) );
 defined( 'C7WP_URI' ) || define( 'C7WP_URI', plugin_dir_url( __FILE__ ) );
-defined( 'C7WP_VERSION' ) || define( 'C7WP_VERSION', '1.0.9' );
+defined( 'C7WP_VERSION' ) || define( 'C7WP_VERSION', '1.1.2' );
 
 
 /**
@@ -71,7 +71,7 @@ function c7wp_activate_plugin() {
             $c7_post = array(
             'post_title'   => wp_strip_all_tags( ucfirst( $page ) ),
             /* translators: Dummy content for a missing terms page */
-            'post_content' => __( 'Please enter your company\'s terms and conditions.', 'wp-commerce7' ),
+            'post_content' => __( '<!-- wp:paragraph --><p>Please enter your terms and conditions.</p><!-- /wp:paragraph -->', 'wp-commerce7' ),
             'post_status'  => 'publish',
             'post_author'  => 1,
             'post_type'    => 'page',
@@ -80,7 +80,7 @@ function c7wp_activate_plugin() {
             $c7_post = array(
             'post_title'   => wp_strip_all_tags( ucfirst( $page ) ),
             /* translators: Dummy content for a missing privacy page */
-            'post_content' => __( 'Please enter your company\'s privacy policy as per your local laws.', 'wp-commerce7' ),
+            'post_content' => __( '<!-- wp:paragraph --><p>Please enter your privacy policy as per your local laws.</p><!-- /wp:paragraph -->', 'wp-commerce7' ),
             'post_status'  => 'publish',
             'post_author'  => 1,
             'post_type'    => 'page',
@@ -88,7 +88,7 @@ function c7wp_activate_plugin() {
         } else {
             $c7_post = array(
             'post_title'   => wp_strip_all_tags( ucfirst( $page ) ),
-            'post_content' => '<!-- wp:html --><div id="c7-content"></div><!-- /wp:html -->',
+            'post_content' => '<!-- wp:c7wp/default --><div class="wp-block-c7wp-default"><div id="c7-content"></div></div><!-- /wp:c7wp/default -->',
             'post_status'  => 'publish',
             'post_author'  => 1,
             'post_type'    => 'page',
@@ -185,9 +185,8 @@ function c7wp_admin_notice_pages() {
         echo '<div class="notice notice-warning is-dismissible"><p>';
         printf(
             /* translators: 1: List of missing pages 2: List of missing pages */
-            esc_html__( 'Commerce7 for WordPress requires specific pages exist in order for integration to work properly. The following pages were not created as they already exist: <strong>%1$s</strong>. 
-            Please edit the slugs of these pages to keep your existing content, and then create new pages with these slugs: %2$s', 'wp-commerce7' ),
-            '<strong>' . esc_html( $pages ) . '</strong>',
+            esc_html__( 'Commerce7 requires specific pages exist in order for integration to work properly. The following pages are needed but were not created, as they already exist: %1$s. 
+            Please ensure these pages contain the proper content.', 'wp-commerce7' ),
             '<strong>' . esc_html( $pages ) . '</strong>'
         );
         echo '</p></div>';

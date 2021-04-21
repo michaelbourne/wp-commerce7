@@ -5,7 +5,7 @@
  * Created Date: Wednesday September 2nd 2020
  * Author: Michael Bourne
  * -----
- * Last Modified: Thursday, September 3rd 2020, 4:47:22 pm
+ * Last Modified: Tuesday, April 13th 2021, 1:00:34 pm
  * Modified By: Michael Bourne
  * -----
  * Copyright (c) 2020 URSA6
@@ -23,6 +23,7 @@ if ( ! function_exists( 'register_block_type' ) ) {
 }
 
 $elements = [
+    'default',
     'personalization',
     'buy',
     'buyslug',
@@ -44,7 +45,8 @@ foreach ( $elements as $element ) {
         $block_slug,
         plugins_url( 'blocks/' . $element . '/' . $block_slug . '.js', __FILE__ ),
         [ 'wp-blocks', 'wp-element', 'wp-editor' ],
-        filemtime( plugin_dir_path( __FILE__ ) . 'blocks/' . $element . '/' . $block_slug . '.js' )
+        filemtime( plugin_dir_path( __FILE__ ) . 'blocks/' . $element . '/' . $block_slug . '.js' ),
+        1
     );
 
     // Add block style.
