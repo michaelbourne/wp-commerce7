@@ -16,7 +16,7 @@
  * Author URI: https://ursa6.com
  * Requires at least: 5.3
  * Tested up to: 5.7.1
- * Stable tag: 1.1.23
+ * Stable tag: 1.1.3
  * Requires PHP: 7.2
  * License: GPL3
  * License URI: https://www.gnu.org/licenses/gpl-3.0.en.html
@@ -26,7 +26,7 @@
  * Created Date: Friday September 27th 2019
  * Author: Michael Bourne
  * -----
- * Last Modified: Tuesday, April 13th 2021, 1:17:42 pm
+ * Last Modified: Monday, August 30th 2021, 8:02:02 pm
  * Modified By: Michael Bourne
  * -----
  * Copyright (c) 2019 URSA6
@@ -146,8 +146,15 @@ function c7wp_upgrade_function( $upgrader_object, $options ) {
         foreach ( $options['plugins'] as $each_plugin ) {
             // If the plugin being updated is this plugin.
             if ( $each_plugin == $current_plugin_path_name ) { // phpcs:ignore
-                $pages = [ 'profile', 'collection', 'product', 'club', 'checkout', 'cart', 'reservation' ];
-                $fail  = [];
+
+                $options = get_option( 'c7wp_settings' );
+                if ( isset( $options['c7wp_widget_version'] ) && 'v2' == $options['c7wp_widget_version'] ) {
+                    $pages = [ 'profile', 'collection', 'product', 'checkout', 'cart' ];
+                } else {
+                    $pages = [ 'profile', 'collection', 'product', 'club', 'checkout', 'cart', 'reservation' ];
+                }
+
+                $fail = [];
                 // Loop through required paged for C7.
                 foreach ( $pages as $page ) {
                     // if the page is missing, let's just make it.

@@ -5,7 +5,7 @@
  * Created Date: Wednesday September 2nd 2020
  * Author: Michael Bourne
  * -----
- * Last Modified: Thursday, September 3rd 2020, 12:20:31 am
+ * Last Modified: Monday, August 30th 2021, 7:56:20 pm
  * Modified By: Michael Bourne
  * -----
  * Copyright (c) 2020 URSA6
@@ -21,21 +21,34 @@
 require_once C7WP_ROOT . '/includes/elementor/elementor-legacy.php';
 \Elementor\Plugin::instance()->widgets_manager->register_widget_type( new \C7WP_Elementor() );
 
-$elements = [
-    'personalization',
-    'buy',
-    'buyslug',
-    'subscribe',
-    'collection',
-    'login',
-    'cart',
-    'reservation',
-    'form',
-    'joinnow',
-    'quickshop',
-    'loginform',
-    'createaccount',
-];
+if ( 'v2' == $this->widgetsver ) {
+    $elements = [
+        'personalization',
+        'subscribe',
+        'collection',
+        'login',
+        'cart',
+        'reservation',
+        'form',
+        'joinnow',
+    ];
+} else {
+    $elements = [
+        'personalization',
+        'buy',
+        'buyslug',
+        'subscribe',
+        'collection',
+        'login',
+        'cart',
+        'reservation',
+        'form',
+        'joinnow',
+        'quickshop',
+        'loginform',
+        'createaccount',
+    ];
+}
 
 foreach ( $elements as $element ) {
     require_once C7WP_ROOT . '/includes/elementor/elementor-' . $element . '.php';

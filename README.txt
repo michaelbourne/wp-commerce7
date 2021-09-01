@@ -3,8 +3,8 @@ Contributors: michaelbourne
 Donate link: https://www.paypal.me/yycpro
 Tags: commerce7
 Requires at least: 4.5
-Tested up to: 5.7.1
-Stable tag: 1.1.3
+Tested up to: 5.8.0
+Stable tag: 1.2.0
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.en.html
 
@@ -61,8 +61,11 @@ Removing this plugin will render your widgets inactive.
 
 == Changelog ==
 
+= 1.2.0 =
+* Added support for Commerce7's new V2 Front End. As per their docs, some front end widgets no longer exist. Be sure to read their designer docs and undertsand what needs to be done on your end prior to upgrading.
+
 = 1.1.3 =
-* Added 'default content' Gutenberg block for better visualization when editing dynamic C7 pages.
+* Added 'default content' Gutenberg block for better visualization when editing dynamic C7 pages. (too many people deleted the original div by accident)
 
 = 1.1.2 =
 * Small tweaks.
@@ -100,6 +103,9 @@ Removing this plugin will render your widgets inactive.
 
 
 == Upgrade Notice ==
+
+= 1.2.0 =
+Added support for Commerce7 V2 frontend. Please read their docs before choosing to change front end versions. Resave permalinks after update.
 
 = 1.1.0=
 Large update, clear cache after update to prevent display issues

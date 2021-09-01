@@ -1,0 +1,35 @@
+.wp-block-c7wp-subscribe {
+    overflow: hidden;
+    z-index: 1;
+}
+.wp-block-c7wp-subscribe > div {
+    max-width: 100%;
+}
+.wp-block-c7wp-subscribe strong {
+    margin-bottom: 1rem;
+    display: block;
+}
+
+.wp-block-c7wp-subscribe label {
+    display: inline-block;
+}
+.wp-block-c7wp-subscribe input {
+    display: inline-block;
+}
+.wp-block-c7wp-subscribe::before {
+    content: '';
+    width: 200px;
+    height: 200px;
+    max-width: 100%;
+    max-height: 100%;
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-image: url('../../../../assets/c7bg.svg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center right;
+    opacity: 0.05;
+    pointer-events: none;
+    z-index: -1;
+}

@@ -32,6 +32,14 @@ class C7WP {
 	 */
 	private $prefix;
 
+	/**
+	 * C7 widgets version
+	 *
+	 * @var $widgetsver
+	 */
+	private $widgetsver;
+
+
 
 	/**
 	 * Constructor.
@@ -72,6 +80,13 @@ class C7WP {
 
 		// main variables
 		$this->prefix = 'c7wp_';
+
+		$options = get_option( 'c7wp_settings' );
+		if ( isset( $options['c7wp_widget_version'] ) && ! empty( $options['c7wp_widget_version'] ) ) {
+			$this->widgetsver = esc_attr( $options['c7wp_widget_version'] );
+		} else {
+			$this->widgetsver = 'v1';
+		}
 
 		// load translations
 		add_action( 'plugins_loaded', array( $this, 'c7wp_load_textdomain' ) );
@@ -147,9 +162,6 @@ class C7WP {
 		if ( defined( 'WPB_VC_VERSION' ) ) {
 			require_once C7WP_ROOT . '/includes/wpbakery/load.php';
 		}
-
-		// Coming never: Divi Support. Divi sucks.
-		// if( defined( 'ET_BUILDER_VERSION' ) ) include 'includes/divi.php';
 
 		// Beaver Builder Support
 		if ( defined( 'FL_BUILDER_VERSION' ) ) {
@@ -314,7 +326,6 @@ class C7WP {
 			'c7wp_commerce7_section'
 		);
 
-		/*
 		add_settings_field(
 			'c7wp_widget_version',
 			__( 'Front-end Widgets Version', 'wp-commerce7' ),
@@ -325,7 +336,6 @@ class C7WP {
 			'commerce7',
 			'c7wp_commerce7_section'
 		);
-		*/
 	}
 
 	public function c7wp_tenant_render() {
@@ -386,10 +396,10 @@ class C7WP {
 		$options = get_option( 'c7wp_settings' );
 		?>
 		<select name='c7wp_settings[c7wp_widget_version]' class='c7widgetversion'>
-			<option value='beta' <?php selected( $options['c7wp_widget_version'], 'beta' ); ?>>Beta</option>
 			<option value='v1' <?php selected( $options['c7wp_widget_version'], 'v1' ); ?>>V1</option>
+			<option value='v2' <?php selected( $options['c7wp_widget_version'], 'v2' ); ?>>V2</option>
 		</select>
-		<p><small>The V1 front-end widgets are being released in 2020. You can select V1 above to activate these. <strong>You need approval of Commerce7 to use these at this time, or they will not work.</strong></small></p>
+		<p><small>The V2 front-end widgets might introduce breaking changes to your site. <strong>You are responsible for ensuring you've read the C7 docs and understand how to migrate from beta to V2.</strong> All V2 support requests should be direct to Commerce7 directly.</small></p>
 
 		<?php
 
@@ -411,18 +421,9 @@ class C7WP {
 
 		wp_enqueue_style( 'wp-commerce7', C7WP_URI . 'assets/public/css/commerce7-for-wordpress.css', array(), C7WP_VERSION );
 
-		/** coming soon, you sneak */
-		/*
-		$options = get_option( 'c7wp_settings' );
-		if ( isset( $options['c7wp_widget_version'] ) ) {
-			$ver = esc_attr( $options['c7wp_widget_version'] );
-		} else {
-			$ver = 'beta';
-		}*/
-		$ver = 'beta';
-		wp_register_script( 'c7js', 'https://cdn.commerce7.com/' . $ver . '/commerce7.js', array(), C7WP_VERSION, true );
+		wp_register_script( 'c7js', 'https://cdn.commerce7.com/' . $this->widgetsver . '/commerce7.js', array(), C7WP_VERSION, true );
 		wp_enqueue_script( 'c7js' );
-		wp_register_style( 'c7css', 'https://cdn.commerce7.com/' . $ver . '/commerce7.css', false, C7WP_VERSION );
+		wp_register_style( 'c7css', 'https://cdn.commerce7.com/' . $this->widgetsver . '/commerce7.css', false, C7WP_VERSION );
 		wp_enqueue_style( 'c7css' );
 
 		if ( is_user_logged_in() && current_user_can( 'edit_pages' ) ) {
@@ -466,11 +467,19 @@ class C7WP {
 	 */
 	public function add_c7_rewrites() {
 
-		add_rewrite_rule(
-			'^(profile|collection|product|club|checkout|reservation)/(.+)/?$',
-			'index.php?pagename=$matches[1]&c7slug=$matches[2]',
-			'top'
-		);
+		if ( 'v2' == $this->widgetsver ) {
+			add_rewrite_rule(
+				'^(profile|collection|product|checkout)/(.+)/?$',
+				'index.php?pagename=$matches[1]&c7slug=$matches[2]',
+				'top'
+			);
+		} else {
+			add_rewrite_rule(
+				'^(profile|collection|product|club|checkout|reservation)/(.+)/?$',
+				'index.php?pagename=$matches[1]&c7slug=$matches[2]',
+				'top'
+			);
+		}
 
 	}
 
@@ -557,66 +566,112 @@ class C7WP {
 
 		$output = '<div class="c7wp-wrap" data-c7-type="' . $atts['type'] . '">';
 
-		switch ( $atts['type'] ) {
-			case 'default':
-				$output .= '<div id="c7-content"></div>';
-				break;
+		if ( 'v2' == $this->widgetsver ) {
 
-			case 'personalization':
-				$output .= '<div class="c7-personalization" data-block-code="' . esc_attr( $atts['data'] ) . '"></div>';
-				break;
+			switch ( $atts['type'] ) {
+				case 'default':
+					$output .= '<div id="c7-content"></div>';
+					break;
 
-			case 'buy':
-				$output .= '<div class="c7-buy-variant" data-sku="' . esc_attr( $atts['data'] ) . '"></div>';
-				break;
+				case 'personalization':
+					$output .= '<div class="c7-personalization" data-block-code="' . esc_attr( $atts['data'] ) . '"></div>';
+					break;
 
-			case 'buyslug':
-				$output .= '<div class="c7-buy-variant" data-product-slug="' . esc_attr( $atts['data'] ) . '"></div>';
-				break;
+				case 'subscribe':
+					$output .= ( 'true' === $atts['data'] ) ? '<div class="c7-subscribe" data-has-name-field="true"></div>' : '<div class="c7-subscribe"></div>';
+					break;
 
-			case 'subscribe':
-				$output .= ( 'true' === $atts['data'] ) ? '<div class="c7-subscribe" data-has-name-fields="true"></div>' : '<div class="c7-subscribe"></div>';
-				break;
+				case 'collection':
+					$output .= '<div class="c7-product-collection" data-collection-slug="' . esc_attr( $atts['data'] ) . '"></div>';
+					break;
 
-			case 'collection':
-				$output .= '<div class="c7-product-collection" data-collection-slug="' . esc_attr( $atts['data'] ) . '"></div>';
-				break;
+				case 'login':
+					$output .= '<div id="c7-login"></div>';
+					break;
 
-			case 'login':
-				$output .= '<div id="c7-login"></div>';
-				break;
+				case 'cart':
+					$output .= '<div id="c7-cart"></div>';
+					break;
 
-			case 'cart':
-				$output .= '<div id="c7-cart"></div>';
-				break;
+				case 'reservation':
+					$output .= '<div class="c7-reservation-availability" data-reservation-type-slug="' . esc_attr( $atts['data'] ) . '"></div>';
+					break;
 
-			case 'reservation':
-				$output .= '<div class="c7-reservation-availability" data-reservation-type-slug="' . esc_attr( $atts['data'] ) . '"></div>';
-				break;
+				case 'form':
+					$output .= '<div class="c7-custom-form" data-form-code="' . esc_attr( $atts['data'] ) . '"></div>';
+					break;
 
-			case 'form':
-				$output .= '<div class="c7-form-wrapper" data-form-code="' . esc_attr( $atts['data'] ) . '"></div>';
-				break;
+				case 'joinnow':
+					$output .= '<div class="c7-club-join-button" data-club-slug="' . esc_attr( $atts['data'] ) . '"></div>';
+					break;
 
-			case 'joinnow':
-				$output .= '<div class="c7-club-join-button" data-club-slug="' . esc_attr( $atts['data'] ) . '"></div>';
-				break;
+				default:
+					$output .= '<div id="c7-content"></div>';
+					break;
+			}
+		} else {
 
-			case 'quickshop':
-				$output .= '<div id="c7-quick-shop" data-collection-slug="' . esc_attr( $atts['data'] ) . '"></div>';
-				break;
+			switch ( $atts['type'] ) {
+				case 'default':
+					$output .= '<div id="c7-content"></div>';
+					break;
 
-			case 'loginform':
-				$output .= '<div id="c7-login-form" data-redirect-to="' . esc_attr( $atts['data'] ) . '"></div>';
-				break;
+				case 'personalization':
+					$output .= '<div class="c7-personalization" data-block-code="' . esc_attr( $atts['data'] ) . '"></div>';
+					break;
 
-			case 'createaccount':
-				$output .= '<div id="c7-create-account" data-redirect-to="' . esc_attr( $atts['data'] ) . '"></div>';
-				break;
+				case 'buy':
+					$output .= '<div class="c7-buy-variant" data-sku="' . esc_attr( $atts['data'] ) . '"></div>';
+					break;
 
-			default:
-				$output .= '<div id="c7-content"></div>';
-				break;
+				case 'buyslug':
+					$output .= '<div class="c7-buy-variant" data-product-slug="' . esc_attr( $atts['data'] ) . '"></div>';
+					break;
+
+				case 'subscribe':
+					$output .= ( 'true' === $atts['data'] ) ? '<div class="c7-subscribe" data-has-name-fields="true"></div>' : '<div class="c7-subscribe"></div>';
+					break;
+
+				case 'collection':
+					$output .= '<div class="c7-product-collection" data-collection-slug="' . esc_attr( $atts['data'] ) . '"></div>';
+					break;
+
+				case 'login':
+					$output .= '<div id="c7-login"></div>';
+					break;
+
+				case 'cart':
+					$output .= '<div id="c7-cart"></div>';
+					break;
+
+				case 'reservation':
+					$output .= '<div class="c7-reservation-availability" data-reservation-type-slug="' . esc_attr( $atts['data'] ) . '"></div>';
+					break;
+
+				case 'form':
+					$output .= '<div class="c7-form-wrapper" data-form-code="' . esc_attr( $atts['data'] ) . '"></div>';
+					break;
+
+				case 'joinnow':
+					$output .= '<div class="c7-club-join-button" data-club-slug="' . esc_attr( $atts['data'] ) . '"></div>';
+					break;
+
+				case 'quickshop':
+					$output .= '<div id="c7-quick-shop" data-collection-slug="' . esc_attr( $atts['data'] ) . '"></div>';
+					break;
+
+				case 'loginform':
+					$output .= '<div id="c7-login-form" data-redirect-to="' . esc_attr( $atts['data'] ) . '"></div>';
+					break;
+
+				case 'createaccount':
+					$output .= '<div id="c7-create-account" data-redirect-to="' . esc_attr( $atts['data'] ) . '"></div>';
+					break;
+
+				default:
+					$output .= '<div id="c7-content"></div>';
+					break;
+			}
 		}
 
 		$output .= '</div>';

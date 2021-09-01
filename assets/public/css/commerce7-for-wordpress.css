@@ -36,9 +36,6 @@
 #c7-login {
     padding: 0 1rem 0 0;
 }
-.c7-message--empty-cart:after {
-	display: none;
-}
 .c7-checkout__content__title a {
 	font-size: 0.95rem;
 }

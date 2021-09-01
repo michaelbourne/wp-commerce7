@@ -82,7 +82,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                                         <span class="c7wp-box-content-text">
                                             <?php
                                             /* translators: Options page step 2.  */
-                                            esc_html_e( 'The Cart Box will contain a magic login/logut link, as well as the cart totals and a link for the flyout shopping cart. You should disable it here if you would prefer to place the login/logout link and cart link in your header with the shortcodes below.', 'wp-commerce7' );
+                                            esc_html_e( 'The Cart Box will contain a magic login/logut link, as well as the cart totals and a link for the flyout shopping cart. It is often preferrable to include this in your theme manually. You should disable it here if you would prefer to place the login/logout link and cart link in your header with the shortcodes below. The Cart Box can be positioned to any corner of the screen to accomodate different design layouts. Try all of them to find your preferred placement.', 'wp-commerce7' );
                                             ?>
                                         </span>
                                     </div>
@@ -92,11 +92,11 @@ if ( ! defined( 'ABSPATH' ) ) {
                                         <img src="data:image/svg+xml;utf8;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iaXNvLTg4NTktMSI/Pgo8IS0tIEdlbmVyYXRvcjogQWRvYmUgSWxsdXN0cmF0b3IgMTkuMC4wLCBTVkcgRXhwb3J0IFBsdWctSW4gLiBTVkcgVmVyc2lvbjogNi4wMCBCdWlsZCAwKSAgLS0+CjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgdmVyc2lvbj0iMS4xIiBpZD0iTGF5ZXJfMSIgeD0iMHB4IiB5PSIwcHgiIHZpZXdCb3g9IjAgMCAyODYuMDU0IDI4Ni4wNTQiIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDI4Ni4wNTQgMjg2LjA1NDsiIHhtbDpzcGFjZT0icHJlc2VydmUiIHdpZHRoPSI1MTJweCIgaGVpZ2h0PSI1MTJweCI+CjxnPgoJPHBhdGggc3R5bGU9ImZpbGw6IzIzOTRCQzsiIGQ9Ik0xNDMuMDI3LDBDNjQuMDQsMCwwLDY0LjA0LDAsMTQzLjAyN2MwLDc4Ljk5Niw2NC4wNCwxNDMuMDI3LDE0My4wMjcsMTQzLjAyNyAgIHMxNDMuMDI3LTY0LjAzMSwxNDMuMDI3LTE0My4wMjdDMjg2LjA1NCw2NC4wNCwyMjIuMDE0LDAsMTQzLjAyNywweiBNMTQzLjAyNywyNTkuMjM2Yy02NC4xODMsMC0xMTYuMjA5LTUyLjAyNi0xMTYuMjA5LTExNi4yMDkgICBTNzguODQ0LDI2LjgxOCwxNDMuMDI3LDI2LjgxOHMxMTYuMjA5LDUyLjAyNiwxMTYuMjA5LDExNi4yMDlTMjA3LjIxLDI1OS4yMzYsMTQzLjAyNywyNTkuMjM2eiBNMTY3LjcxNywxMzcuNjM3ICAgYzguOTY2LTUuOTM2LDEzLjM2NC0xNS4yNzcsMTMuMzY0LTI1Ljk3N2MwLTEzLjIzOS0xMS4yNTQtMzEuMDgyLTM0LjcyOS0zMS4wODJjLTE4LjA5MywwLTM1LjU0MiwxNC4yNzYtMzUuNTQyLDI3LjUxNSAgIGMwLDYuMjg0LDMuOTE1LDEyLjU2LDEwLjYwMiwxMi41NmMxMS4wODUsMCw4Ljk2Ni0xNi42MzYsMjQuNDQ5LTE2LjYzNmM3LjMzOSwwLDExLjczNyw0LjkyNSwxMS43MzcsMTEuMzcxICAgYzAsMTguODUzLTIzLjE1Miw2Ljc5NC0yMy4xNTIsMjQuNjI3YzAsMjAuMDMzLDI3LjcyLDIuNTQ4LDI3LjcyLDI2LjMxN2MwLDkuMDAyLTYuODU2LDE1Ljc5Ni0xNS4zMzEsMTUuNzk2ICAgYy0xOC40MjQsMC0xNS44MTMtMTkuODcyLTI2Ljg5OC0xOS44NzJjLTUuODczLDAtMTIuNTUxLDQuNzU2LTEyLjU1MSwxMS4zOGMwLDEzLjQxOCwxNSwzMS45MjIsMzkuMTI3LDMxLjkyMiAgIGMyMy4xNTIsMCw0MS4wODQtMTcuMTU0LDQxLjA4NC0zNy41MjdDMTg3LjU5OCwxNTQuNjIxLDE3OS40NDUsMTQzLjI1LDE2Ny43MTcsMTM3LjYzN3oiLz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8L3N2Zz4K" />
                                     </div>
                                     <div class="c7wp-box-feature-info">
-                                        <h4 class="c7wp-box-content-title"><?php esc_html_e( 'Choose the position of your Cart Box', 'wp-commerce7' ); ?></h4>
+                                        <h4 class="c7wp-box-content-title"><?php esc_html_e( 'Choose your front-end widgets version.', 'wp-commerce7' ); ?></h4>
                                         <span class="c7wp-box-content-text">
                                             <?php
                                             /* translators: Options page step 3.   */
-                                            esc_html_e( 'The Cart Box can be positioned to any corner of the screen to accomodate different design layouts. Try all of them to find your preferred placement.', 'wp-commerce7' );
+                                            esc_html_e( 'The V2 widgets launched officially on Spet 1, 2021, but these might require design updates in your theme. Additionally, the V2 widgets list is smaller than V1, which may result in broken blocks on your site. We recommend testing on a staging site before switching over.', 'wp-commerce7' );
                                             ?>
                                         </span>
                                     </div>
@@ -152,8 +152,8 @@ if ( ! defined( 'ABSPATH' ) ) {
                         <div class="c7wp-box-content ">
                             <img src="<?php echo esc_url( C7WP_URI . '/assets/fbct.png' ); ?>" alt="5forests" style="max-width: 100%;" />
                             <h2>Using Facebook?</h2>
-                            <p>Facebook and Instagram advertising has proven very effective for many wineries. But not being able to properly track all your website and tasting room conversions limits your ability to generate effective lookalike audiences and stops you from reporting accurate ROI on your efforts.</p>
-                            <p>5forests has teamed up with Treefrog Digital to launch our new <strong>Facebook Conversion Track</strong> app to overcome those obstacles. Install it directly from your Commerce7 account under <em>Apps</em>.</p>
+                            <p>Facebook and Instagram advertising have proven very effective for many wineries. But not being able to properly track all your website and tasting room conversions limits your ability to generate effective lookalike audiences and stops you from reporting accurate ROI on your efforts.</p>
+                            <p>5forests has teamed up with Treefrog Digital to launch our new <strong>Facebook Conversion Tracking</strong> app to overcome those obstacles. Install it directly from your Commerce7 account under <em>Apps</em>.</p>
                             <a href="https://commerce7.treefrogdigital.com/facebook-conversion-tracking/" target="_blank" style="display: block; color:#fff; background: #1778f2; text-align: center; padding: 1em; font-weight: bold; text-decoration: none; margin-top: 3em;">Learn More</a>
                         </div>
                     </div>
