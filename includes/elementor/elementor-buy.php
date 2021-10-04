@@ -5,7 +5,7 @@
  * Created Date: Wednesday September 2nd 2020
  * Author: Michael Bourne
  * -----
- * Last Modified: Thursday, September 3rd 2020, 8:01:27 pm
+ * Last Modified: Monday, October 4th 2021, 12:09:18 pm
  * Modified By: Michael Bourne
  * -----
  * Copyright (c) 2020 URSA6
@@ -52,7 +52,7 @@ class C7WP_Elementor_Buy extends \Elementor\Widget_Base {
 	 * @return string Widget title.
 	 */
 	public function get_title() {
-		return __( 'Buy Button (Single)', 'wp-commerce7' );
+		return __( 'Buy Button (SKU)', 'wp-commerce7' );
 	}
 
 	/**

@@ -5,7 +5,7 @@
  * Created Date: Thursday September 3rd 2020
  * Author: Michael Bourne
  * -----
- * Last Modified: Thursday, September 3rd 2020, 7:48:35 pm
+ * Last Modified: Monday, October 4th 2021, 12:08:16 pm
  * Modified By: Michael Bourne
  * -----
  * Copyright (c) 2020 URSA6
@@ -24,7 +24,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 class C7WP_Buy extends FLBuilderModule { // phpcs:ignore
     public function __construct() {
         parent::__construct(array(
-            'name'            => __( 'Buy Button (single)', 'wp-commerce7' ),
+            'name'            => __( 'Buy Button (single SKU)', 'wp-commerce7' ),
             'description'     => __( 'Add a Commerce7 Buy Button (Single SKU) to your layouts.', 'wp-commerce7' ),
             'category'        => __( 'Commerce7', 'wp-commerce7' ),
             'dir'             => C7WP_ROOT . '/includes/beaverbuilder/buy/',

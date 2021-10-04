@@ -3,8 +3,8 @@ Contributors: michaelbourne
 Donate link: https://www.paypal.me/yycpro
 Tags: commerce7
 Requires at least: 4.5
-Tested up to: 5.8.0
-Stable tag: 1.2.0
+Tested up to: 5.8.1
+Stable tag: 1.2.2
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.en.html
 
@@ -60,6 +60,14 @@ Removing this plugin will render your widgets inactive.
 
 
 == Changelog ==
+
+= 1.2.2 =
+* Fix login widget for V2 frontend
+* Add Buy Button to V2 frontend
+* Adjust V2 widgets in pagebuilder supports
+
+= 1.2.1 =
+* Fix small error in previous v1 frontend settings.
 
 = 1.2.0 =
 * Added support for Commerce7's new V2 Front End. As per their docs, some front end widgets no longer exist. Be sure to read their designer docs and undertsand what needs to be done on your end prior to upgrading.

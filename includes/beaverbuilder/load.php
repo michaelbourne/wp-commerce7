@@ -27,6 +27,7 @@ if ( 'v2' == $this->widgetsver ) {
         'reservation',
         'form',
         'joinnow',
+        'buyslug',
     ];
 } else {
     // Beta Frontend

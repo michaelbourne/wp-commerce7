@@ -85,7 +85,7 @@ class C7WP {
 		if ( isset( $options['c7wp_widget_version'] ) && ! empty( $options['c7wp_widget_version'] ) ) {
 			$this->widgetsver = esc_attr( $options['c7wp_widget_version'] );
 		} else {
-			$this->widgetsver = 'v1';
+			$this->widgetsver = 'beta';
 		}
 
 		// load translations
@@ -396,10 +396,10 @@ class C7WP {
 		$options = get_option( 'c7wp_settings' );
 		?>
 		<select name='c7wp_settings[c7wp_widget_version]' class='c7widgetversion'>
-			<option value='v1' <?php selected( $options['c7wp_widget_version'], 'v1' ); ?>>V1</option>
+			<option value='beta' <?php selected( $options['c7wp_widget_version'], 'beta' ); ?>>V1</option>
 			<option value='v2' <?php selected( $options['c7wp_widget_version'], 'v2' ); ?>>V2</option>
 		</select>
-		<p><small>The V2 front-end widgets might introduce breaking changes to your site. <strong>You are responsible for ensuring you've read the C7 docs and understand how to migrate from beta to V2.</strong> All V2 support requests should be direct to Commerce7 directly.</small></p>
+		<p><small>The V2 front-end widgets might introduce breaking changes to your site. <strong>You are responsible for ensuring you've read the C7 docs and understand how to migrate from beta to V2.</strong> All V2 support requests should be direct to Commerce7 directly. V2 frontend only work with certain merchant accounts.</small></p>
 
 		<?php
 
@@ -517,7 +517,9 @@ class C7WP {
 					break;
 			}
 
-			echo '<div id="c7wp-cart-box" class="' . esc_attr( $class ) . esc_attr( $color ) . '"><div id="c7-login"></div><div id="c7-cart"></div></div>';
+			$login = ( 'v2' === $this->widgetsver ) ? 'c7-account' : 'c7-login';
+
+			echo '<div id="c7wp-cart-box" class="' . esc_attr( $class ) . esc_attr( $color ) . '"><div id="' . esc_attr( $login ) . '"></div><div id="c7-cart"></div></div>';
 
 		}
 
@@ -586,7 +588,7 @@ class C7WP {
 					break;
 
 				case 'login':
-					$output .= '<div id="c7-login"></div>';
+					$output .= '<div id="c7-account"></div>';
 					break;
 
 				case 'cart':
@@ -603,6 +605,10 @@ class C7WP {
 
 				case 'joinnow':
 					$output .= '<div class="c7-club-join-button" data-club-slug="' . esc_attr( $atts['data'] ) . '"></div>';
+					break;
+
+				case 'buyslug':
+					$output .= '<div class="c7-buy-product" data-product-slug="' . esc_attr( $atts['data'] ) . '"></div>';
 					break;
 
 				default:

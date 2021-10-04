@@ -5,7 +5,7 @@
  * Created Date: Wednesday September 2nd 2020
  * Author: Michael Bourne
  * -----
- * Last Modified: Monday, August 30th 2021, 7:56:20 pm
+ * Last Modified: Monday, October 4th 2021, 12:07:26 pm
  * Modified By: Michael Bourne
  * -----
  * Copyright (c) 2020 URSA6
@@ -24,6 +24,7 @@ require_once C7WP_ROOT . '/includes/elementor/elementor-legacy.php';
 if ( 'v2' == $this->widgetsver ) {
     $elements = [
         'personalization',
+        'buyslug',
         'subscribe',
         'collection',
         'login',
