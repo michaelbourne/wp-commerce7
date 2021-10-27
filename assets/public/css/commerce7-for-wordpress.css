@@ -6,6 +6,9 @@
 	bottom: auto;
 	padding: 1rem;
 	z-index: 99999;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
 }
 #c7wp-cart-box.top-left {
 	top: 0;
@@ -33,7 +36,11 @@
 #c7wp-cart-box.c7light > div > a {
 	color: #333;
 }
-#c7-login {
+.c7-dark {
+	--c7-header-text-color: #fff;
+}
+#c7-login,
+#c7-account {
     padding: 0 1rem 0 0;
 }
 .c7-checkout__content__title a {
@@ -42,7 +49,7 @@
 .c7-cart__count {
 	display: none;
 }
-@media screen and (min-width: 46rem){
+@media screen and (min-width: 46rem) {
 		.c7-form__group div div.date-picker, .c7-form__group div div.rdtPicker, .c7-form__group div div.rdtDays {
 		width: auto;
 		margin: 0;

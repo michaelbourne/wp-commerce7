@@ -11,12 +11,12 @@
  * @wordpress-plugin
  * Plugin Name: Commerce7 for WordPress
  * Description: Integrate Commerce7 functionality into your WordPress site easily
- * Version: 1.2.2
+ * Version: 1.2.3
  * Author: Michael Bourne
  * Author URI: https://ursa6.com
  * Requires at least: 5.3
  * Tested up to: 5.8.1
- * Stable tag: 1.2.2
+ * Stable tag: 1.2.3
  * Requires PHP: 7.2
  * License: GPL3
  * License URI: https://www.gnu.org/licenses/gpl-3.0.en.html
@@ -26,7 +26,7 @@
  * Created Date: Friday September 27th 2019
  * Author: Michael Bourne
  * -----
- * Last Modified: Monday, October 4th 2021, 12:01:42 pm
+ * Last Modified: Tuesday, October 12th 2021, 6:50:10 pm
  * Modified By: Michael Bourne
  * -----
  * Copyright (c) 2019 URSA6
@@ -46,7 +46,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 defined( 'C7WP_ROOT' ) || define( 'C7WP_ROOT', dirname( __FILE__ ) );
 defined( 'C7WP_URI' ) || define( 'C7WP_URI', plugin_dir_url( __FILE__ ) );
-defined( 'C7WP_VERSION' ) || define( 'C7WP_VERSION', '1.2.0' );
+defined( 'C7WP_VERSION' ) || define( 'C7WP_VERSION', '1.2.3' );
 
 
 /**
@@ -142,7 +142,7 @@ function c7wp_upgrade_function( $upgrader_object, $options ) {
     $current_plugin_path_name = plugin_basename( __FILE__ );
 
     // If a plugin is being updated.
-    if ( 'update' === $options['action'] && 'plugin' === $options['type'] ) {
+    if ( 'update' === $options['action'] && 'plugin' === $options['type'] && isset( $options['plugins'] ) ) {
         foreach ( $options['plugins'] as $each_plugin ) {
             // If the plugin being updated is this plugin.
             if ( $each_plugin == $current_plugin_path_name ) { // phpcs:ignore

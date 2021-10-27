@@ -4,7 +4,7 @@ Donate link: https://www.paypal.me/yycpro
 Tags: commerce7
 Requires at least: 4.5
 Tested up to: 5.8.1
-Stable tag: 1.2.2
+Stable tag: 1.2.3
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.en.html
 
@@ -60,6 +60,9 @@ Removing this plugin will render your widgets inactive.
 
 
 == Changelog ==
+
+= 1.2.3 =
+* Small CSS tweak for users on V2 and still using the floating cart box.
 
 = 1.2.2 =
 * Fix login widget for V2 frontend
