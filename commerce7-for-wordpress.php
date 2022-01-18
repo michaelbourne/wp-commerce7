@@ -11,12 +11,12 @@
  * @wordpress-plugin
  * Plugin Name: Commerce7 for WordPress
  * Description: Integrate Commerce7 functionality into your WordPress site easily
- * Version: 1.2.3
+ * Version: 1.2.4
  * Author: Michael Bourne
  * Author URI: https://ursa6.com
  * Requires at least: 5.3
- * Tested up to: 5.8.1
- * Stable tag: 1.2.3
+ * Tested up to: 5.8.2
+ * Stable tag: 1.2.4
  * Requires PHP: 7.2
  * License: GPL3
  * License URI: https://www.gnu.org/licenses/gpl-3.0.en.html
@@ -26,7 +26,7 @@
  * Created Date: Friday September 27th 2019
  * Author: Michael Bourne
  * -----
- * Last Modified: Tuesday, October 12th 2021, 6:50:10 pm
+ * Last Modified: Monday, October 25th 2021, 9:23:51 am
  * Modified By: Michael Bourne
  * -----
  * Copyright (c) 2019 URSA6
@@ -46,7 +46,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 defined( 'C7WP_ROOT' ) || define( 'C7WP_ROOT', dirname( __FILE__ ) );
 defined( 'C7WP_URI' ) || define( 'C7WP_URI', plugin_dir_url( __FILE__ ) );
-defined( 'C7WP_VERSION' ) || define( 'C7WP_VERSION', '1.2.3' );
+defined( 'C7WP_VERSION' ) || define( 'C7WP_VERSION', '1.2.4' );
 
 
 /**
@@ -163,7 +163,7 @@ function c7wp_upgrade_function( $upgrader_object, $options ) {
 
                         $c7_post = array(
                           'post_title'   => wp_strip_all_tags( ucfirst( $page ) ),
-                          'post_content' => '<div id="c7-content"></div>',
+                          'post_content' => '<!-- wp:c7wp/default --><div class="wp-block-c7wp-default"><div id="c7-content"></div></div><!-- /wp:c7wp/default -->',
                           'post_status'  => 'publish',
                           'post_author'  => 1,
                           'post_type'    => 'page',

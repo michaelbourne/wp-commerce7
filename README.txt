@@ -3,8 +3,8 @@ Contributors: michaelbourne
 Donate link: https://www.paypal.me/yycpro
 Tags: commerce7
 Requires at least: 4.5
-Tested up to: 5.8.1
-Stable tag: 1.2.3
+Tested up to: 5.8.3
+Stable tag: 1.2.5
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.en.html
 
@@ -60,6 +60,13 @@ Removing this plugin will render your widgets inactive.
 
 
 == Changelog ==
+
+= 1.2.5 =
+* Added new routes for V2 frontend users
+* Changed admin screen right panel callouts
+
+= 1.2.4 =
+* Small tweak in default page content on plugin installation.
 
 = 1.2.3 =
 * Small CSS tweak for users on V2 and still using the floating cart box.

@@ -96,7 +96,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                                         <span class="c7wp-box-content-text">
                                             <?php
                                             /* translators: Options page step 3.   */
-                                            esc_html_e( 'The V2 widgets launched officially on Spet 1, 2021, but these might require design updates in your theme. Additionally, the V2 widgets list is smaller than V1, which may result in broken blocks on your site. We recommend testing on a staging site before switching over.', 'wp-commerce7' );
+                                            esc_html_e( 'The V2 front-end widgets launched officially on September 1, 2021, but these might require design updates in your theme. V2 widgets are slightly different than V1, which may result in broken blocks on your site. We recommend testing on a staging site before switching over.', 'wp-commerce7' );
                                             ?>
                                         </span>
                                     </div>
@@ -131,53 +131,52 @@ if ( ! defined( 'ABSPATH' ) ) {
 
         <div class="c7wp-sidebar">
 
-            <div class="c7wp-row">
-                <div class="c7wp-column">
-                    <div class="c7wp-box">
-                        <div class="c7wp-box-content ">
-                            <img src="<?php echo esc_url( C7WP_URI . '/assets/5forests-logo-horizontal.png' ); ?>" alt="5forests" style="max-width: 100%;" />
+            <?php
 
-                            <h2>Digital wine marketing has been too hard for too long.</h2>
-                            <p>Ecommerce, social media, newsletters, digital advertising, analytics, SEO, data… there’s always something new to learn, when all you want to do is make great wine. That’s where 5forests comes in.</p>
-                            <p>We work with wine businesses around the world to develop proﬁtable strategies and digital solutions to today’s wine environment. With an approach based in research, learning, and growth, we build wine businesses that are here for the long run.</p>
-                            <a href="http://5f.re/FC74WP" target="_blank" style="display: block; color:#fff; background: #007291; text-align: center; padding: 1em; font-weight: bold; text-decoration: none; margin-top: 3em;">Get In Touch</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                $gists = [
+                    '95be9529b9ba6f9cc96336e085a4b122',
+                    '902913bb4b5623f945c9ebe30dfbc0b6',
+                    'fb980c8d769a96f169250a79ca278f74',
+                ];
 
-            <div class="c7wp-row">
-                <div class="c7wp-column">
-                    <div class="c7wp-box">
-                        <div class="c7wp-box-content ">
-                            <img src="<?php echo esc_url( C7WP_URI . '/assets/fbct.png' ); ?>" alt="5forests" style="max-width: 100%;" />
-                            <h2>Using Facebook?</h2>
-                            <p>Facebook and Instagram advertising have proven very effective for many wineries. But not being able to properly track all your website and tasting room conversions limits your ability to generate effective lookalike audiences and stops you from reporting accurate ROI on your efforts.</p>
-                            <p>5forests has teamed up with Treefrog Digital to launch our new <strong>Facebook Conversion Tracking</strong> app to overcome those obstacles. Install it directly from your Commerce7 account under <em>Apps</em>.</p>
-                            <a href="https://commerce7.treefrogdigital.com/facebook-conversion-tracking/" target="_blank" style="display: block; color:#fff; background: #1778f2; text-align: center; padding: 1em; font-weight: bold; text-decoration: none; margin-top: 3em;">Learn More</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                $allowed_html = wp_kses_allowed_html( 'post' );
+                $allowed_protocols = [
+                    'https',
+                    'data',
+                ];
 
-            <div class="c7wp-row">
-                <div class="c7wp-column">
-                    <div class="c7wp-box">
-                        <div class="c7wp-box-content ">
-                            <img src="<?php echo esc_url( C7WP_URI . '/assets/5fpromo.jpg' ); ?>" alt="5forests" style="max-width: 100%;" />
-                            <h2>Ready to take Commerce 7 to the next level?</h2>
-                            <p>Our Enhanced Commerce7 for WordPress Plugin comes packed with features that will put your winery ahead of the competition.</p>
-                            <p>With unmatched SEO, accessibility, and user experience enhancements, our Commerce7 websites stand out above the rest.</p>
-                            <a href="https://5forests.com/services/commerce7-websites/" target="_blank" style="display: block; color:#fff; background: #333; text-align: center; padding: 1em; font-weight: bold; text-decoration: none; margin-top: 3em;">See the Difference</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                $args = [
+                    'headers' => [ 'Content-Type' => 'application/json; charset=utf-8' ],
+                ];
+
+                foreach ( $gists as $gist ) {
+                    $callout = get_transient( 'c7wp_' . $gist );
+
+                    if ( empty( $callout ) ) {
+                        $response = wp_remote_get( 'https://api.github.com/gists/' . $gist, $args );
+
+                        if ( is_array( $response ) && ! is_wp_error( $response ) && '200' == wp_remote_retrieve_response_code( $response ) ) {
+                            $headers = $response['headers']; // array of http header lines
+                            $body    = json_decode( $response['body'], true ); // use the content
+
+                            $callout = stripslashes( $body['files']['index.html']['content'] );
+
+                            $trans = set_transient( 'c7wp_' . $gist, $callout, DAY_IN_SECONDS );
+                        } else {
+                            continue;
+                        }
+                    }
+
+                    echo wp_kses( $callout, $allowed_html, $allowed_protocols );
+                }
+
+
+            ?>
 
             <div class="c7wp-cta">
                 <p class="c7wp-cta-note">Plugin created by URSA6 and 5FORESTS and is provided free to Commerce7 customers and WordPress Users.</p>
                 <hr class="c7wp-cta-spacing">
-                <p class="c7wp-cta-note">We recommend <a href="https://kinsta.com/?kaid=PBYVIJQKUDTT" tagret="_blank">Kinsta</a> hosting to our WordPress clients.</p>
+                <p class="c7wp-cta-note">We recommend <a href="https://kinsta.com/?kaid=PBYVIJQKUDTT" target="_blank">Kinsta</a> hosting to our WordPress clients.</p>
             </div>
         </div>
 

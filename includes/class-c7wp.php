@@ -469,7 +469,7 @@ class C7WP {
 
 		if ( 'v2' == $this->widgetsver ) {
 			add_rewrite_rule(
-				'^(profile|collection|product|checkout)/(.+)/?$',
+				'^(profile|collection|product|club|checkout|reservation)/(.+)/?$',
 				'index.php?pagename=$matches[1]&c7slug=$matches[2]',
 				'top'
 			);
