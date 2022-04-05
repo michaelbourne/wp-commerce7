@@ -3,8 +3,8 @@ Contributors: michaelbourne
 Donate link: https://www.paypal.me/yycpro
 Tags: commerce7
 Requires at least: 4.5
-Tested up to: 5.8.3
-Stable tag: 1.2.5
+Tested up to: 5.9.3
+Stable tag: 1.2.6
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.en.html
 
@@ -60,6 +60,9 @@ Removing this plugin will render your widgets inactive.
 
 
 == Changelog ==
+
+= 1.2.6 =
+* Fixed block category depreciation warning in Gutenberg
 
 = 1.2.5 =
 * Added new routes for V2 frontend users

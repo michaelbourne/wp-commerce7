@@ -63,7 +63,7 @@ class C7WP {
 		add_action( 'after_setup_theme', array( $this, 'load_cs_elements' ) );
 		add_action( 'elementor/widgets/widgets_registered', array( $this, 'c7wp_elementor_registered' ) );
 		add_action( 'elementor/elements/categories_registered', array( $this, 'c7wp_add_elementor_widget_categories' ) );
-		add_filter( 'block_categories', array( $this, 'c7wp_block_categories' ), 10, 2 );
+		add_filter( 'block_categories_all', array( $this, 'c7wp_block_categories' ), 10, 2 );
 
 		// add admin styles and scripts
 		add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ) );
