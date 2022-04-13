@@ -12,7 +12,7 @@ Add Commerce7 to your WordPress site easily!
 
 == Description ==
 
-A free plugin for Commerce7 customers who wish to integrate their javascript widgets into a WordPress site. Commerce7 is a state of the art SaaS platform for breweries and wineries to offer modern DTC ecommerce solutions. It also offers a point of sale software, clubs, CRM, and tasting room reservations.
+A free plugin for Commerce7 customers who wish to integrate their javascript widgets into a WordPress site. Commerce7 is a state of the art SaaS platform for breweries and wineries to offer modern DTC ecommerce solutions. It also offers a point of sale software, clubs, CRM, and tasting room reservations. This plugin is being used by hundreds of wineries around the world to easily add Commerce7 to their sites.
 
 
 = Plugin Features =
@@ -45,10 +45,21 @@ You can integrate your Commerce7 ecommerce account with your WordPress website, 
 
 You bet! This plugin is 100% free, however it relies on a 3rd party service from Commerce7 that has multiple price points.
 
+= Does this plugin support Commerce7 V1 or V2 widgets? =
+
+Both! Simply choose which version you'd like to use in the plugin settings. Reasave your permalinks after switching!
+
+= I'm having trouble with __________, what should I do? =
+
+First, make sure you aren't using a subfolder install for WordPress, Commerce7 can only work on root domains and subdomains.
+Second, resave your permalinks in WordPress by going to Settings > Permalinks, make sure pretty links (post name) is chosen, and hit save.
+Third, make sure your core C7 pages are set up with the proper slugs and the c7-content div or "default content" block. Deactivate and reactivate the plugin if you've deleted these pages.
+Fourth, email Commerce7 for support.
+
 
 == Plugin Removal ==
 
-Removing this plugin will render your widgets inactive.
+Removing this plugin will render your widgets inactive, but will not remove them or the pages created.
 
 
 == Screenshots ==
