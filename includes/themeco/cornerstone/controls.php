@@ -9,7 +9,8 @@
  * @since     1.0.0
  */
 
-if ( 'v2' == $this->widgetsver ) {
+$options = get_option( 'c7wp_settings' );
+if ( isset( $options['c7wp_widget_version'] ) && 'v2' == $options['c7wp_widget_version'] ) {
   return array(
 
     'type'   => array(

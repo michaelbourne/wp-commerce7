@@ -64,10 +64,10 @@ if ( ! defined( 'ABSPATH' ) ) {
                                             /* translators: Options page step 1. KSES set to a, br, strong, and em.  */
                                             echo sprintf(
                                                 wp_kses(
-                                                    __( 'Visit your <a href="%s" target="_blank">Commerce7 Dashboard</a>. After logging in, note the URL in your address bar. The first part of the url is your Tenant ID. <br>For example: <strong>https://crazy-wines.admin.platform.commerce7.com</strong> would mean <strong>crazy-wines</strong> is the Tenant ID. Type that ID in the setting above to enable the integration.', 'wp-commerce7' ),
+                                                    __( 'Visit your <a href="%s" target="_blank">Commerce7 Dashboard</a>. After logging in, you will find your Tenant ID under <strong>Settings > General</strong>, the General settings first line that says <code>Tenant</code>.', 'wp-commerce7' ),
                                                     $tags
                                                 ),
-                                                esc_url( 'https://admin.platform.commerce7.com/login' )
+                                                esc_url( 'https://admin.platform.commerce7.com/setting/general' )
                                             );
                                             ?>
                                         </span>
@@ -96,7 +96,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                                         <span class="c7wp-box-content-text">
                                             <?php
                                             /* translators: Options page step 3.   */
-                                            esc_html_e( 'The V2 front-end widgets launched officially on September 1, 2021, but these might require design updates in your theme. V2 widgets are slightly different than V1, which may result in broken blocks on your site. We recommend testing on a staging site before switching over.', 'wp-commerce7' );
+                                            esc_html_e( 'The V2 front-end widgets launched officially on September 1, 2021, but these might require design updates in your theme. V2 widgets are slightly different than V1, which may result in broken blocks on your site. We recommend testing on a staging site before switching over. All new Tenants in 2022 will be on V2 by default.', 'wp-commerce7' );
                                             ?>
                                         </span>
                                     </div>

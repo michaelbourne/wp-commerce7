@@ -11,12 +11,12 @@
  * @wordpress-plugin
  * Plugin Name: Commerce7 for WordPress
  * Description: Integrate Commerce7 functionality into your WordPress site easily
- * Version: 1.2.6
+ * Version: 1.3.0
  * Author: Michael Bourne
  * Author URI: https://ursa6.com
- * Requires at least: 5.3
- * Tested up to: 5.9.3
- * Stable tag: 1.2.6
+ * Requires at least: 5.4
+ * Tested up to: 6.0.1
+ * Stable tag: 1.3.0
  * Requires PHP: 7.2
  * License: GPL3
  * License URI: https://www.gnu.org/licenses/gpl-3.0.en.html
@@ -26,7 +26,7 @@
  * Created Date: Friday September 27th 2019
  * Author: Michael Bourne
  * -----
- * Last Modified: Tuesday, April 5th 2022, 3:05:50 pm
+ * Last Modified: Monday, August 8th 2022, 12:13:01 pm
  * Modified By: Michael Bourne
  * -----
  * Copyright (c) 2019 URSA6
@@ -46,7 +46,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 defined( 'C7WP_ROOT' ) || define( 'C7WP_ROOT', dirname( __FILE__ ) );
 defined( 'C7WP_URI' ) || define( 'C7WP_URI', plugin_dir_url( __FILE__ ) );
-defined( 'C7WP_VERSION' ) || define( 'C7WP_VERSION', '1.2.6' );
+defined( 'C7WP_VERSION' ) || define( 'C7WP_VERSION', '1.3.0' );
 
 
 /**
@@ -108,13 +108,25 @@ function c7wp_activate_plugin() {
 
     $c7options = array(
                     'c7wp_tenant'                => '',
-                    'c7wp_display_cart'          => 'yes',
+                    'c7wp_display_cart'          => 'no',
                     'c7wp_display_cart_location' => 'tr',
                     'c7wp_display_cart_color'    => 'light',
-                    'c7wp_widget_version'        => 'beta',
+                    'c7wp_widget_version'        => 'v2',
+                    'c7wp_enable_custom_routes'  => 'no',
+                    'c7wp_frontend_routes'       => array(
+                        'profile'     => 'profile',
+                        'collection'  => 'collection',
+                        'product'     => 'product',
+                        'club'        => 'club',
+                        'checkout'    => 'checkout',
+                        'cart'        => 'cart',
+                        'privacy'     => 'privacy',
+                        'terms'       => 'terms',
+                        'reservation' => 'reservation',
+                    ),
                 );
 
-    update_option( 'c7wp_settings', $c7options );
+    update_option( 'c7wp_settings', $c7options, true );
 
     // set a default permalink structure if the installation has not yet done this
     require_once ABSPATH . 'wp-admin/includes/upgrade.php';
@@ -148,21 +160,34 @@ function c7wp_upgrade_function( $upgrader_object, $options ) {
             if ( $each_plugin == $current_plugin_path_name ) { // phpcs:ignore
 
                 $options = get_option( 'c7wp_settings' );
-                if ( isset( $options['c7wp_widget_version'] ) && 'v2' == $options['c7wp_widget_version'] ) {
-                    $pages = [ 'profile', 'collection', 'product', 'checkout', 'cart' ];
+                if ( isset( $options['c7wp_widget_version'] ) && 'v2' == $options['c7wp_widget_version']
+                  && isset( $options['c7wp_enable_custom_routes'] ) && 'yes' == $options['c7wp_enable_custom_routes']
+                  && isset( $options['c7wp_frontend_routes'] ) && is_array( $options['c7wp_frontend_routes'] ) ) {
+                    $pages = $options['c7wp_frontend_routes'];
                 } else {
-                    $pages = [ 'profile', 'collection', 'product', 'club', 'checkout', 'cart', 'reservation' ];
+                    $pages = array(
+                        'profile'     => 'profile',
+                        'collection'  => 'collection',
+                        'product'     => 'product',
+                        'club'        => 'club',
+                        'checkout'    => 'checkout',
+                        'cart'        => 'cart',
+                        'privacy'     => 'privacy',
+                        'terms'       => 'terms',
+                        'reservation' => 'reservation',
+                    );
                 }
 
                 $fail = [];
                 // Loop through required paged for C7.
-                foreach ( $pages as $page ) {
+                foreach ( $pages as $page => $slug ) {
                     // if the page is missing, let's just make it.
-                    if ( ! get_page_by_path( $page, 'ARRAY_N', 'page' ) ) {
-                        $fail[] = $page;
+                    if ( ! get_page_by_path( $slug, 'ARRAY_N', 'page' ) ) {
+                        $fail[] = wp_strip_all_tags( ucfirst( $page ) );
 
                         $c7_post = array(
                           'post_title'   => wp_strip_all_tags( ucfirst( $page ) ),
+                          'post_name'    => sanitize_title( $slug ),
                           'post_content' => '<!-- wp:c7wp/default --><div class="wp-block-c7wp-default"><div id="c7-content"></div></div><!-- /wp:c7wp/default -->',
                           'post_status'  => 'publish',
                           'post_author'  => 1,
@@ -175,6 +200,10 @@ function c7wp_upgrade_function( $upgrader_object, $options ) {
 
                 if ( ! empty( $fail ) ) {
                     set_transient( 'c7wp-admin-notice-pages-missing', $fail, 0 );
+                }
+
+                if ( function_exists( 'flush_rewrite_rules' ) ) {
+                    flush_rewrite_rules();
                 }
             }
         }

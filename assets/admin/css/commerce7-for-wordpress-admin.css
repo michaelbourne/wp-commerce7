@@ -68,6 +68,19 @@
 	background-color: #f6f6f6;
 }
 
+.c7wp-row .form-table .routing-row {
+    position: relative;
+    margin-bottom: 0.5em;
+}
+
+.c7wp-row .routing-field + span {
+    position: absolute;
+    left: 4px;
+    top: 6px;
+    width: auto;
+    color: darkgray;
+}
+
 .c7wp-ta-center {
 	text-align: center;
 }

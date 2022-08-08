@@ -2,9 +2,9 @@
 Contributors: michaelbourne
 Donate link: https://www.paypal.me/yycpro
 Tags: commerce7
-Requires at least: 4.5
-Tested up to: 5.9.3
-Stable tag: 1.2.6
+Requires at least: 5.4
+Tested up to: 6.0.1
+Stable tag: 1.3.0
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.en.html
 
@@ -72,6 +72,16 @@ Removing this plugin will render your widgets inactive, but will not remove them
 
 == Changelog ==
 
+= 1.3.0 =
+* Updated c7-base override file
+* Updated admin UI help text
+* Nulled C7 JS and CSS version info for better Cloudfront compatibility
+* Added support for custom routing in V2 frontend
+* Fixed PHP warning on X Theme and Pro Theme sites by Themeco
+
+= 1.2.7 =
+* Added two new filters for developers: `c7wp_enqueue_c7_css` defaults to true and controls the base C7 stylesheet being loaded, and `c7wp_enqueue_c7_css_override` defaults to false, controlling whther or not you load our c7-base override file with all globally scoped styles removed and Google fonts removed.
+
 = 1.2.6 =
 * Fixed block category depreciation warning in Gutenberg
 
@@ -135,6 +145,12 @@ Removing this plugin will render your widgets inactive, but will not remove them
 
 
 == Upgrade Notice ==
+
+= 1.3.0 =
+Added support for custom routing on V2 frontend. Highly recomended to re-save plugin options and re-save WordPress permalinks after update.
+
+= 1.2.7 =
+New developer filters added to allow better CSS styles on the front end. See changelog.
 
 = 1.2.0 =
 Added support for Commerce7 V2 frontend. Please read their docs before choosing to change front end versions. Resave permalinks after update.

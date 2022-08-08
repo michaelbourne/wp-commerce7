@@ -125,6 +125,22 @@ class C7WP {
 	 */
 	public function admin_init() {
 
+		$options = get_option( 'c7wp_settings' );
+		if ( ! isset( $options['c7wp_frontend_routes'] ) || ! is_array( $options['c7wp_frontend_routes'] ) ) {
+			$options['c7wp_frontend_routes'] = array(
+				'profile'     => 'profile',
+				'collection'  => 'collection',
+				'product'     => 'product',
+				'club'        => 'club',
+				'checkout'    => 'checkout',
+				'cart'        => 'cart',
+				'privacy'     => 'privacy',
+				'terms'       => 'terms',
+				'reservation' => 'reservation',
+			);
+			update_option( 'c7wp_settings', $options, true );
+		}
+
 		$this->settings_init();
 
 	}
@@ -169,7 +185,7 @@ class C7WP {
 		}
 
 		// Gutenberg support
-		$minimum_wp_version = '5.2';
+		$minimum_wp_version = '5.4';
 		if ( version_compare( $GLOBALS['wp_version'], $minimum_wp_version, '>' ) ) {
 			require_once C7WP_ROOT . '/includes/gutenberg/load.php';
 		}
@@ -263,6 +279,17 @@ class C7WP {
 	 */
 	public function options_page() {
 
+		// check user capabilities
+		if ( ! current_user_can( 'manage_options' ) ) {
+			return;
+		}
+
+		if ( isset( $_GET['settings-updated'] ) && empty( get_settings_errors( 'c7wp_settings' ) ) ) { // phpcs:ignore
+			add_settings_error( 'c7wp_settings', 'c7wp_settings_saved', __( 'Settings Saved', 'wp-commerce7' ), 'updated' );
+		}
+
+		settings_errors( 'c7wp_settings' );
+
 		include_once C7WP_ROOT . '/admin/template.options.page.php';
 
 	}
@@ -273,7 +300,7 @@ class C7WP {
 	 */
 	protected function settings_init() {
 
-		register_setting( 'commerce7', 'c7wp_settings' );
+		register_setting( 'commerce7', 'c7wp_settings', 'c7wp_settings_callback' );
 
 		add_settings_section(
 			'c7wp_commerce7_section',
@@ -295,7 +322,7 @@ class C7WP {
 
 		add_settings_field(
 			'c7wp_display_cart',
-			__( 'Display Cart Box?', 'wp-commerce7' ),
+			__( 'Display Cart Box Automatically?', 'wp-commerce7' ),
 			array(
 				$this,
 				'c7wp_display_cart_render',
@@ -336,6 +363,47 @@ class C7WP {
 			'commerce7',
 			'c7wp_commerce7_section'
 		);
+
+		add_settings_field(
+			'c7wp_enable_custom_routes',
+			__( 'Override front end routes?', 'wp-commerce7' ),
+			array(
+				$this,
+				'c7wp_enable_custom_routes_render',
+			),
+			'commerce7',
+			'c7wp_commerce7_section'
+		);
+
+		add_settings_field(
+			'c7wp_frontend_routes',
+			__( 'Custom Front-end Routes', 'wp-commerce7' ),
+			array(
+				$this,
+				'c7wp_frontend_routes_render',
+			),
+			'commerce7',
+			'c7wp_commerce7_section'
+		);
+	}
+
+	public function c7wp_settings_callback( $input ) {
+
+		$output = array();
+
+		foreach ( $input as $key => $value ) {
+			if ( isset( $input[ $key ] ) && ! empty( $value ) ) {
+				if ( is_array( $value ) ) {
+					foreach ( $value as $subkey => $subvalue ) {
+						$output[ $key ][ $subkey ] = sanitize_title( $subvalue );
+					}
+				} else {
+					$output[ $key ] = sanitize_title( $value );
+				}
+			}
+		}
+
+		return apply_filters( 'c7wp_settings_post_validation', $output, $input );
 	}
 
 	public function c7wp_tenant_render() {
@@ -355,7 +423,9 @@ class C7WP {
 			<option value='yes' <?php selected( $options['c7wp_display_cart'], 'yes' ); ?>>Yes</option>
 			<option value='no' <?php selected( $options['c7wp_display_cart'], 'no' ); ?>>No</option>
 		</select>
-
+		<p><small>If set to <strong>yes</strong>, this plugin will add a floating login and cart box to 
+		the front end of your website. If set to <strong>no</strong>, you will need to add the 
+		<code>[c7wp type='login']</code> and <code>[c7wp type='cart']</code> shortcodes (or Commerce7's HTML) to your header manually.</small></p>
 		<?php
 
 	}
@@ -365,7 +435,7 @@ class C7WP {
 		$options  = get_option( 'c7wp_settings' );
 		$disabled = ( 'no' === $options['c7wp_display_cart'] ) ? 'disabled' : '';
 		?>
-		<select name='c7wp_settings[c7wp_display_cart_location]' class='c7cartloc' <?php echo esc_attr( $disabled ); ?>>
+		<select name='c7wp_settings[c7wp_display_cart_location]' class='c7cartloc' <?php echo esc_attr( $disabled ); ?> >
 			<option value='tl' <?php selected( $options['c7wp_display_cart_location'], 'tl' ); ?>>Top left</option>
 			<option value='tr' <?php selected( $options['c7wp_display_cart_location'], 'tr' ); ?>>Top right</option>
 			<option value='br' <?php selected( $options['c7wp_display_cart_location'], 'br' ); ?>>Bottom right</option>
@@ -381,11 +451,12 @@ class C7WP {
 		$options  = get_option( 'c7wp_settings' );
 		$disabled = ( 'no' === $options['c7wp_display_cart'] ) ? 'disabled' : '';
 		?>
-		<select name='c7wp_settings[c7wp_display_cart_color]' class='c7cartcolor' <?php echo esc_attr( $disabled ); ?>>
+		<select name='c7wp_settings[c7wp_display_cart_color]' class='c7cartcolor' <?php echo esc_attr( $disabled ); ?> >
 			<option value='light' <?php selected( $options['c7wp_display_cart_color'], 'light' ); ?>>Light website</option>
 			<option value='dark' <?php selected( $options['c7wp_display_cart_color'], 'dark' ); ?>>Dark website</option>
 		</select>
-		<p><small>Please select the color theme for the Cart Box. "Light website" is for light colored or white background site, "Dark website" is for dark colored or black background sites.</small></p>
+		<p><small>Please select the color theme for the Cart Box. "Light website" is for light colored or white background 
+			site, "Dark website" is for dark colored or black background sites.</small></p>
 
 		<?php
 
@@ -396,14 +467,73 @@ class C7WP {
 		$options = get_option( 'c7wp_settings' );
 		?>
 		<select name='c7wp_settings[c7wp_widget_version]' class='c7widgetversion'>
-			<option value='beta' <?php selected( $options['c7wp_widget_version'], 'beta' ); ?>>V1</option>
 			<option value='v2' <?php selected( $options['c7wp_widget_version'], 'v2' ); ?>>V2</option>
+			<option value='beta' <?php selected( $options['c7wp_widget_version'], 'beta' ); ?>>V1</option>
 		</select>
-		<p><small>The V2 front-end widgets might introduce breaking changes to your site. <strong>You are responsible for ensuring you've read the C7 docs and understand how to migrate from beta to V2.</strong> All V2 support requests should be direct to Commerce7 directly. V2 frontend only work with certain merchant accounts.</small></p>
+		<p><small>The V2 front-end widgets might introduce breaking changes to your site. <strong>You are responsible for 
+			ensuring you've read the C7 docs and understand how to migrate from beta to V2.</strong> All V2 support 
+			requests should be direct to Commerce7 directly. V2 frontend only work with certain merchant accounts.</small></p>
 
 		<?php
 
 	}
+
+	public function c7wp_enable_custom_routes_render() {
+
+		$options  = get_option( 'c7wp_settings' );
+		$disabled = ( 'beta' === $options['c7wp_widget_version'] ) ? 'disabled' : '';
+		?>
+		<select name='c7wp_settings[c7wp_enable_custom_routes]' <?php echo esc_attr( $disabled ); ?> >
+			<option value='no' <?php selected( $options['c7wp_enable_custom_routes'], 'no' ); ?>>No</option>
+			<option value='yes' <?php selected( $options['c7wp_enable_custom_routes'], 'yes' ); ?>>Yes</option>
+		</select>
+		<p><small>For V2 frontend only. If set to <strong>yes</strong>, this plugin will allow you to set custom routing options
+		(page slugs) below.</small></p>
+		<?php
+
+	}
+
+	public function c7wp_frontend_routes_render() {
+
+		$options  = get_option( 'c7wp_settings' );
+		$disabled = ( 'yes' === $options['c7wp_enable_custom_routes'] ) ? '' : 'disabled';
+		?>
+		<div class="routing-row"><input type='text' name='c7wp_settings[c7wp_frontend_routes][cart]' value='<?php echo esc_attr( $options['c7wp_frontend_routes']['cart'] ); ?>' class="routing-field" <?php echo esc_attr( $disabled ); ?>>
+		<span>&#47;</span>
+		<label for="c7wp_settings[c7wp_frontend_routes][cart]">Cart Page</label></div>
+
+		<div class="routing-row"><input type='text' name='c7wp_settings[c7wp_frontend_routes][checkout]' value='<?php echo esc_attr( $options['c7wp_frontend_routes']['checkout'] ); ?>' class="routing-field" <?php echo esc_attr( $disabled ); ?>>
+		<span>&#47;</span>
+		<label for="c7wp_settings[c7wp_frontend_routes][checkout]">Checkout Page</label></div>
+
+		<div class="routing-row"><input type='text' name='c7wp_settings[c7wp_frontend_routes][club]' value='<?php echo esc_attr( $options['c7wp_frontend_routes']['club'] ); ?>' class="routing-field" <?php echo esc_attr( $disabled ); ?>>
+		<span>&#47;</span>
+		<label for="c7wp_settings[c7wp_frontend_routes][club]">Club Pages</label></div>
+
+		<div class="routing-row"><input type='text' name='c7wp_settings[c7wp_frontend_routes][collection]' value='<?php echo esc_attr( $options['c7wp_frontend_routes']['collection'] ); ?>' class="routing-field" <?php echo esc_attr( $disabled ); ?>>
+		<span>&#47;</span>
+		<label for="c7wp_settings[c7wp_frontend_routes][collection]">Collection Pages</label></div>
+
+		<div class="routing-row"><input type='text' name='c7wp_settings[c7wp_frontend_routes][product]' value='<?php echo esc_attr( $options['c7wp_frontend_routes']['product'] ); ?>' class="routing-field" <?php echo esc_attr( $disabled ); ?>>
+		<span>&#47;</span>
+		<label for="c7wp_settings[c7wp_frontend_routes][product]">Product Pages</label></div>
+
+		<div class="routing-row"><input type='text' name='c7wp_settings[c7wp_frontend_routes][profile]' value='<?php echo esc_attr( $options['c7wp_frontend_routes']['profile'] ); ?>' class="routing-field" <?php echo esc_attr( $disabled ); ?>>
+		<span>&#47;</span>
+		<label for="c7wp_settings[c7wp_frontend_routes][profile]">Profile Page</label></div>
+
+		<div class="routing-row"><input type='text' name='c7wp_settings[c7wp_frontend_routes][reservation]' value='<?php echo esc_attr( $options['c7wp_frontend_routes']['reservation'] ); ?>' class="routing-field" <?php echo esc_attr( $disabled ); ?>>
+		<span>&#47;</span>
+		<label for="c7wp_settings[c7wp_frontend_routes][reservation]">Reservation Page</label></div>
+
+		<p><small>These routes <strong>must</strong> match your 
+		<a href="https://admin.platform.commerce7.com/developer/frontend-v2" target="_blank">routing settings in Commerce7</a>.<br>
+		Make sure you edit the slugs of any existing pages if you are changing these values.<br>
+		You <strong>must</strong> <a href="<?php echo esc_url( admin_url( 'options-permalink.php', 'https' ) ); ?>">resave your permalinks in WordPress</a> after changing these settings.</small></p>
+		<?php
+
+	}
+
 
 	/**
 	 * Enqueue admin scripts
@@ -419,12 +549,36 @@ class C7WP {
 	 */
 	public function enqueue_scripts() {
 
-		wp_enqueue_style( 'wp-commerce7', C7WP_URI . 'assets/public/css/commerce7-for-wordpress.css', array(), C7WP_VERSION );
+		$options = get_option( 'c7wp_settings' );
+		if ( 'yes' === $options['c7wp_display_cart'] ) {
+			wp_enqueue_style( 'wp-commerce7', C7WP_URI . 'assets/public/css/commerce7-for-wordpress.css', array(), C7WP_VERSION );
+		}
 
-		wp_register_script( 'c7js', 'https://cdn.commerce7.com/' . $this->widgetsver . '/commerce7.js', array(), C7WP_VERSION, true );
+		wp_register_script( 'c7js', 'https://cdn.commerce7.com/' . $this->widgetsver . '/commerce7.js', array(), null, true ); // phpcs:ignore
 		wp_enqueue_script( 'c7js' );
-		wp_register_style( 'c7css', 'https://cdn.commerce7.com/' . $this->widgetsver . '/commerce7.css', false, C7WP_VERSION );
-		wp_enqueue_style( 'c7css' );
+
+		/**
+		 * Filter: c7wp_enqueue_c7_css .
+		 *
+		 * Filter to override Commerce7 CSS file being enqueued
+		 *
+		 * @param bool Should the CSS file be enqueued? Default: true
+		 */
+		if ( apply_filters( 'c7wp_enqueue_c7_css', true ) ) {
+			wp_register_style( 'c7css', 'https://cdn.commerce7.com/' . $this->widgetsver . '/commerce7.css', false, null ); // phpcs:ignore
+			wp_enqueue_style( 'c7css' );
+		}
+
+		/**
+		 * Filter: c7wp_enqueue_c7_css_override .
+		 *
+		 * Filter to enqueue Commerce7 CSS override file, with all global scope styles removed
+		 *
+		 * @param bool Should the CSS file be enqueued? Default: false
+		 */
+		if ( apply_filters( 'c7wp_enqueue_c7_css_override', false ) ) {
+			wp_enqueue_style( 'wp-commerce7-base', C7WP_URI . 'assets/public/css/c7-base.css', array(), C7WP_VERSION );
+		}
 
 		if ( is_user_logged_in() && current_user_can( 'edit_pages' ) ) {
 			wp_enqueue_style( 'wp-commerce7-elementor', C7WP_URI . 'assets/public/css/commerce7-for-wordpress-editors.css', array(), C7WP_VERSION );
@@ -468,11 +622,24 @@ class C7WP {
 	public function add_c7_rewrites() {
 
 		if ( 'v2' == $this->widgetsver ) {
-			add_rewrite_rule(
-				'^(profile|collection|product|club|checkout|reservation)/(.+)/?$',
-				'index.php?pagename=$matches[1]&c7slug=$matches[2]',
-				'top'
-			);
+
+			$options = get_option( 'c7wp_settings' );
+
+			if ( isset( $options['c7wp_frontend_routes'] ) && 'yes' === $options['c7wp_enable_custom_routes'] ) {
+				$routes = implode( '|', array_values( $options['c7wp_frontend_routes'] ) );
+
+				add_rewrite_rule(
+					'^(' . $routes . ')/(.+)/?$',
+					'index.php?pagename=$matches[1]&c7slug=$matches[2]',
+					'top'
+				);
+			} else {
+				add_rewrite_rule(
+					'^(profile|collection|product|club|checkout|reservation)/(.+)/?$',
+					'index.php?pagename=$matches[1]&c7slug=$matches[2]',
+					'top'
+				);
+			}
 		} else {
 			add_rewrite_rule(
 				'^(profile|collection|product|club|checkout|reservation)/(.+)/?$',
@@ -695,7 +862,23 @@ class C7WP {
 	 */
 	public function add_display_post_states( $post_states, $post ) {
 
-		$pages = [ 'profile', 'collection', 'product', 'club', 'checkout', 'cart', 'reservation' ];
+		$options = get_option( 'c7wp_settings' );
+		if ( isset( $options['c7wp_widget_version'] ) && 'v2' == $options['c7wp_widget_version'] 
+		&& isset( $options['c7wp_frontend_routes'] ) && 'yes' === $options['c7wp_enable_custom_routes'] ) {
+			$pages = array_values( $options['c7wp_frontend_routes'] );
+		} else {
+			$pages = array(
+				'profile',
+				'collection',
+				'product',
+				'club',
+				'checkout',
+				'cart',
+				'privacy',
+				'terms',
+				'reservation',
+			);
+		}
 
 		if ( in_array( $post->post_name, $pages, true ) ) {
 			$post_states['c7wp'] = 'Commerce7 Required Page';
