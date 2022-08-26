@@ -4,7 +4,7 @@ Donate link: https://www.paypal.me/yycpro
 Tags: commerce7
 Requires at least: 5.4
 Tested up to: 6.0.1
-Stable tag: 1.3.0
+Stable tag: 1.3.1
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.en.html
 
@@ -12,7 +12,7 @@ Add Commerce7 to your WordPress site easily!
 
 == Description ==
 
-A free plugin for Commerce7 customers who wish to integrate their javascript widgets into a WordPress site. Commerce7 is a state of the art SaaS platform for breweries and wineries to offer modern DTC ecommerce solutions. It also offers a point of sale software, clubs, CRM, and tasting room reservations. This plugin is being used by hundreds of wineries around the world to easily add Commerce7 to their sites.
+A free plugin for Commerce7 customers who wish to integrate their javascript widgets into a WordPress site. Commerce7 is a state of the art SaaS platform for breweries and wineries to offer modern DTC ecommerce solutions. It also offers a point of sale software, clubs, CRM, and tasting room reservations. This plugin is being used by hundreds of wineries around the world to easily add Commerce7 to their website.
 
 
 = Plugin Features =
@@ -24,7 +24,7 @@ A free plugin for Commerce7 customers who wish to integrate their javascript wid
 
 This plugin relies on a third party service for it's functionality provided by [Commerce7](https://commerce7.com/). As an ecommerce solution, an SSL certificate is required on your website. Your privacy policy should be ammended to include the use of third party software for order processing. 
 
-Read the [Commerce7 for WordPress Documentation](https://c7wp.com) to get started.
+Read the [Commerce7 for WordPress](https://c7wp.com) website to get started.
 
 
 == Installation ==
@@ -71,6 +71,9 @@ Removing this plugin will render your widgets inactive, but will not remove them
 
 
 == Changelog ==
+
+= 1.3.1 =
+* Fixed `Buy Button` block not showing in Gutenberg
 
 = 1.3.0 =
 * Updated c7-base override file

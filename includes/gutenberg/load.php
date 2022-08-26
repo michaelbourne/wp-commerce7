@@ -5,7 +5,7 @@
  * Created Date: Wednesday September 2nd 2020
  * Author: Michael Bourne
  * -----
- * Last Modified: Monday, August 30th 2021, 3:08:08 pm
+ * Last Modified: Friday, August 26th 2022, 10:17:32 am
  * Modified By: Michael Bourne
  * -----
  * Copyright (c) 2020 URSA6
@@ -26,6 +26,7 @@ if ( 'v2' == $this->widgetsver ) {
     $elements = [
         'default',
         'personalization',
+        'buyslug',
         'subscribe',
         'collection',
         'reservation',
