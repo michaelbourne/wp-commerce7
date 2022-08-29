@@ -11,13 +11,13 @@
  * @wordpress-plugin
  * Plugin Name: Commerce7 for WordPress
  * Description: Integrate Commerce7 functionality into your WordPress site easily
- * Version: 1.3.1
+ * Version: 1.3.2
  * Author: Michael Bourne
  * Author URI: https://ursa6.com
  * Requires at least: 5.4
  * Tested up to: 6.0.1
- * Stable tag: 1.3.1
- * Requires PHP: 7.2
+ * Stable tag: 1.3.2
+ * Requires PHP: 7.4
  * License: GPL3
  * License URI: https://www.gnu.org/licenses/gpl-3.0.en.html
  * Text Domain: wp-commerce7
@@ -26,7 +26,7 @@
  * Created Date: Friday September 27th 2019
  * Author: Michael Bourne
  * -----
- * Last Modified: Friday, August 26th 2022, 10:28:09 am
+ * Last Modified: Monday, August 29th 2022, 9:00:29 am
  * Modified By: Michael Bourne
  * -----
  * Copyright (c) 2019 URSA6
@@ -46,7 +46,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 defined( 'C7WP_ROOT' ) || define( 'C7WP_ROOT', dirname( __FILE__ ) );
 defined( 'C7WP_URI' ) || define( 'C7WP_URI', plugin_dir_url( __FILE__ ) );
-defined( 'C7WP_VERSION' ) || define( 'C7WP_VERSION', '1.3.1' );
+defined( 'C7WP_VERSION' ) || define( 'C7WP_VERSION', '1.3.2' );
 
 
 /**
@@ -241,7 +241,7 @@ function c7wp_admin_notice_pages() {
             '<strong>' . esc_html( $pages ) . '</strong>'
         );
         echo '</p></div>';
-EOF;
+
         /* Delete transient, only display this notice once. */
         delete_transient( 'c7wp-admin-notice-pages-missing' );
     }
