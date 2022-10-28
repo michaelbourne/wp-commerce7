@@ -11,12 +11,12 @@
  * @wordpress-plugin
  * Plugin Name: Commerce7 for WordPress
  * Description: Integrate Commerce7 functionality into your WordPress site easily
- * Version: 1.3.2
+ * Version: 1.3.3
  * Author: Michael Bourne
  * Author URI: https://ursa6.com
  * Requires at least: 5.4
- * Tested up to: 6.0.1
- * Stable tag: 1.3.2
+ * Tested up to: 6.0.3
+ * Stable tag: 1.3.3
  * Requires PHP: 7.4
  * License: GPL3
  * License URI: https://www.gnu.org/licenses/gpl-3.0.en.html
@@ -26,7 +26,7 @@
  * Created Date: Friday September 27th 2019
  * Author: Michael Bourne
  * -----
- * Last Modified: Monday, August 29th 2022, 9:00:29 am
+ * Last Modified: Tuesday, October 18th 2022, 2:04:58 pm
  * Modified By: Michael Bourne
  * -----
  * Copyright (c) 2019 URSA6
@@ -46,7 +46,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 defined( 'C7WP_ROOT' ) || define( 'C7WP_ROOT', dirname( __FILE__ ) );
 defined( 'C7WP_URI' ) || define( 'C7WP_URI', plugin_dir_url( __FILE__ ) );
-defined( 'C7WP_VERSION' ) || define( 'C7WP_VERSION', '1.3.2' );
+defined( 'C7WP_VERSION' ) || define( 'C7WP_VERSION', '1.3.3' );
 
 
 /**
@@ -58,7 +58,7 @@ defined( 'C7WP_VERSION' ) || define( 'C7WP_VERSION', '1.3.2' );
 function c7wp_activate_plugin() {
     add_option( 'c7wp_activation', true );
 
-    $pages = [ 'profile', 'collection', 'product', 'club', 'checkout', 'cart', 'privacy', 'terms', 'reservation' ];
+    $pages = [ 'profile', 'collection', 'product', 'club', 'checkout', 'cart', 'reservation' ];
     $fail  = [];
 
     foreach ( $pages as $page ) {
@@ -67,39 +67,15 @@ function c7wp_activate_plugin() {
             continue;
         }
 
-        if ( 'terms' === $page ) {
-            $c7_post = array(
-            'post_title'   => wp_strip_all_tags( ucfirst( $page ) ),
-            /* translators: Dummy content for a missing terms page */
-            'post_content' => __( '<!-- wp:paragraph --><p>Please enter your terms and conditions.</p><!-- /wp:paragraph -->', 'wp-commerce7' ),
-            'post_status'  => 'publish',
-            'post_author'  => 1,
-            'post_type'    => 'page',
-            );
-        } elseif ( 'privacy' === $page ) {
-            $c7_post = array(
-            'post_title'   => wp_strip_all_tags( ucfirst( $page ) ),
-            /* translators: Dummy content for a missing privacy page */
-            'post_content' => __( '<!-- wp:paragraph --><p>Please enter your privacy policy as per your local laws.</p><!-- /wp:paragraph -->', 'wp-commerce7' ),
-            'post_status'  => 'publish',
-            'post_author'  => 1,
-            'post_type'    => 'page',
-            );
-        } else {
-            $c7_post = array(
-            'post_title'   => wp_strip_all_tags( ucfirst( $page ) ),
-            'post_content' => '<!-- wp:c7wp/default --><div class="wp-block-c7wp-default"><div id="c7-content"></div></div><!-- /wp:c7wp/default -->',
-            'post_status'  => 'publish',
-            'post_author'  => 1,
-            'post_type'    => 'page',
-            );
-        }
+        $c7_post = array(
+        'post_title'   => wp_strip_all_tags( ucfirst( $page ) ),
+        'post_content' => '<!-- wp:c7wp/default --><div class="wp-block-c7wp-default"><div id="c7-content"></div></div><!-- /wp:c7wp/default -->',
+        'post_status'  => 'publish',
+        'post_author'  => 1,
+        'post_type'    => 'page',
+        );
 
         $pageid = wp_insert_post( $c7_post );
-
-        if ( 'privacy' === $page ) {
-            update_option( 'wp_page_for_privacy_policy', $pageid );
-        }
     }
 
     if ( ! empty( $fail ) ) {
@@ -120,8 +96,6 @@ function c7wp_activate_plugin() {
                         'club'        => 'club',
                         'checkout'    => 'checkout',
                         'cart'        => 'cart',
-                        'privacy'     => 'privacy',
-                        'terms'       => 'terms',
                         'reservation' => 'reservation',
                     ),
                 );
@@ -160,8 +134,8 @@ function c7wp_upgrade_function( $upgrader_object, $options ) {
             if ( $each_plugin == $current_plugin_path_name ) { // phpcs:ignore
 
                 $options = get_option( 'c7wp_settings' );
-                if ( isset( $options['c7wp_widget_version'] ) && 'v2' == $options['c7wp_widget_version']
-                  && isset( $options['c7wp_enable_custom_routes'] ) && 'yes' == $options['c7wp_enable_custom_routes']
+                if ( isset( $options['c7wp_widget_version'] ) && 'v2' === $options['c7wp_widget_version']
+                  && isset( $options['c7wp_enable_custom_routes'] ) && 'yes' === $options['c7wp_enable_custom_routes']
                   && isset( $options['c7wp_frontend_routes'] ) && is_array( $options['c7wp_frontend_routes'] ) ) {
                     $pages = $options['c7wp_frontend_routes'];
                 } else {
@@ -172,8 +146,6 @@ function c7wp_upgrade_function( $upgrader_object, $options ) {
                         'club'        => 'club',
                         'checkout'    => 'checkout',
                         'cart'        => 'cart',
-                        'privacy'     => 'privacy',
-                        'terms'       => 'terms',
                         'reservation' => 'reservation',
                     );
                 }

@@ -39,6 +39,12 @@ class C7WP {
 	 */
 	private $widgetsver;
 
+	/**
+	 * SEO plugin detected
+	 *
+	 * @var $seoplugin
+	 */
+	private $seoplugin;
 
 
 	/**
@@ -79,7 +85,8 @@ class C7WP {
 		add_filter( 'display_post_states', array( $this, 'add_display_post_states' ), 10, 2 );
 
 		// main variables
-		$this->prefix = 'c7wp_';
+		$this->prefix    = 'c7wp_';
+		$this->seoplugin = false;
 
 		$options = get_option( 'c7wp_settings' );
 		if ( isset( $options['c7wp_widget_version'] ) && ! empty( $options['c7wp_widget_version'] ) ) {
@@ -188,12 +195,38 @@ class C7WP {
 		$minimum_wp_version = '5.4';
 		if ( version_compare( $GLOBALS['wp_version'], $minimum_wp_version, '>' ) ) {
 			require_once C7WP_ROOT . '/includes/gutenberg/load.php';
+			// Canonical fix
+			require_once C7WP_ROOT . '/includes/wordpress/load.php';
+		}
+
+		// Yoast Support
+		if ( defined( 'WPSEO_VERSION' ) ) {
+			require_once C7WP_ROOT . '/includes/yoast/load.php';
+			$this->seoplugin = true;
+		}
+
+		// RankMath support
+		if ( defined( 'RANK_MATH_VERSION' ) ) {
+			require_once C7WP_ROOT . '/includes/rankmath/load.php';
+			$this->seoplugin = true;
+		}
+
+		// All In One SEO
+		if ( defined( 'AIOSEO_VERSION' ) ) {
+			require_once C7WP_ROOT . '/includes/aioseo/load.php';
+			$this->seoplugin = true;
+		}
+
+		// SEOpress
+		if ( defined( 'SEOPRESS_VERSION' ) ) {
+			require_once C7WP_ROOT . '/includes/seopress/load.php';
+			$this->seoplugin = true;
 		}
 
 	}
 
 	/**
-	 * Add custom Gutneberg Category
+	 * Add custom Gutenberg Block Category
 	 *
 	 * @param array  $categories Gutenberg categories.
 	 * @param object $post WP_Post object.
@@ -550,17 +583,25 @@ class C7WP {
 	public function enqueue_scripts() {
 
 		$options = get_option( 'c7wp_settings' );
+
+		/**
+		 * Load the magic cart box CSS if enabled
+		 */
 		if ( 'yes' === $options['c7wp_display_cart'] ) {
 			wp_enqueue_style( 'wp-commerce7', C7WP_URI . 'assets/public/css/commerce7-for-wordpress.css', array(), C7WP_VERSION );
 		}
 
+		/**
+		 * Load mandatory Commerce7 JS file.
+		 */
 		wp_register_script( 'c7js', 'https://cdn.commerce7.com/' . $this->widgetsver . '/commerce7.js', array(), null, true ); // phpcs:ignore
 		wp_enqueue_script( 'c7js' );
 
 		/**
-		 * Filter: c7wp_enqueue_c7_css .
+		 * Filter: `c7wp_enqueue_c7_css`
 		 *
-		 * Filter to override Commerce7 CSS file being enqueued
+		 * Filter for enqueueing the Commerce7 procided CSS file. If set to false,
+		 * you likely want to enable the `c7wp_enqueue_c7_css_override` filter.
 		 *
 		 * @param bool Should the CSS file be enqueued? Default: true
 		 */
@@ -570,18 +611,41 @@ class C7WP {
 		}
 
 		/**
-		 * Filter: c7wp_enqueue_c7_css_override .
+		 * Filter: `c7wp_enqueue_c7_css_override`
 		 *
-		 * Filter to enqueue Commerce7 CSS override file, with all global scope styles removed
+		 * Filter to enqueue the Commerce7 CSS override file, with all global scope styles removed.
+		 * If true, the `c7wp_enqueue_c7_css` filter should be set to false.
 		 *
-		 * @param bool Should the CSS file be enqueued? Default: false
+		 * @param bool Should the override CSS file be enqueued? Default: false
 		 */
 		if ( apply_filters( 'c7wp_enqueue_c7_css_override', false ) ) {
 			wp_enqueue_style( 'wp-commerce7-base', C7WP_URI . 'assets/public/css/c7-base.css', array(), C7WP_VERSION );
 		}
 
+		/**
+		 * Add editor styles for custom blocks
+		 */
 		if ( is_user_logged_in() && current_user_can( 'edit_pages' ) ) {
-			wp_enqueue_style( 'wp-commerce7-elementor', C7WP_URI . 'assets/public/css/commerce7-for-wordpress-editors.css', array(), C7WP_VERSION );
+			wp_enqueue_style( 'wp-commerce7-pagebuilders', C7WP_URI . 'assets/public/css/commerce7-for-wordpress-editors.css', array(), C7WP_VERSION );
+		}
+
+		/**
+		 * Add canonical fix if SEO plugins present
+		 */
+		if ( $this->seoplugin ) {
+
+			if ( ! isset( $options['c7wp_frontend_routes'] ) || ! is_array( $options['c7wp_frontend_routes'] ) ) {
+				$product_route    = 'product';
+				$collection_route = 'collection';
+			} else {
+				$product_route    = $options['c7wp_frontend_routes']['product'];
+				$collection_route = $options['c7wp_frontend_routes']['collection'];
+			}
+
+			if ( is_page( [ $product_route, $collection_route ] ) ) {
+				wp_register_script( 'c7wp-seo', C7WP_URI .  'assets/public/js/c7wp-seo.js', array(), C7WP_VERSION, true ); // phpcs:ignore
+				wp_enqueue_script( 'c7wp-seo' );
+			}
 		}
 
 	}
@@ -621,7 +685,7 @@ class C7WP {
 	 */
 	public function add_c7_rewrites() {
 
-		if ( 'v2' == $this->widgetsver ) {
+		if ( 'v2' === $this->widgetsver ) {
 
 			$options = get_option( 'c7wp_settings' );
 
@@ -735,7 +799,7 @@ class C7WP {
 
 		$output = '<div class="c7wp-wrap" data-c7-type="' . $atts['type'] . '">';
 
-		if ( 'v2' == $this->widgetsver ) {
+		if ( 'v2' === $this->widgetsver ) {
 
 			switch ( $atts['type'] ) {
 				case 'default':
@@ -863,7 +927,7 @@ class C7WP {
 	public function add_display_post_states( $post_states, $post ) {
 
 		$options = get_option( 'c7wp_settings' );
-		if ( isset( $options['c7wp_widget_version'] ) && 'v2' == $options['c7wp_widget_version'] 
+		if ( isset( $options['c7wp_widget_version'] ) && 'v2' === $options['c7wp_widget_version']
 		&& isset( $options['c7wp_frontend_routes'] ) && 'yes' === $options['c7wp_enable_custom_routes'] ) {
 			$pages = array_values( $options['c7wp_frontend_routes'] );
 		} else {

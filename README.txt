@@ -3,8 +3,8 @@ Contributors: michaelbourne
 Donate link: https://www.paypal.me/yycpro
 Tags: commerce7
 Requires at least: 5.4
-Tested up to: 6.0.1
-Stable tag: 1.3.2
+Tested up to: 6.0.3
+Stable tag: 1.3.3
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.en.html
 
@@ -71,6 +71,9 @@ Removing this plugin will render your widgets inactive, but will not remove them
 
 
 == Changelog ==
+
+= 1.3.3 =
+* Added SEO improvements on dynamic routes
 
 = 1.3.2 =
 * Fixed possible fatal error if required pages are missing
