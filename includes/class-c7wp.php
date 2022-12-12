@@ -467,6 +467,9 @@ class C7WP {
 
 		$options  = get_option( 'c7wp_settings' );
 		$disabled = ( 'no' === $options['c7wp_display_cart'] ) ? 'disabled' : '';
+		if ( ! isset( $options['c7wp_display_cart_location'] ) ) {
+			$options['c7wp_display_cart_location'] = 'tr';
+		}
 		?>
 		<select name='c7wp_settings[c7wp_display_cart_location]' class='c7cartloc' <?php echo esc_attr( $disabled ); ?> >
 			<option value='tl' <?php selected( $options['c7wp_display_cart_location'], 'tl' ); ?>>Top left</option>
@@ -483,6 +486,9 @@ class C7WP {
 
 		$options  = get_option( 'c7wp_settings' );
 		$disabled = ( 'no' === $options['c7wp_display_cart'] ) ? 'disabled' : '';
+		if ( ! isset( $options['c7wp_display_cart_color'] ) ) {
+			$options['c7wp_display_cart_color'] = 'light';
+		}
 		?>
 		<select name='c7wp_settings[c7wp_display_cart_color]' class='c7cartcolor' <?php echo esc_attr( $disabled ); ?> >
 			<option value='light' <?php selected( $options['c7wp_display_cart_color'], 'light' ); ?>>Light website</option>

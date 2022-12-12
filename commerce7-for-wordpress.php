@@ -15,7 +15,7 @@
  * Author: Michael Bourne
  * Author URI: https://ursa6.com
  * Requires at least: 5.4
- * Tested up to: 6.0.3
+ * Tested up to: 6.1.1
  * Stable tag: 1.3.3
  * Requires PHP: 7.4
  * License: GPL3
@@ -26,7 +26,7 @@
  * Created Date: Friday September 27th 2019
  * Author: Michael Bourne
  * -----
- * Last Modified: Tuesday, October 18th 2022, 2:04:58 pm
+ * Last Modified: Monday, December 12th 2022, 10:17:42 am
  * Modified By: Michael Bourne
  * -----
  * Copyright (c) 2019 URSA6
@@ -134,6 +134,7 @@ function c7wp_upgrade_function( $upgrader_object, $options ) {
             if ( $each_plugin == $current_plugin_path_name ) { // phpcs:ignore
 
                 $options = get_option( 'c7wp_settings' );
+
                 if ( isset( $options['c7wp_widget_version'] ) && 'v2' === $options['c7wp_widget_version']
                   && isset( $options['c7wp_enable_custom_routes'] ) && 'yes' === $options['c7wp_enable_custom_routes']
                   && isset( $options['c7wp_frontend_routes'] ) && is_array( $options['c7wp_frontend_routes'] ) ) {
@@ -170,10 +171,34 @@ function c7wp_upgrade_function( $upgrader_object, $options ) {
                     }
                 }
 
+                // If we have missing pages, let's set a transient to display a notice.
                 if ( ! empty( $fail ) ) {
                     set_transient( 'c7wp-admin-notice-pages-missing', $fail, 0 );
                 }
 
+                $c7options = array(
+                    'c7wp_tenant'                => '',
+                    'c7wp_display_cart'          => 'no',
+                    'c7wp_display_cart_location' => 'tr',
+                    'c7wp_display_cart_color'    => 'light',
+                    'c7wp_widget_version'        => 'v2',
+                    'c7wp_enable_custom_routes'  => 'no',
+                    'c7wp_frontend_routes'       => array(
+                        'profile'     => 'profile',
+                        'collection'  => 'collection',
+                        'product'     => 'product',
+                        'club'        => 'club',
+                        'checkout'    => 'checkout',
+                        'cart'        => 'cart',
+                        'reservation' => 'reservation',
+                    ),
+                );
+
+                // Merge client set options with default options to fix any unset array keys.
+                $normalized_options = array_merge( $c7options, $options );
+                update_option( 'c7wp_settings', $normalized_options, true );
+
+                // flush rewrite rules.
                 if ( function_exists( 'flush_rewrite_rules' ) ) {
                     flush_rewrite_rules();
                 }
