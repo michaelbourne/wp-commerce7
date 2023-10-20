@@ -11,12 +11,13 @@
  * @wordpress-plugin
  * Plugin Name: Commerce7 for WordPress
  * Description: Integrate Commerce7 functionality into your WordPress site easily
- * Version: 1.3.5
- * Author: Michael Bourne
- * Author URI: https://ursa6.com
+ * Version: 1.3.7
+ * Author: 5forests
+ * Author URI: https://5forests.com
+ * Plugin URI: https://c7wp.com
  * Requires at least: 5.4
- * Tested up to: 6.1.1
- * Stable tag: 1.3.5
+ * Tested up to: 6.3.2
+ * Stable tag: 1.3.7
  * Requires PHP: 7.4
  * License: GPL3
  * License URI: https://www.gnu.org/licenses/gpl-3.0.en.html
@@ -26,10 +27,10 @@
  * Created Date: Friday September 27th 2019
  * Author: Michael Bourne
  * -----
- * Last Modified: Monday, December 12th 2022, 4:41:50 pm
+ * Last Modified: Thursday, October 19th 2023, 7:16:59 pm
  * Modified By: Michael Bourne
  * -----
- * Copyright (c) 2019 URSA6
+ * Copyright (c) 2019-2023 URSA6
  *
  * Commerce7 for WordPress is a plugin for WordPress that enables you to add Commerce7 ecommerce integration into your site.
  * Plugin developed with the cooperation of the Commerce7 company. Commerce7 logo and name used with permission.
@@ -46,7 +47,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 defined( 'C7WP_ROOT' ) || define( 'C7WP_ROOT', dirname( __FILE__ ) );
 defined( 'C7WP_URI' ) || define( 'C7WP_URI', plugin_dir_url( __FILE__ ) );
-defined( 'C7WP_VERSION' ) || define( 'C7WP_VERSION', '1.3.5' );
+defined( 'C7WP_VERSION' ) || define( 'C7WP_VERSION', '1.3.7' );
 
 
 /**
@@ -259,3 +260,9 @@ register_deactivation_hook( __FILE__, 'c7wp_deactivate_plugin' );
 
 // load plugin
 require_once 'includes/class-c7wp.php';
+
+function commerce7_wp_manager() {
+	return C7WP::getInstance();
+}
+
+commerce7_wp_manager();

@@ -5,7 +5,7 @@
  * Created Date: Wednesday September 2nd 2020
  * Author: Michael Bourne
  * -----
- * Last Modified: Friday, August 26th 2022, 10:17:32 am
+ * Last Modified: Monday, September 11th 2023, 7:35:55 pm
  * Modified By: Michael Bourne
  * -----
  * Copyright (c) 2020 URSA6
@@ -32,6 +32,7 @@ if ( 'v2' == $this->widgetsver ) {
         'reservation',
         'form',
         'joinnow',
+        'loginform',
     ];
     $dir = 'blocks-v2';
 } else {
@@ -60,7 +61,7 @@ foreach ( $elements as $element ) {
         $block_slug,
         plugins_url( $dir . '/' . $element . '/' . $block_slug . '.js', __FILE__ ),
         [ 'wp-blocks', 'wp-element', 'wp-editor' ],
-        filemtime( plugin_dir_path( __FILE__ ) . 'blocks/' . $element . '/' . $block_slug . '.js' ),
+        filemtime( plugin_dir_path( __FILE__ ) . 'blocks/' . $element . '/' . $block_slug . '.js' ) || C7WP_VERSION,
         1
     );
 
@@ -69,7 +70,7 @@ foreach ( $elements as $element ) {
         $block_slug,
         plugins_url( $dir . '/' . $element . '/' . $block_slug . '.css', __FILE__ ),
         [],
-        filemtime( plugin_dir_path( __FILE__ ) . 'blocks/' . $element . '/' . $block_slug . '.css' )
+        filemtime( plugin_dir_path( __FILE__ ) . 'blocks/' . $element . '/' . $block_slug . '.css' ) || C7WP_VERSION
     );
 
     // Register block script and style.

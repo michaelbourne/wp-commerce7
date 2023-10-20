@@ -3,8 +3,8 @@ Contributors: michaelbourne
 Donate link: https://www.paypal.me/yycpro
 Tags: commerce7
 Requires at least: 5.4
-Tested up to: 6.1.1
-Stable tag: 1.3.5
+Tested up to: 6.3.1
+Stable tag: 1.3.7
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.en.html
 
@@ -71,6 +71,13 @@ Removing this plugin will render your widgets inactive, but will not remove them
 
 
 == Changelog ==
+
+= 1.3.7 =
+* Add: Login Form widget for V2
+* Add: Club button add and edit text support
+
+= 1.3.6 =
+* Minor code formatting
 
 = 1.3.5 =
 * Update cleanup, re-add Gutenberg blocks (blame SVN)

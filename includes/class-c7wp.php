@@ -92,7 +92,7 @@ class C7WP {
 		if ( isset( $options['c7wp_widget_version'] ) && ! empty( $options['c7wp_widget_version'] ) ) {
 			$this->widgetsver = esc_attr( $options['c7wp_widget_version'] );
 		} else {
-			$this->widgetsver = 'beta';
+			$this->widgetsver = 'v2';
 		}
 
 		// load translations
@@ -100,7 +100,6 @@ class C7WP {
 
 		// c7 div output for certain pagebuilders
 		add_shortcode( 'c7wp', array( $this, 'c7wp_shortcode' ) );
-
 	}
 
 	/**
@@ -109,22 +108,18 @@ class C7WP {
 	 * @return self
 	 */
 	public static function getInstance() { // phpcs:ignore
-
 		if ( ! ( self::$_instance instanceof self ) ) {
 			self::$_instance = new self();
 		}
 
 		return self::$_instance;
-
 	}
 
 	/**
 	 * @param mixed $instance Singleton instance.
 	 */
 	public static function setInstance( $instance ) { // phpcs:ignore
-
 		self::$_instance = $instance;
-
 	}
 
 	/**
@@ -149,7 +144,6 @@ class C7WP {
 		}
 
 		$this->settings_init();
-
 	}
 
 	/**
@@ -163,17 +157,14 @@ class C7WP {
 			delete_option( 'c7wp_activation' );
 			flush_rewrite_rules();
 		}
-
 	}
 
 	/**
 	 * Register custom query var for later use
 	 */
 	public function register_query_vars( $vars ) {
-
 		$vars[] = 'c7slug';
 		return $vars;
-
 	}
 
 	/**
@@ -222,7 +213,6 @@ class C7WP {
 			require_once C7WP_ROOT . '/includes/seopress/load.php';
 			$this->seoplugin = true;
 		}
-
 	}
 
 	/**
@@ -249,12 +239,10 @@ class C7WP {
 	 * Cornerstone element
 	 */
 	public function load_cs_elements() {
-
 		// Cornerstone Support
 		if ( class_exists( 'Cornerstone_Plugin' ) || function_exists( 'cornerstone_boot' ) ) {
 			require_once C7WP_ROOT . '/includes/themeco/load.php';
 		}
-
 	}
 
 	/**
@@ -274,10 +262,8 @@ class C7WP {
 	 * Elementor element
 	 */
 	public function c7wp_elementor_registered() {
-
 		require_once C7WP_ROOT . '/includes/elementor/load.php';
 		\Elementor\Plugin::instance()->widgets_manager->register_widget_type( new \C7WP_Elementor() );
-
 	}
 
 	/**
@@ -304,7 +290,6 @@ class C7WP {
 			C7WP_URI . 'assets/c7sm.svg',
 			79
 		);
-
 	}
 
 	/**
@@ -324,7 +309,6 @@ class C7WP {
 		settings_errors( 'c7wp_settings' );
 
 		include_once C7WP_ROOT . '/admin/template.options.page.php';
-
 	}
 
 
@@ -445,7 +429,6 @@ class C7WP {
 		?>
 		<input type='text' name='c7wp_settings[c7wp_tenant]' value='<?php echo esc_attr( $options['c7wp_tenant'] ); ?>'>
 		<?php
-
 	}
 
 	public function c7wp_display_cart_render() {
@@ -453,14 +436,13 @@ class C7WP {
 		$options = get_option( 'c7wp_settings' );
 		?>
 		<select name='c7wp_settings[c7wp_display_cart]' class='c7displaycart'>
-			<option value='yes' <?php selected( $options['c7wp_display_cart'], 'yes' ); ?>>Yes</option>
 			<option value='no' <?php selected( $options['c7wp_display_cart'], 'no' ); ?>>No</option>
+			<option value='yes' <?php selected( $options['c7wp_display_cart'], 'yes' ); ?>>Yes</option>
 		</select>
 		<p><small>If set to <strong>yes</strong>, this plugin will add a floating login and cart box to 
 		the front end of your website. If set to <strong>no</strong>, you will need to add the 
 		<code>[c7wp type='login']</code> and <code>[c7wp type='cart']</code> shortcodes (or Commerce7's HTML) to your header manually.</small></p>
 		<?php
-
 	}
 
 	public function c7wp_display_cart_location_render() {
@@ -479,7 +461,6 @@ class C7WP {
 		</select>
 
 		<?php
-
 	}
 
 	public function c7wp_display_cart_color_render() {
@@ -498,7 +479,6 @@ class C7WP {
 			site, "Dark website" is for dark colored or black background sites.</small></p>
 
 		<?php
-
 	}
 
 	public function c7wp_widget_version_render() {
@@ -514,7 +494,6 @@ class C7WP {
 			requests should be direct to Commerce7 directly. V2 frontend only work with certain merchant accounts.</small></p>
 
 		<?php
-
 	}
 
 	public function c7wp_enable_custom_routes_render() {
@@ -529,7 +508,6 @@ class C7WP {
 		<p><small>For V2 frontend only. If set to <strong>yes</strong>, this plugin will allow you to set custom routing options
 		(page slugs) below.</small></p>
 		<?php
-
 	}
 
 	public function c7wp_frontend_routes_render() {
@@ -570,7 +548,6 @@ class C7WP {
 		Make sure you edit the slugs of any existing pages if you are changing these values.<br>
 		You <strong>must</strong> <a href="<?php echo esc_url( admin_url( 'options-permalink.php', 'https' ) ); ?>">resave your permalinks in WordPress</a> after changing these settings.</small></p>
 		<?php
-
 	}
 
 
@@ -578,9 +555,7 @@ class C7WP {
 	 * Enqueue admin scripts
 	 */
 	public function admin_enqueue_scripts() {
-
 		wp_enqueue_style( 'wp-commerce7-admin', C7WP_URI . 'assets/admin/css/commerce7-for-wordpress-admin.css', array(), C7WP_VERSION );
-
 	}
 
 	/**
@@ -653,7 +628,6 @@ class C7WP {
 				wp_enqueue_script( 'c7wp-seo' );
 			}
 		}
-
 	}
 
 	/**
@@ -717,7 +691,6 @@ class C7WP {
 				'top'
 			);
 		}
-
 	}
 
 
@@ -759,7 +732,6 @@ class C7WP {
 			echo '<div id="c7wp-cart-box" class="' . esc_attr( $class ) . esc_attr( $color ) . '"><div id="' . esc_attr( $login ) . '"></div><div id="c7-cart"></div></div>';
 
 		}
-
 	}
 
 
@@ -920,7 +892,6 @@ class C7WP {
 		$output .= '</div>';
 
 		return $output;
-
 	}
 
 	/**
@@ -955,13 +926,5 @@ class C7WP {
 		}
 
 		return $post_states;
-
 	}
-
 }
-
-function commerce7_wp_manager() {
-	return C7WP::getInstance();
-}
-
-commerce7_wp_manager();

@@ -23,7 +23,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                 <div class="c7wp-column">
                     <div class="c7wp-box">
 
-                        <img src="<?php echo esc_url( C7WP_URI . '/assets/heroheader.png' ); ?>" alt="Commerce7 for WordPress" style="max-width: 100%;" />
+                        <img src="<?php echo esc_url( C7WP_URI . 'assets/heroheader2023.jpg' ); ?>" alt="Commerce7 for WordPress" style="max-width: 100%;" />
 
                         <div class="c7wp-box-content">
                             <form method="post" action="options.php">
@@ -161,7 +161,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
                             $callout = stripslashes( $body['files']['index.html']['content'] );
 
-                            $trans = set_transient( 'c7wp_' . $gist, $callout, DAY_IN_SECONDS );
+                            $trans = set_transient( 'c7wp_' . $gist, $callout, WEEK_IN_SECONDS );
                         } else {
                             continue;
                         }

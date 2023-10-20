@@ -1,25 +1,24 @@
-.wp-block-c7wp-joinnow {
+.wp-block-c7wp-loginform {
     overflow: hidden;
     z-index: 1;
 }
-.wp-block-c7wp-joinnow > div {
+.wp-block-c7wp-loginform > div {
     max-width: 100%;
 }
-.wp-block-c7wp-joinnow strong {
+.wp-block-c7wp-loginform strong {
     margin-bottom: 1rem;
     display: block;
 }
 
-.wp-block-c7wp-joinnow label {
+.wp-block-c7wp-loginform label {
     display: block;
 }
-.wp-block-c7wp-joinnow input {
+.wp-block-c7wp-loginform input {
     max-width: 100%;
     margin-top: 0.5rem;
-    margin-bottom: 1rem;
     display: block;
 }
-.wp-block-c7wp-joinnow::before {
+.wp-block-c7wp-loginform::before {
     content: '';
     width: 200px;
     height: 200px;

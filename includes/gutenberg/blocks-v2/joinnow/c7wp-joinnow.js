@@ -9,7 +9,7 @@
 
 	blocks.registerBlockType( 'c7wp/joinnow', {
         title: __( 'Join Club Button' ), // The title of block in editor.
-        description: __( 'Output a button that will show either "Join Now" or "Edit Membership" based on customers status and a club.' ),
+        description: __( 'Output a button that will show either "Join Now" or "Edit Membership" based on the customers status in the club.' ),
 		icon: iconEl,
         category: 'commerce7', // The category of block in editor.
         keywords: [ 'commerce7', 'club', 'button', 'join' ],
@@ -20,12 +20,70 @@
                 source: 'attribute',
                 selector: '.c7-club-join-button',
                 attribute: 'data-club-slug',
+            },
+            joinText: {
+                type: 'string',
+                source: 'attribute',
+                selector: '.c7-club-join-button',
+                attribute: 'data-join-text',
+            },
+            editText: {
+                type: 'string',
+                source: 'attribute',
+                selector: '.c7-club-join-button',
+                attribute: 'data-edit-text',
             }
         },
+        transforms: {
+            from: [
+                {
+                    type: 'block',
+                    blocks: [ 'c7wp/joinnow' ],
+                    transform: ( oldAttributes ) => {
+                        return {
+                            data: oldAttributes.data,
+                            joinText: 'Join The Club', // default value
+                            editText: 'Edit Club Membership' // default value
+                        };
+                    }
+                }
+            ]
+        },
+        deprecated: [
+            {
+                attributes: {
+                    data: {
+                        type: 'string',
+                        source: 'attribute',
+                        selector: '.c7-club-join-button',
+                        attribute: 'data-club-slug',
+                    }
+                },
+                save: function( props ) {
+                    return (
+                        el( 'div', { 
+                            className: props.className
+                            },
+                            el( 'div', { 
+                                className: 'c7-club-join-button',
+                                'data-club-slug': props.attributes.data,
+                                }
+                            )
+                        )
+                    );
+                }
+            }
+        ],
 		edit: function( props ) {
 
             function updateData( event ) {
                 props.setAttributes( { data: event.target.value } );
+            }
+            function updateJoinText( event ) {
+                props.setAttributes( { joinText: event.target.value } );
+            }
+            function updateEditText( event ) {
+                props.setAttributes( { editText: event.target.value } );
             }
 
             return (
@@ -56,18 +114,53 @@
                                 }
                             ),
                         ),
+                        el(
+                            'label',
+                            null,
+                            "Join Text:",
+                            el(
+                                'input',
+                                {
+                                type: 'text',
+                                placeholder: 'Join The Club',
+                                value: props.attributes.joinText,
+                                onChange: updateJoinText,
+                                'aria-label': 'Join Text'
+                                }
+                            ),
+                        ),
+                        el(
+                            'label',
+                            null,
+                            "Edit Text:",
+                            el(
+                                'input',
+                                {
+                                type: 'text',
+                                placeholder: 'Edit Club Membership',
+                                value: props.attributes.editText,
+                                onChange: updateEditText,
+                                'aria-label': 'Edit Text'
+                                }
+                            ),
+                        ),
                     )
                 )
             );
 		},
 		save: function( props ) {
+            const { data, joinText, editText } = props.attributes;
+            const joinTextAttr = joinText ? { 'data-join-text': joinText } : {};
+            const editTextAttr = editText ? { 'data-edit-text': editText } : {};
             return (
                 el( 'div', { 
                     className: props.className
                     },
                     el( 'div', { 
                         className: 'c7-club-join-button',
-                        'data-club-slug': props.attributes.data,
+                        'data-club-slug': data,
+                        ...joinTextAttr,
+                        ...editTextAttr,
                         }
                     )
                 )
