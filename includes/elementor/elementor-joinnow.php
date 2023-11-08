@@ -5,7 +5,7 @@
  * Created Date: Wednesday September 2nd 2020
  * Author: Michael Bourne
  * -----
- * Last Modified: Thursday, September 3rd 2020, 8:03:11 pm
+ * Last Modified: Wednesday, November 8th 2023, 4:03:34 pm
  * Modified By: Michael Bourne
  * -----
  * Copyright (c) 2020 URSA6
@@ -123,6 +123,24 @@ class C7WP_Elementor_Joinnow extends \Elementor\Widget_Base {
 			]
 		);
 
+		$this->add_control(
+			'join-text',
+			[
+				'label' 	  => __( 'Join Club Text', 'wp-commerce7' ),
+				'type'  	  => \Elementor\Controls_Manager::TEXT,
+				'placeholder' => __( 'Join Club', 'wp-commerce7' ),
+			]
+		);
+
+		$this->add_control(
+			'edit-text',
+			[
+				'label' 	  => __( 'Edit Membership Text', 'wp-commerce7' ),
+				'type'  	  => \Elementor\Controls_Manager::TEXT,
+				'placeholder' => __( 'Edit Membership', 'wp-commerce7' ),
+			]
+		);
+
 		$this->end_controls_section();
 
 	}
@@ -141,8 +159,16 @@ class C7WP_Elementor_Joinnow extends \Elementor\Widget_Base {
 
 		$data = esc_attr( $settings['data'] );
 
-		echo do_shortcode( '[c7wp type="joinnow" data="' . $data . '"]' );
+		$extras = '';
 
+		if ( ! empty( $settings['join-text'] ) ) {
+			$extras .= ' join-text="' . esc_attr( $settings['join-text'] ) . '"';
+		}
+		if ( ! empty( $settings['edit-text'] ) ) {
+			$extras .= ' edit-text="' . esc_attr( $settings['edit-text'] ) . '"';
+		}
+
+		echo do_shortcode( '[c7wp type="joinnow" data="' . $data . '"' . $extras . ']' );
 	}
 
 	protected function _content_template() {} //phpcs:ignore

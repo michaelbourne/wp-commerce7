@@ -453,7 +453,8 @@ class C7WP {
 		</select>
 		<p><small>If set to <strong>yes</strong>, this plugin will add a floating login and cart box to 
 		the front end of your website. If set to <strong>no</strong>, you will need to add the 
-		<code>[c7wp type='login']</code> and <code>[c7wp type='cart']</code> shortcodes (or Commerce7's HTML) to your header manually.</small></p>
+		<code>[c7wp type='login']</code> and <code>[c7wp type='cart']</code> shortcodes (or Commerce7's HTML)
+		to your header manually. We recommend setting this to no and placing your cart manually.</small></p>
 		<?php
 	}
 
@@ -503,8 +504,7 @@ class C7WP {
 		</select>
 		<p><small>The V2 front-end widgets might introduce breaking changes to your site. <strong>You are responsible for 
 			ensuring you've read the C7 docs and understand how to migrate from beta to V2.</strong> All V2 support 
-			requests should be direct to Commerce7 directly. V2 frontend only work with certain merchant accounts.</small></p>
-
+			requests should be direct to Commerce7 directly.</small></p>
 		<?php
 	}
 
@@ -660,7 +660,10 @@ class C7WP {
 
 
 	/**
-	 * Add rewrite rules to WordPress for Commerce7 static routes
+	 * Add rewrite rules to WordPress for Commerce7 static routes.
+	 * This works so well that it's been copied line for line by other C7 partners.
+	 * I don't blame them, but really, just use this plugin for your clients. It works.
+	 * If you're copying my code, please respect the law and give me credit for it.
 	 */
 	public function add_c7_rewrites() {
 
@@ -746,8 +749,10 @@ class C7WP {
 
 		$atts = shortcode_atts(
 			array(
-				'type' => 'default',
-				'data' => '',
+				'type'      => 'default',
+				'data'      => '',
+				'join-text' => 'Join Club',
+				'edit-text' => 'Edit Membership',
 			),
 			$atts,
 			'c7wp'
@@ -812,11 +817,19 @@ class C7WP {
 					break;
 
 				case 'joinnow':
-					$output .= '<div class="c7-club-join-button" data-club-slug="' . esc_attr( $atts['data'] ) . '"></div>';
+					$output .= '<div class="c7-club-join-button" 
+												data-club-slug="' . esc_attr( $atts['data'] ) . '"
+												data-join-text="' . esc_attr( $atts['join-text'] ) . '"
+												data-edit-text="' . esc_attr( $atts['edit-text'] ) . '"
+												></div>';
 					break;
 
 				case 'buyslug':
 					$output .= '<div class="c7-buy-product" data-product-slug="' . esc_attr( $atts['data'] ) . '"></div>';
+					break;
+
+				case 'loginform':
+					$output .= '<div id="c7-login-form" data-redirect-to="' . esc_attr( $atts['data'] ) . '"></div>';
 					break;
 
 				default:

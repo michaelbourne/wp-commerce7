@@ -45,7 +45,7 @@ class C7WP_Elementor extends \Elementor\Widget_Base {
 	 * @return string Widget title.
 	 */
 	public function get_title() {
-		return __( 'Commerce7 (Legacy)', 'wp-commerce7' );
+		return __( 'Commerce7 (Depreciated)', 'wp-commerce7' );
 	}
 
 	/**
