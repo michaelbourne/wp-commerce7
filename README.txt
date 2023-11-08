@@ -2,9 +2,9 @@
 Contributors: michaelbourne
 Donate link: https://www.paypal.me/yycpro
 Tags: commerce7
-Requires at least: 5.4
-Tested up to: 6.3.1
-Stable tag: 1.3.7
+Requires at least: 6.0
+Tested up to: 6.4
+Stable tag: 1.4.0
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.en.html
 
@@ -72,9 +72,13 @@ Removing this plugin will render your widgets inactive, but will not remove them
 
 == Changelog ==
 
+= 1.4.0 =
+* Update: all Gutenberg blocks have been reworked for better visual representation while editing.
+* Update: Commerce7 stylesheet will now render in the editor to support expected widget markup. This can be disabled with the `c7wp_enqueue_c7_css_admin` filter.
+
 = 1.3.7 =
 * Add: Login Form widget for V2
-* Add: Club button add and edit text support
+* Add: Club button `add` and `edit` text support
 
 = 1.3.6 =
 * Minor code formatting
@@ -170,14 +174,17 @@ Removing this plugin will render your widgets inactive, but will not remove them
 
 == Upgrade Notice ==
 
+= 1.4.0 =
+Gutenberg blocks have been reworked. You should test this update on a staging site first to ensure no errors occur. 
+
 = 1.3.0 =
-Added support for custom routing on V2 frontend. Highly recomended to re-save plugin options and re-save WordPress permalinks after update.
+Added support for custom routing on V2 frontend. Highly recommended to re-save plugin options and re-save WordPress permalinks after update.
 
 = 1.2.7 =
 New developer filters added to allow better CSS styles on the front end. See changelog.
 
 = 1.2.0 =
-Added support for Commerce7 V2 frontend. Please read their docs before choosing to change front end versions. Resave permalinks after update.
+Added support for Commerce7 V2 frontend. Please read their docs before choosing to change front end versions. Re-save permalinks after update.
 
 = 1.1.0=
 Large update, clear cache after update to prevent display issues
@@ -192,7 +199,7 @@ Fix activation error
 Added support for Commerce7 Forms
 
 = 1.0.2 =
-Fixed Elementor and Woocomerce conflict
+Fixed Elementor and Woocommerce conflict
 
 = 1.0.1 =
 Reservations support

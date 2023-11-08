@@ -5,7 +5,7 @@
  * Created Date: Wednesday September 2nd 2020
  * Author: Michael Bourne
  * -----
- * Last Modified: Monday, September 11th 2023, 7:35:55 pm
+ * Last Modified: Tuesday, November 7th 2023, 2:45:47 pm
  * Modified By: Michael Bourne
  * -----
  * Copyright (c) 2020 URSA6
@@ -60,8 +60,8 @@ foreach ( $elements as $element ) {
     wp_register_script(
         $block_slug,
         plugins_url( $dir . '/' . $element . '/' . $block_slug . '.js', __FILE__ ),
-        [ 'wp-blocks', 'wp-element', 'wp-editor' ],
-        filemtime( plugin_dir_path( __FILE__ ) . 'blocks/' . $element . '/' . $block_slug . '.js' ) || C7WP_VERSION,
+        [ 'wp-blocks', 'wp-element', 'wp-editor', 'wp-block-editor' ],
+        C7WP_VERSION,
         1
     );
 
@@ -70,7 +70,7 @@ foreach ( $elements as $element ) {
         $block_slug,
         plugins_url( $dir . '/' . $element . '/' . $block_slug . '.css', __FILE__ ),
         [],
-        filemtime( plugin_dir_path( __FILE__ ) . 'blocks/' . $element . '/' . $block_slug . '.css' ) || C7WP_VERSION
+        C7WP_VERSION
     );
 
     // Register block script and style.

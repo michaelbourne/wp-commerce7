@@ -144,6 +144,18 @@ class C7WP {
 		}
 
 		$this->settings_init();
+
+		/**
+		 * Filter: `c7wp_enqueue_c7_css_admin`
+		 *
+		 * Filter for enqueueing the Commerce7 provided CSS file on the backend.
+		 * Useful for Gutenberg rendered blocks, but it can override theme styles in the editor.
+		 *
+		 * @param bool Should the CSS file be enqueued? Default: true
+		 */
+		if ( apply_filters( 'c7wp_enqueue_c7_css_admin', true ) ) {
+			add_editor_style( 'https://cdn.commerce7.com/' . $this->widgetsver . '/commerce7.css' );
+		}
 	}
 
 	/**
@@ -581,26 +593,13 @@ class C7WP {
 		/**
 		 * Filter: `c7wp_enqueue_c7_css`
 		 *
-		 * Filter for enqueueing the Commerce7 procided CSS file. If set to false,
-		 * you likely want to enable the `c7wp_enqueue_c7_css_override` filter.
+		 * Filter for enqueueing the Commerce7 provided CSS file.
 		 *
 		 * @param bool Should the CSS file be enqueued? Default: true
 		 */
 		if ( apply_filters( 'c7wp_enqueue_c7_css', true ) ) {
 			wp_register_style( 'c7css', 'https://cdn.commerce7.com/' . $this->widgetsver . '/commerce7.css', false, null ); // phpcs:ignore
 			wp_enqueue_style( 'c7css' );
-		}
-
-		/**
-		 * Filter: `c7wp_enqueue_c7_css_override`
-		 *
-		 * Filter to enqueue the Commerce7 CSS override file, with all global scope styles removed.
-		 * If true, the `c7wp_enqueue_c7_css` filter should be set to false.
-		 *
-		 * @param bool Should the override CSS file be enqueued? Default: false
-		 */
-		if ( apply_filters( 'c7wp_enqueue_c7_css_override', false ) ) {
-			wp_enqueue_style( 'wp-commerce7-base', C7WP_URI . 'assets/public/css/c7-base.css', array(), C7WP_VERSION );
 		}
 
 		/**

@@ -4,19 +4,8 @@
 }
 .wp-block-c7wp-collection > div {
     max-width: 100%;
-}
-.wp-block-c7wp-collection strong {
-    margin-bottom: 1rem;
-    display: block;
-}
-
-.wp-block-c7wp-collection label {
-    display: block;
-}
-.wp-block-c7wp-collection input {
-    max-width: 100%;
-    margin-top: 0.5rem;
-    display: block;
+    width: 100%;
+    pointer-events: none;
 }
 .wp-block-c7wp-collection::before {
     content: '';

@@ -9,7 +9,7 @@
 
 	blocks.registerBlockType( 'c7wp/default', {
         title: __( 'Default Content' ), // The title of block in editor.
-        description: __( 'Placeholder for dynamic content. Required on product, club, collection, reservation, cart, and checkout pages.' ),
+        description: __( 'Placeholder for dynamic Commerce7 content on base routes. Required on product, club, collection, reservation, cart, and checkout pages.' ),
 		icon: iconEl,
         category: 'commerce7', // The category of block in editor.
         keywords: [ 'commerce7', 'default' ],

@@ -1,17 +1,17 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2020-09-03 10:42-0600\n"
-"PO-Revision-Date: 2020-09-03 10:43-0600\n"
+"POT-Creation-Date: 2023-11-08 15:39-0700\n"
+"PO-Revision-Date: 2023-11-08 15:40-0700\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: en_US\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.3\n"
-"X-Poedit-Basepath: ..\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 3.2\n"
+"X-Poedit-Basepath: ..\n"
 "X-Poedit-KeywordsList: __;esc_html_e\n"
 "X-Poedit-SearchPath-0: .\n"
 
@@ -20,218 +20,450 @@ msgid "Settings Instructions"
 msgstr ""
 
 #: admin/template.options.page.php:60
-msgid "Add your tenant ID"
+msgid "Add your Tenant ID"
 msgstr ""
 
-#: admin/template.options.page.php:66
+#: admin/template.options.page.php:67
 #, php-format
 msgid ""
 "Visit your <a href=\"%s\" target=\"_blank\">Commerce7 Dashboard</a>. After "
-"logging in, note the URL in your address bar. The first part of the url is "
-"your Tenant ID. <br>For example: <strong>https://crazy-wines.admin.platform."
-"commerce7.com</strong> would mean <strong>crazy-wines</strong> is the Tenant "
-"ID. Type that ID in the setting above to enable the integration."
+"logging in, you will find your Tenant ID under <strong>Settings > General</"
+"strong>, the General settings first line that says <code>Tenant</code>."
 msgstr ""
 
-#: admin/template.options.page.php:89
+#: admin/template.options.page.php:81
 msgid "Choose whether or not to enable the Cart Box"
 msgstr ""
 
-#: admin/template.options.page.php:93
+#: admin/template.options.page.php:85
 msgid ""
 "The Cart Box will contain a magic login/logut link, as well as the cart "
-"totals and a link for the flyout shopping cart. You should disable it here "
-"if you would prefer to place the login/logout link and cart link in your "
-"header with the shortcodes below."
+"totals and a link for the flyout shopping cart. It is often preferrable to "
+"include this in your theme manually. You should disable it here if you would "
+"prefer to place the login/logout link and cart link in your header with the "
+"shortcodes below. The Cart Box can be positioned to any corner of the screen "
+"to accomodate different design layouts. Try all of them to find your "
+"preferred placement."
 msgstr ""
 
-#: admin/template.options.page.php:103
-msgid "Choose the position of your Cart Box"
+#: admin/template.options.page.php:95
+msgid "Choose your front-end widgets version."
 msgstr ""
 
-#: admin/template.options.page.php:107
+#: admin/template.options.page.php:99
 msgid ""
-"The Cart Box can be positioned to any corner of the screen to accomodate "
-"different design layouts. Try all of them to find your preferred placement."
+"The V2 front-end widgets launched officially on September 1, 2021, and are "
+"the default for all new tenants. V1 (alos known as Beta) will be sunset in "
+"the near future; if you are still on V1, make a plan to migrate as soon as "
+"possible."
 msgstr ""
 
-#: commerce7-for-wordpress.php:74
-msgid "Please enter your company's terms and conditions."
+#: admin/template.options.page.php:116
+msgid "Need a hand?"
 msgstr ""
 
-#: commerce7-for-wordpress.php:83
-msgid "Please enter your company's privacy policy as per your local laws."
+#: includes/beaverbuilder/buy/buy.php:27
+msgid "Buy Button (single SKU)"
 msgstr ""
 
-#: includes/beaverbuilder/beaver-c7wp.php:15
-#: includes/beaverbuilder/beaver-c7wp.php:17 includes/class-c7wp.php:184
-#: includes/class-c7wp.php:210 includes/themeco/cornerstone/definition.php:16
-#: includes/wpbakery/load.php:18
+#: includes/beaverbuilder/buy/buy.php:28
+msgid "Add a Commerce7 Buy Button (Single SKU) to your layouts."
+msgstr ""
+
+#: includes/beaverbuilder/buy/buy.php:29
+#: includes/beaverbuilder/buyslug/buyslug.php:29
+#: includes/beaverbuilder/collection/collection.php:29
+#: includes/beaverbuilder/createaccount/createaccount.php:29
+#: includes/beaverbuilder/form/form.php:29
+#: includes/beaverbuilder/joinnow/joinnow.php:29
+#: includes/beaverbuilder/legacy/beaver-c7wp.php:17
+#: includes/beaverbuilder/loginform/loginform.php:29
+#: includes/beaverbuilder/personalization/personalization.php:29
+#: includes/beaverbuilder/quickshop/quickshop.php:29
+#: includes/beaverbuilder/reservation/reservation.php:29
+#: includes/beaverbuilder/subscribe/subscribe.php:29
+#: includes/class-c7wp.php:243 includes/class-c7wp.php:267
+#: includes/themeco/cornerstone/definition.php:16
+#: includes/wpbakery/wpbakery-legacy.php:26
+#: includes/wpbakery/wpbakery-legacy.php:67
 msgid "Commerce7"
 msgstr ""
 
-#: includes/beaverbuilder/beaver-c7wp.php:16
-msgid "Add Commerce7 content to your layouts."
-msgstr ""
-
-#: includes/beaverbuilder/beaver-c7wp.php:28
-#: includes/elementor/elementor-buy.php:99
-#: includes/elementor/elementor-buyslug.php:99
-#: includes/elementor/elementor-collection.php:99
-#: includes/elementor/elementor-createaccount.php:99
-#: includes/elementor/elementor-form.php:100
-#: includes/elementor/elementor-joinnow.php:100
-#: includes/elementor/elementor-loginform.php:100
-#: includes/elementor/elementor-personalization.php:99
-#: includes/elementor/elementor-quickshop.php:100
-#: includes/elementor/elementor-reservation.php:100
-#: includes/elementor/elementor-subscribe.php:99
+#: includes/beaverbuilder/buy/buy.php:39
+#: includes/beaverbuilder/buyslug/buyslug.php:39
+#: includes/beaverbuilder/collection/collection.php:39
+#: includes/beaverbuilder/createaccount/createaccount.php:39
+#: includes/beaverbuilder/form/form.php:39
+#: includes/beaverbuilder/joinnow/joinnow.php:39
+#: includes/beaverbuilder/legacy/beaver-c7wp.php:28
+#: includes/beaverbuilder/loginform/loginform.php:39
+#: includes/beaverbuilder/personalization/personalization.php:39
+#: includes/beaverbuilder/quickshop/quickshop.php:39
+#: includes/beaverbuilder/reservation/reservation.php:39
+#: includes/beaverbuilder/subscribe/subscribe.php:39
+#: includes/elementor/elementor-buy.php:111
+#: includes/elementor/elementor-buyslug.php:111
+#: includes/elementor/elementor-collection.php:111
+#: includes/elementor/elementor-createaccount.php:111
+#: includes/elementor/elementor-form.php:112
+#: includes/elementor/elementor-joinnow.php:112
+#: includes/elementor/elementor-loginform.php:112
+#: includes/elementor/elementor-personalization.php:111
+#: includes/elementor/elementor-quickshop.php:112
+#: includes/elementor/elementor-reservation.php:112
+#: includes/elementor/elementor-subscribe.php:111
 msgid "Settings"
 msgstr ""
 
-#: includes/beaverbuilder/beaver-c7wp.php:31
+#: includes/beaverbuilder/buy/buy.php:42
+#: includes/beaverbuilder/buyslug/buyslug.php:42
+#: includes/beaverbuilder/collection/collection.php:42
+#: includes/beaverbuilder/createaccount/createaccount.php:42
+#: includes/beaverbuilder/form/form.php:42
+#: includes/beaverbuilder/joinnow/joinnow.php:42
+#: includes/beaverbuilder/legacy/beaver-c7wp.php:31
+#: includes/beaverbuilder/loginform/loginform.php:42
+#: includes/beaverbuilder/personalization/personalization.php:42
+#: includes/beaverbuilder/quickshop/quickshop.php:42
+#: includes/beaverbuilder/reservation/reservation.php:42
+#: includes/beaverbuilder/subscribe/subscribe.php:42
 msgid "Commerce7 Content"
 msgstr ""
 
-#: includes/beaverbuilder/beaver-c7wp.php:35
-#: includes/elementor/elementor-legacy.php:100 includes/wpbakery/load.php:28
+#: includes/beaverbuilder/buy/buy.php:46
+msgid "Product SKU"
+msgstr ""
+
+#: includes/beaverbuilder/buyslug/buyslug.php:27
+msgid "Buy Button (slug)"
+msgstr ""
+
+#: includes/beaverbuilder/buyslug/buyslug.php:28
+msgid ""
+"Add a Commerce7 Buy Button (for Single, Variable, Bundle) to your layouts."
+msgstr ""
+
+#: includes/beaverbuilder/buyslug/buyslug.php:46
+#: includes/elementor/elementor-buyslug.php:119
+msgid "Product Slug"
+msgstr ""
+
+#: includes/beaverbuilder/collection/collection.php:27
+#: includes/elementor/elementor-collection.php:55
+msgid "Collection"
+msgstr ""
+
+#: includes/beaverbuilder/collection/collection.php:28
+msgid "Add a Commerce7 Collection Grid to your layouts."
+msgstr ""
+
+#: includes/beaverbuilder/collection/collection.php:46
+#: includes/beaverbuilder/quickshop/quickshop.php:46
+#: includes/elementor/elementor-collection.php:119
+#: includes/elementor/elementor-quickshop.php:120
+msgid "Collection Slug"
+msgstr ""
+
+#: includes/beaverbuilder/createaccount/createaccount.php:27
+#: includes/gutenberg/blocks/createaccount/c7wp-createaccount.js:11
+msgid "Registration Form"
+msgstr ""
+
+#: includes/beaverbuilder/createaccount/createaccount.php:28
+msgid ""
+"Add a Commerce7 registration form to your layouts. Redirects to the specific "
+"page slug."
+msgstr ""
+
+#: includes/beaverbuilder/createaccount/createaccount.php:46
+#: includes/beaverbuilder/loginform/loginform.php:46
+msgid "Redirect to"
+msgstr ""
+
+#: includes/beaverbuilder/form/form.php:27
+#: includes/gutenberg/blocks-v2/form/c7wp-form.js:14
+#: includes/gutenberg/blocks/form/c7wp-form.js:11
+msgid "Custom Form"
+msgstr ""
+
+#: includes/beaverbuilder/form/form.php:28
+msgid "Add a Commerce7 Custom Form to your layouts."
+msgstr ""
+
+#: includes/beaverbuilder/form/form.php:46
+#: includes/elementor/elementor-form.php:120
+msgid "Form Slug"
+msgstr ""
+
+#: includes/beaverbuilder/joinnow/joinnow.php:27
+msgid "Club Join"
+msgstr ""
+
+#: includes/beaverbuilder/joinnow/joinnow.php:28
+msgid "Add a Commerce7 Club Join/Manage magic button to your layouts."
+msgstr ""
+
+#: includes/beaverbuilder/joinnow/joinnow.php:46
+#: includes/elementor/elementor-joinnow.php:120
+msgid "Club Slug"
+msgstr ""
+
+#: includes/beaverbuilder/legacy/beaver-c7wp.php:15
+msgid "Commerce7 (legacy)"
+msgstr ""
+
+#: includes/beaverbuilder/legacy/beaver-c7wp.php:16
+msgid ""
+"Add Commerce7 content to your layouts. Legacy element for backwards "
+"compatibility."
+msgstr ""
+
+#: includes/beaverbuilder/legacy/beaver-c7wp.php:35
+#: includes/elementor/elementor-legacy.php:100
+#: includes/wpbakery/wpbakery-legacy.php:36
+#: includes/wpbakery/wpbakery-legacy.php:77
 msgid "Content Type"
 msgstr ""
 
-#: includes/beaverbuilder/beaver-c7wp.php:37
+#: includes/beaverbuilder/legacy/beaver-c7wp.php:37
 #: includes/elementor/elementor-legacy.php:104
-#: includes/themeco/cornerstone/controls.php:21 includes/wpbakery/load.php:32
+#: includes/gutenberg/blocks-v2/default/c7wp-default.js:11
+#: includes/gutenberg/blocks/default/c7wp-default.js:11
+#: includes/themeco/cornerstone/controls.php:23
+#: includes/themeco/cornerstone/controls.php:55
+#: includes/wpbakery/wpbakery-legacy.php:40
+#: includes/wpbakery/wpbakery-legacy.php:81
 msgid "Default Content"
 msgstr ""
 
-#: includes/beaverbuilder/beaver-c7wp.php:38
+#: includes/beaverbuilder/legacy/beaver-c7wp.php:38
+#: includes/beaverbuilder/personalization/personalization.php:27
 #: includes/elementor/elementor-legacy.php:105
 #: includes/elementor/elementor-personalization.php:55
-#: includes/themeco/cornerstone/controls.php:22 includes/wpbakery/load.php:33
+#: includes/gutenberg/blocks-v2/personalization/c7wp-personalization.js:14
+#: includes/gutenberg/blocks/personalization/c7wp-personalization.js:11
+#: includes/themeco/cornerstone/controls.php:24
+#: includes/themeco/cornerstone/controls.php:56
+#: includes/wpbakery/wpbakery-legacy.php:41
+#: includes/wpbakery/wpbakery-legacy.php:82
 msgid "Personalization Block"
 msgstr ""
 
-#: includes/beaverbuilder/beaver-c7wp.php:39
+#: includes/beaverbuilder/legacy/beaver-c7wp.php:39
 #: includes/elementor/elementor-legacy.php:106
-#: includes/themeco/cornerstone/controls.php:23 includes/wpbakery/load.php:34
+#: includes/themeco/cornerstone/controls.php:57
+#: includes/wpbakery/wpbakery-legacy.php:83
 msgid "Buy Now (SKU)"
 msgstr ""
 
-#: includes/beaverbuilder/beaver-c7wp.php:40
+#: includes/beaverbuilder/legacy/beaver-c7wp.php:40
 #: includes/elementor/elementor-legacy.php:107
-#: includes/themeco/cornerstone/controls.php:24 includes/wpbakery/load.php:35
+#: includes/themeco/cornerstone/controls.php:25
+#: includes/themeco/cornerstone/controls.php:58
+#: includes/wpbakery/wpbakery-legacy.php:84
 msgid "Buy Now (Slug)"
 msgstr ""
 
-#: includes/beaverbuilder/beaver-c7wp.php:41
+#: includes/beaverbuilder/legacy/beaver-c7wp.php:41
+#: includes/beaverbuilder/subscribe/subscribe.php:27
 #: includes/elementor/elementor-legacy.php:108
 #: includes/elementor/elementor-subscribe.php:55
-#: includes/themeco/cornerstone/controls.php:25 includes/wpbakery/load.php:36
+#: includes/gutenberg/blocks-v2/subscribe/c7wp-subscribe.js:14
+#: includes/gutenberg/blocks/subscribe/c7wp-subscribe.js:12
+#: includes/themeco/cornerstone/controls.php:26
+#: includes/themeco/cornerstone/controls.php:59
+#: includes/wpbakery/wpbakery-legacy.php:43
+#: includes/wpbakery/wpbakery-legacy.php:85
 msgid "Subscribe Form"
 msgstr ""
 
-#: includes/beaverbuilder/beaver-c7wp.php:42
+#: includes/beaverbuilder/legacy/beaver-c7wp.php:42
 #: includes/elementor/elementor-legacy.php:109
-#: includes/themeco/cornerstone/controls.php:26 includes/wpbakery/load.php:37
+#: includes/gutenberg/blocks-v2/collection/c7wp-collection.js:14
+#: includes/gutenberg/blocks/collection/c7wp-collection.js:11
+#: includes/themeco/cornerstone/controls.php:27
+#: includes/themeco/cornerstone/controls.php:60
+#: includes/wpbakery/wpbakery-legacy.php:44
+#: includes/wpbakery/wpbakery-legacy.php:86
 msgid "Collection Grid"
 msgstr ""
 
-#: includes/beaverbuilder/beaver-c7wp.php:43
-#: includes/elementor/elementor-legacy.php:110 includes/wpbakery/load.php:38
+#: includes/beaverbuilder/legacy/beaver-c7wp.php:43
+#: includes/elementor/elementor-legacy.php:110
+#: includes/wpbakery/wpbakery-legacy.php:87
 msgid "Login/Logout Link"
 msgstr ""
 
-#: includes/beaverbuilder/beaver-c7wp.php:44
-#: includes/elementor/elementor-legacy.php:111 includes/wpbakery/load.php:39
+#: includes/beaverbuilder/legacy/beaver-c7wp.php:44
+#: includes/elementor/elementor-legacy.php:111
+#: includes/wpbakery/wpbakery-legacy.php:88
 msgid "Cart Data Link"
 msgstr ""
 
-#: includes/beaverbuilder/beaver-c7wp.php:45
+#: includes/beaverbuilder/legacy/beaver-c7wp.php:45
 #: includes/elementor/elementor-legacy.php:112
-#: includes/themeco/cornerstone/controls.php:29 includes/wpbakery/load.php:40
+#: includes/themeco/cornerstone/controls.php:30
+#: includes/themeco/cornerstone/controls.php:63
+#: includes/wpbakery/wpbakery-legacy.php:47
+#: includes/wpbakery/wpbakery-legacy.php:89
 msgid "Reservation Widget"
 msgstr ""
 
-#: includes/beaverbuilder/beaver-c7wp.php:46
+#: includes/beaverbuilder/legacy/beaver-c7wp.php:46
 #: includes/elementor/elementor-legacy.php:113
-#: includes/themeco/cornerstone/controls.php:30 includes/wpbakery/load.php:41
+#: includes/themeco/cornerstone/controls.php:31
+#: includes/themeco/cornerstone/controls.php:64
+#: includes/wpbakery/wpbakery-legacy.php:48
+#: includes/wpbakery/wpbakery-legacy.php:90
 msgid "General Form"
 msgstr ""
 
-#: includes/beaverbuilder/beaver-c7wp.php:47
-#: includes/themeco/cornerstone/controls.php:31
+#: includes/beaverbuilder/legacy/beaver-c7wp.php:47
+#: includes/themeco/cornerstone/controls.php:32
+#: includes/themeco/cornerstone/controls.php:65
 msgid "Join/Edit Club Magic Button"
 msgstr ""
 
-#: includes/beaverbuilder/beaver-c7wp.php:48
+#: includes/beaverbuilder/legacy/beaver-c7wp.php:48
 #: includes/elementor/elementor-legacy.php:115
 msgid "Quick Shop form"
 msgstr ""
 
-#: includes/beaverbuilder/beaver-c7wp.php:49
+#: includes/beaverbuilder/legacy/beaver-c7wp.php:49
+#: includes/beaverbuilder/loginform/loginform.php:27
 #: includes/elementor/elementor-legacy.php:116
 #: includes/elementor/elementor-loginform.php:56
-#: includes/themeco/cornerstone/controls.php:33 includes/wpbakery/load.php:44
+#: includes/gutenberg/blocks-v2/loginform/c7wp-loginform.js:14
+#: includes/gutenberg/blocks/loginform/c7wp-loginform.js:11
+#: includes/themeco/cornerstone/controls.php:67
+#: includes/wpbakery/wpbakery-legacy.php:93
 msgid "Login Form"
 msgstr ""
 
-#: includes/beaverbuilder/beaver-c7wp.php:50
+#: includes/beaverbuilder/legacy/beaver-c7wp.php:50
 #: includes/elementor/elementor-legacy.php:117
 msgid "Create account form"
 msgstr ""
 
-#: includes/beaverbuilder/beaver-c7wp.php:55
+#: includes/beaverbuilder/legacy/beaver-c7wp.php:55
 #: includes/elementor/elementor-legacy.php:125
-#: includes/themeco/cornerstone/controls.php:41 includes/wpbakery/load.php:53
+#: includes/themeco/cornerstone/controls.php:39
+#: includes/themeco/cornerstone/controls.php:75
+#: includes/wpbakery/wpbakery-legacy.php:57
+#: includes/wpbakery/wpbakery-legacy.php:102
 msgid "Data"
 msgstr ""
 
-#: includes/class-c7wp.php:239
+#: includes/beaverbuilder/loginform/loginform.php:28
+msgid ""
+"Add a Commerce7 Login form to your layouts. Redirects to the specific page "
+"slug."
+msgstr ""
+
+#: includes/beaverbuilder/personalization/personalization.php:28
+msgid "Add a Commerce7 Personalization Block to your layouts."
+msgstr ""
+
+#: includes/beaverbuilder/personalization/personalization.php:46
+#: includes/elementor/elementor-personalization.php:119
+msgid "Block Code"
+msgstr ""
+
+#: includes/beaverbuilder/quickshop/quickshop.php:27
+msgid "Quickshop"
+msgstr ""
+
+#: includes/beaverbuilder/quickshop/quickshop.php:28
+msgid "Add a Commerce7 Quickshop Collection table to your layouts."
+msgstr ""
+
+#: includes/beaverbuilder/reservation/reservation.php:27
+#: includes/elementor/elementor-reservation.php:56
+#: includes/gutenberg/blocks-v2/reservation/c7wp-reservation.js:14
+#: includes/gutenberg/blocks/reservation/c7wp-reservation.js:11
+msgid "Reservation Form"
+msgstr ""
+
+#: includes/beaverbuilder/reservation/reservation.php:28
+msgid "Add a Commerce7 Reservation Form to your layouts."
+msgstr ""
+
+#: includes/beaverbuilder/reservation/reservation.php:46
+msgid "Reservation Type Slug"
+msgstr ""
+
+#: includes/beaverbuilder/subscribe/subscribe.php:28
+msgid "Add a Commerce7 Subscribe Form to your layouts."
+msgstr ""
+
+#: includes/beaverbuilder/subscribe/subscribe.php:46
+#: includes/elementor/elementor-subscribe.php:119
+msgid "Show Name Fields?"
+msgstr ""
+
+#: includes/beaverbuilder/subscribe/subscribe.php:48
+msgid "No, hide fields"
+msgstr ""
+
+#: includes/beaverbuilder/subscribe/subscribe.php:49
+msgid "Yes, show fields"
+msgstr ""
+
+#: includes/class-c7wp.php:294
 msgid "Commerce7 for WordPress"
 msgstr ""
 
-#: includes/class-c7wp.php:279
+#: includes/class-c7wp.php:318
+msgid "Settings Saved"
+msgstr ""
+
+#: includes/class-c7wp.php:343
 msgid "Tenant ID"
 msgstr ""
 
-#: includes/class-c7wp.php:290
-msgid "Display Cart Box?"
+#: includes/class-c7wp.php:354
+msgid "Display Cart Box Automatically?"
 msgstr ""
 
-#: includes/class-c7wp.php:301
+#: includes/class-c7wp.php:365
 msgid "Cart Box Location"
 msgstr ""
 
-#: includes/class-c7wp.php:312
+#: includes/class-c7wp.php:376
 msgid "Cart Box Theme"
 msgstr ""
 
-#: includes/class-c7wp.php:323
+#: includes/class-c7wp.php:387
 msgid "Front-end Widgets Version"
 msgstr ""
 
-#: includes/elementor/elementor-buy.php:55
-#: includes/gutenberg/blocks/buy/c7wp-buy.js:11
-msgid "Buy Button (Single)"
+#: includes/class-c7wp.php:398
+msgid "Override front end routes?"
 msgstr ""
 
-#: includes/elementor/elementor-buy.php:107
+#: includes/class-c7wp.php:409
+msgid "Custom Front-end Routes"
+msgstr ""
+
+#: includes/elementor/elementor-buy.php:55
+msgid "Buy Button (SKU)"
+msgstr ""
+
+#: includes/elementor/elementor-buy.php:119
 msgid "Variant SKU"
 msgstr ""
 
-#: includes/elementor/elementor-buy.php:109
+#: includes/elementor/elementor-buy.php:121
 msgid "ABC123"
 msgstr ""
 
 #: includes/elementor/elementor-buyslug.php:55
-msgid "Buy Button (Variable)"
+#: includes/gutenberg/blocks-v2/buyslug/c7wp-buyslug.js:14
+#: includes/wpbakery/wpbakery-legacy.php:42
+msgid "Buy Button"
 msgstr ""
 
-#: includes/elementor/elementor-buyslug.php:107
-msgid "Product Slug"
-msgstr ""
-
-#: includes/elementor/elementor-buyslug.php:109
+#: includes/elementor/elementor-buyslug.php:121
 msgid "2018-pinot-noir"
 msgstr ""
 
@@ -239,32 +471,24 @@ msgstr ""
 msgid "Cart Fly Out"
 msgstr ""
 
-#: includes/elementor/elementor-collection.php:55
-msgid "Collection"
-msgstr ""
-
-#: includes/elementor/elementor-collection.php:107
-#: includes/elementor/elementor-quickshop.php:108
-msgid "Collection Slug"
-msgstr ""
-
-#: includes/elementor/elementor-collection.php:109
-#: includes/elementor/elementor-quickshop.php:110
+#: includes/elementor/elementor-collection.php:121
+#: includes/elementor/elementor-quickshop.php:122
 msgid "red-wines"
 msgstr ""
 
 #: includes/elementor/elementor-createaccount.php:55
-#: includes/themeco/cornerstone/controls.php:34 includes/wpbakery/load.php:45
+#: includes/themeco/cornerstone/controls.php:68
+#: includes/wpbakery/wpbakery-legacy.php:94
 msgid "Create Account Form"
 msgstr ""
 
-#: includes/elementor/elementor-createaccount.php:107
-#: includes/elementor/elementor-loginform.php:108
+#: includes/elementor/elementor-createaccount.php:119
+#: includes/elementor/elementor-loginform.php:120
 msgid "Redirect To"
 msgstr ""
 
-#: includes/elementor/elementor-createaccount.php:109
-#: includes/elementor/elementor-loginform.php:110
+#: includes/elementor/elementor-createaccount.php:121
+#: includes/elementor/elementor-loginform.php:122
 msgid "/profile"
 msgstr ""
 
@@ -272,11 +496,7 @@ msgstr ""
 msgid "Marketing Form"
 msgstr ""
 
-#: includes/elementor/elementor-form.php:108
-msgid "Form Slug"
-msgstr ""
-
-#: includes/elementor/elementor-form.php:110
+#: includes/elementor/elementor-form.php:122
 msgid "contact-us"
 msgstr ""
 
@@ -284,11 +504,7 @@ msgstr ""
 msgid "Club Join Button"
 msgstr ""
 
-#: includes/elementor/elementor-joinnow.php:108
-msgid "Club Slug"
-msgstr ""
-
-#: includes/elementor/elementor-joinnow.php:110
+#: includes/elementor/elementor-joinnow.php:122
 msgid "12-bottle-reds"
 msgstr ""
 
@@ -308,11 +524,7 @@ msgstr ""
 msgid "Login Link"
 msgstr ""
 
-#: includes/elementor/elementor-personalization.php:107
-msgid "Block Code"
-msgstr ""
-
-#: includes/elementor/elementor-personalization.php:109
+#: includes/elementor/elementor-personalization.php:121
 msgid "homepage"
 msgstr ""
 
@@ -320,28 +532,76 @@ msgstr ""
 msgid "Quick Shop Collection"
 msgstr ""
 
-#: includes/elementor/elementor-reservation.php:56
-msgid "Reservation Form"
-msgstr ""
-
-#: includes/elementor/elementor-reservation.php:108
+#: includes/elementor/elementor-reservation.php:120
 msgid "Reservation Slug"
 msgstr ""
 
-#: includes/elementor/elementor-reservation.php:110
+#: includes/elementor/elementor-reservation.php:122
 msgid "estate-tour"
 msgstr ""
 
-#: includes/elementor/elementor-subscribe.php:107
-msgid "Show Name Fields?"
-msgstr ""
-
-#: includes/elementor/elementor-subscribe.php:111
+#: includes/elementor/elementor-subscribe.php:123
 msgid "No"
 msgstr ""
 
-#: includes/elementor/elementor-subscribe.php:115
+#: includes/elementor/elementor-subscribe.php:127
 msgid "Yes"
+msgstr ""
+
+#: includes/gutenberg/blocks-v2/buyslug/c7wp-buyslug.js:15
+msgid ""
+"Displays a Commerce7 Add To Cart button with price, quantity and variation "
+"fields if applicable."
+msgstr ""
+
+#: includes/gutenberg/blocks-v2/collection/c7wp-collection.js:15
+msgid "Displays a single Commerce7 Collection."
+msgstr ""
+
+#: includes/gutenberg/blocks-v2/default/c7wp-default.js:12
+msgid ""
+"Placeholder for dynamic Commerce7 content on base routes. Required on "
+"product, club, collection, reservation, cart, and checkout pages."
+msgstr ""
+
+#: includes/gutenberg/blocks-v2/form/c7wp-form.js:15
+msgid ""
+"Displays a Commerce7 custom form. These can be built in the Marketing tab of "
+"the Commerce7 CRM."
+msgstr ""
+
+#: includes/gutenberg/blocks-v2/joinnow/c7wp-joinnow.js:14
+#: includes/gutenberg/blocks/joinnow/c7wp-joinnow.js:11
+msgid "Join Club Button"
+msgstr ""
+
+#: includes/gutenberg/blocks-v2/joinnow/c7wp-joinnow.js:15
+msgid ""
+"Displays a Commerce7 club sign-up button that reads either \"Join Now\" or "
+"\"Edit Membership\" based on the customers status in the club. You can "
+"change the default values for both states using the fields below."
+msgstr ""
+
+#: includes/gutenberg/blocks-v2/loginform/c7wp-loginform.js:15
+msgid "Displays a Commerce7 login form with an optional redirect path."
+msgstr ""
+
+#: includes/gutenberg/blocks-v2/personalization/c7wp-personalization.js:15
+msgid ""
+"Displays a Commerce7 personalization block. These are created in the "
+"Developer section inside Commerce7 and can be edited in the Marketing tab."
+msgstr ""
+
+#: includes/gutenberg/blocks-v2/reservation/c7wp-reservation.js:15
+msgid "Displays a Commerce7 reservation form for a single experience."
+msgstr ""
+
+#: includes/gutenberg/blocks-v2/subscribe/c7wp-subscribe.js:15
+msgid "Displays a Commerce7 email subscription form with optional name field."
+msgstr ""
+
+#: includes/gutenberg/blocks/buy/c7wp-buy.js:11
+msgid "Buy Button (Single)"
 msgstr ""
 
 #: includes/gutenberg/blocks/buy/c7wp-buy.js:12
@@ -349,30 +609,106 @@ msgid ""
 "Place an add to cart button with price and quantity fields for a single SKU."
 msgstr ""
 
-#: includes/themeco/cornerstone/controls.php:17
+#: includes/gutenberg/blocks/buyslug/c7wp-buyslug.js:11
+msgid "Buy Button (Variable/Bundle)"
+msgstr ""
+
+#: includes/gutenberg/blocks/buyslug/c7wp-buyslug.js:12
+msgid ""
+"For products with multiple variations, or for bundles. Places an add to cart "
+"button with price, quantity and variation fields if applicable."
+msgstr ""
+
+#: includes/gutenberg/blocks/collection/c7wp-collection.js:12
+msgid "Place a collection grid on your page."
+msgstr ""
+
+#: includes/gutenberg/blocks/createaccount/c7wp-createaccount.js:12
+msgid "Place a registration form anywhere on your site."
+msgstr ""
+
+#: includes/gutenberg/blocks/default/c7wp-default.js:12
+msgid ""
+"Placeholder for dynamic content. Required on product, club, collection, "
+"reservation, cart, and checkout pages."
+msgstr ""
+
+#: includes/gutenberg/blocks/form/c7wp-form.js:12
+msgid "Place a custom form from your Marketing tab in the C7 CRM."
+msgstr ""
+
+#: includes/gutenberg/blocks/joinnow/c7wp-joinnow.js:12
+msgid ""
+"Output a button that will show either \"Join Now\" or \"Edit Membership\" "
+"based on customers status and a club."
+msgstr ""
+
+#: includes/gutenberg/blocks/loginform/c7wp-loginform.js:12
+msgid "Place a login form anywhere on your site."
+msgstr ""
+
+#: includes/gutenberg/blocks/personalization/c7wp-personalization.js:12
+msgid "Place a personalization block from your Marketing tab in the C7 CRM."
+msgstr ""
+
+#: includes/gutenberg/blocks/quickshop/c7wp-quickshop.js:11
+msgid "Collection Quick Shop"
+msgstr ""
+
+#: includes/gutenberg/blocks/quickshop/c7wp-quickshop.js:12
+msgid "Place a condensed collection table on your page."
+msgstr ""
+
+#: includes/gutenberg/blocks/reservation/c7wp-reservation.js:12
+msgid "Place a reservation form on your page for a single experience."
+msgstr ""
+
+#: includes/gutenberg/blocks/subscribe/c7wp-subscribe.js:13
+msgid "Place an email subscription form."
+msgstr ""
+
+#: includes/themeco/cornerstone/controls.php:19
+#: includes/themeco/cornerstone/controls.php:51
 msgid "Element Type"
 msgstr ""
 
-#: includes/themeco/cornerstone/controls.php:27
+#: includes/themeco/cornerstone/controls.php:28
+#: includes/themeco/cornerstone/controls.php:61
 msgid "Magic login link"
 msgstr ""
 
-#: includes/themeco/cornerstone/controls.php:28
+#: includes/themeco/cornerstone/controls.php:29
+#: includes/themeco/cornerstone/controls.php:62
 msgid "Magic cart link"
 msgstr ""
 
-#: includes/themeco/cornerstone/controls.php:32 includes/wpbakery/load.php:43
+#: includes/themeco/cornerstone/controls.php:66
+#: includes/wpbakery/wpbakery-legacy.php:92
 msgid "Quick Shop Form"
 msgstr ""
 
-#: includes/wpbakery/load.php:42
-msgid "Join\\Edit Club Magic Button"
+#: includes/wpbakery/wpbakery-legacy.php:45
+msgid "Login\\Logout Link"
 msgstr ""
 
-#: includes/wpbakery/load.php:48
+#: includes/wpbakery/wpbakery-legacy.php:46
+msgid "Cart Icon\\Flyout"
+msgstr ""
+
+#: includes/wpbakery/wpbakery-legacy.php:49
+msgid "Club Magic Button"
+msgstr ""
+
+#: includes/wpbakery/wpbakery-legacy.php:52
+#: includes/wpbakery/wpbakery-legacy.php:97
 msgid "Choose the type of content you would like to display."
 msgstr ""
 
-#: includes/wpbakery/load.php:55
+#: includes/wpbakery/wpbakery-legacy.php:59
+#: includes/wpbakery/wpbakery-legacy.php:104
 msgid "Enter the data for the content type, if applicable."
+msgstr ""
+
+#: includes/wpbakery/wpbakery-legacy.php:91
+msgid "Join\\Edit Club Magic Button"
 msgstr ""
