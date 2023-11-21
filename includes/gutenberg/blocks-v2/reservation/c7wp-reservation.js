@@ -146,4 +146,4 @@
             );
         },
     });
-})(window.wp.blocks, window.wp.blockEditor, window.wp.element, wp.i18n, wp.components);
+})(window.wp.blocks, window.wp.blockEditor, window.wp.element, window.wp.i18n, window.wp.components);
