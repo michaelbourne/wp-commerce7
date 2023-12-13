@@ -16,9 +16,9 @@
  * Author URI: https://5forests.com
  * Plugin URI: https://c7wp.com
  * Requires at least: 6.0
- * Tested up to: 6.4.1
+ * Tested up to: 6.4.2
  * Stable tag: 1.4.0
- * Requires PHP: 7.4
+ * Requires PHP: 8.0
  * License: GPL3
  * License URI: https://www.gnu.org/licenses/gpl-3.0.en.html
  * Text Domain: wp-commerce7
@@ -27,7 +27,7 @@
  * Created Date: Friday September 27th 2019
  * Author: Michael Bourne
  * -----
- * Last Modified: Tuesday, November 21st 2023, 3:45:41 pm
+ * Last Modified: Wednesday, December 13th 2023, 1:44:29 pm
  * Modified By: Michael Bourne
  * -----
  * Copyright (c) 2019-2023 URSA6

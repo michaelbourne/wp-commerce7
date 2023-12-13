@@ -3,7 +3,7 @@ Contributors: michaelbourne
 Donate link: https://www.paypal.me/yycpro
 Tags: commerce7
 Requires at least: 6.0
-Tested up to: 6.4
+Tested up to: 6.4.2
 Stable tag: 1.4.0
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.en.html
@@ -74,7 +74,7 @@ Removing this plugin will render your widgets inactive, but will not remove them
 
 = 1.4.0 =
 * Update: all Gutenberg blocks have been reworked for better visual representation while editing.
-* Update: Commerce7 stylesheet will now render in the editor to support expected widget markup. This can be disabled with the `c7wp_enqueue_c7_css_admin` filter.
+* Update: Commerce7 stylesheet will now render in the editor to support expected widget markup. This can be disabled with the `c7wp_enqueue_c7_css_admin` filter set to false.
 
 = 1.3.7 =
 * Add: Login Form widget for V2
