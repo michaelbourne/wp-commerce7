@@ -74,6 +74,7 @@ class C7WP {
 		// add admin styles and scripts
 		add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ) );
 		add_action( 'elementor/editor/before_enqueue_scripts', array( $this, 'elementor_editor_enqueue_scripts' ) );
+		add_action( 'after_setup_theme', array( $this, 'load_c7_css' ), 9 );
 
 		// for front end
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ), 10 );
@@ -144,7 +145,14 @@ class C7WP {
 		}
 
 		$this->settings_init();
+	}
 
+	/**
+	 * Load Commerce7 CSS in the editor at a low priority so themes can override it.
+	 *
+	 * @return void
+	 */
+	public function load_c7_css() {
 		/**
 		 * Filter: `c7wp_enqueue_c7_css_admin`
 		 *

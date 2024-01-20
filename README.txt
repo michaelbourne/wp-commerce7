@@ -4,7 +4,7 @@ Donate link: https://www.paypal.me/yycpro
 Tags: commerce7
 Requires at least: 6.0
 Tested up to: 6.4.2
-Stable tag: 1.4.1
+Stable tag: 1.4.2
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.en.html
 
@@ -71,6 +71,9 @@ Removing this plugin will render your widgets inactive, but will not remove them
 
 
 == Changelog ==
+
+= 1.4.2 =
+* Update: Commerce7 editor stylesheet loaded into after_theme_setup hook at a low priority so theme styles can better override it.
 
 = 1.4.1 =
 * Update: lower PHP version to 7.4 to allow some sites to catch up. This will be temporary, all sites need to update to PHP 8+ soon.
