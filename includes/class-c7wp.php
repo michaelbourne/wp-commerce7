@@ -162,7 +162,17 @@ class C7WP {
 		 * @param bool Should the CSS file be enqueued? Default: true
 		 */
 		if ( apply_filters( 'c7wp_enqueue_c7_css_admin', true ) ) {
-			add_editor_style( 'https://cdn.commerce7.com/' . $this->widgetsver . '/commerce7.css' );
+			switch ( $this->widgetsver ) {
+				case 'v2':
+					add_editor_style( 'https://cdn.commerce7.com/v2/commerce7.css' );
+					break;
+				case 'v2-compat':
+					add_editor_style( 'https://cdn.commerce7.com/v2/commerce7.css' );
+					break;
+				case 'beta':
+					add_editor_style( 'https://cdn.commerce7.com/beta/commerce7.css' );
+					break;
+			}
 		}
 	}
 
@@ -508,11 +518,15 @@ class C7WP {
 		?>
 		<select name='c7wp_settings[c7wp_widget_version]' class='c7widgetversion'>
 			<option value='v2' <?php selected( $options['c7wp_widget_version'], 'v2' ); ?>>V2</option>
+			<option value='v2-compat' <?php selected( $options['c7wp_widget_version'], 'v2-compat' ); ?>>V2 (Compatibility Mode)</option>
 			<option value='beta' <?php selected( $options['c7wp_widget_version'], 'beta' ); ?>>V1</option>
 		</select>
-		<p><small>The V2 front-end widgets might introduce breaking changes to your site. <strong>You are responsible for 
-			ensuring you've read the C7 docs and understand how to migrate from beta to V2.</strong> All V2 support 
-			requests should be direct to Commerce7 directly.</small></p>
+		<p><small><strong>V2:</strong> The standard front-end widgets version used by most wineries. Most users should 
+		select this option.
+		<br><strong>V2 (Compatibility Mode):</strong> Use this if you are having issues with the standard V2 widgets, such 
+		as widgets not displaying correctly or displaying multiple times. This will load the V2 widgets in a way that is 
+		compatible with more themes.
+		<br><strong>V1:</strong> Only a select few legacy sites are still using the old beta/V1 widgets.</small></p>
 		<?php
 	}
 
@@ -526,7 +540,7 @@ class C7WP {
 			<option value='yes' <?php selected( $options['c7wp_enable_custom_routes'], 'yes' ); ?>>Yes</option>
 		</select>
 		<p><small>For V2 frontend only. If set to <strong>yes</strong>, this plugin will allow you to set custom routing options
-		(page slugs) below.</small></p>
+		(page slugs) below. Enable this option and save changes to edit routes below.</small></p>
 		<?php
 	}
 
@@ -595,7 +609,20 @@ class C7WP {
 		/**
 		 * Load mandatory Commerce7 JS file.
 		 */
-		wp_register_script( 'c7js', 'https://cdn.commerce7.com/' . $this->widgetsver . '/commerce7.js', array(), null, true ); // phpcs:ignore
+		switch ( $this->widgetsver ) {
+			case 'v2':
+				wp_register_script( 'c7js', 'https://cdn.commerce7.com/v2/commerce7.js', array(), null, true ); // phpcs:ignore
+				break;
+			case 'v2-compat':
+				wp_register_script( 'c7js', 'https://cdn.commerce7.com/v2/commerce7-eventload.js', array(), null, true ); // phpcs:ignore
+				break;
+			case 'beta':
+				wp_register_script( 'c7js', 'https://cdn.commerce7.com/beta/commerce7.js', array(), null, true ); // phpcs:ignore
+				break;
+			default:
+				wp_register_script( 'c7js', 'https://cdn.commerce7.com/v2/commerce7.js', array(), null, true ); // phpcs:ignore
+				break;
+		}
 		wp_enqueue_script( 'c7js' );
 
 		/**
@@ -606,7 +633,20 @@ class C7WP {
 		 * @param bool Should the CSS file be enqueued? Default: true
 		 */
 		if ( apply_filters( 'c7wp_enqueue_c7_css', true ) ) {
-			wp_register_style( 'c7css', 'https://cdn.commerce7.com/' . $this->widgetsver . '/commerce7.css', false, null ); // phpcs:ignore
+			switch ( $this->widgetsver ) {
+				case 'v2':
+					wp_register_style( 'c7css', 'https://cdn.commerce7.com/v2/commerce7.css', false, null ); // phpcs:ignore
+					break;
+				case 'v2-compat':
+					wp_register_style( 'c7css', 'https://cdn.commerce7.com/v2/commerce7.css', false, null ); // phpcs:ignore
+					break;
+				case 'beta':
+					wp_register_style( 'c7css', 'https://cdn.commerce7.com/beta/commerce7.css', false, null ); // phpcs:ignore
+					break;
+				default:
+					wp_register_style( 'c7css', 'https://cdn.commerce7.com/v2/commerce7.css', false, null ); // phpcs:ignore
+					break;
+			}
 			wp_enqueue_style( 'c7css' );
 		}
 
@@ -675,7 +715,7 @@ class C7WP {
 	 */
 	public function add_c7_rewrites() {
 
-		if ( 'v2' === $this->widgetsver ) {
+		if ( 'v2' === $this->widgetsver || 'v2-compat' === $this->widgetsver ) {
 
 			$options = get_option( 'c7wp_settings' );
 
@@ -737,7 +777,7 @@ class C7WP {
 					break;
 			}
 
-			$login = ( 'v2' === $this->widgetsver ) ? 'c7-account' : 'c7-login';
+			$login = ( 'v2' === $this->widgetsver || 'v2-compat' === $this->widgetsver ) ? 'c7-account' : 'c7-login';
 
 			echo '<div id="c7wp-cart-box" class="' . esc_attr( $class ) . esc_attr( $color ) . '"><div id="' . esc_attr( $login ) . '"></div><div id="c7-cart"></div></div>';
 
@@ -789,7 +829,7 @@ class C7WP {
 
 		$output = '<div class="c7wp-wrap" data-c7-type="' . $atts['type'] . '">';
 
-		if ( 'v2' === $this->widgetsver ) {
+		if ( 'v2' === $this->widgetsver || 'v2-compat' === $this->widgetsver ) {
 
 			switch ( $atts['type'] ) {
 				case 'default':

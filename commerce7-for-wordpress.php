@@ -11,13 +11,13 @@
  * @wordpress-plugin
  * Plugin Name: Commerce7 for WordPress
  * Description: Integrate Commerce7 functionality into your WordPress site easily
- * Version: 1.4.2
+ * Version: 1.4.4
  * Author: 5forests
  * Author URI: https://5forests.com
  * Plugin URI: https://c7wp.com
  * Requires at least: 6.0
- * Tested up to: 6.4.2
- * Stable tag: 1.4.2
+ * Tested up to: 6.4.3
+ * Stable tag: 1.4.4
  * Requires PHP: 7.4
  * License: GPL3
  * License URI: https://www.gnu.org/licenses/gpl-3.0.en.html
@@ -27,7 +27,7 @@
  * Created Date: Friday September 27th 2019
  * Author: Michael Bourne
  * -----
- * Last Modified: Friday, January 19th 2024, 6:20:40 pm
+ * Last Modified: Thursday, February 22nd 2024, 6:11:12 pm
  * Modified By: Michael Bourne
  * -----
  * Copyright (c) 2019-2024 URSA6
@@ -47,7 +47,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 defined( 'C7WP_ROOT' ) || define( 'C7WP_ROOT', dirname( __FILE__ ) );
 defined( 'C7WP_URI' ) || define( 'C7WP_URI', plugin_dir_url( __FILE__ ) );
-defined( 'C7WP_VERSION' ) || define( 'C7WP_VERSION', '1.4.2' );
+defined( 'C7WP_VERSION' ) || define( 'C7WP_VERSION', '1.4.4' );
 
 
 /**
@@ -159,15 +159,15 @@ function c7wp_upgrade_function( $upgrader_object, $options ) {
                     if ( ! get_page_by_path( $slug, 'ARRAY_N', 'page' ) ) {
                         $fail[] = wp_strip_all_tags( ucfirst( $page ) );
 
-                        $c7_post = array(
-                          'post_title'   => wp_strip_all_tags( ucfirst( $page ) ),
-                          'post_name'    => sanitize_title( $slug ),
-                          'post_content' => '<!-- wp:c7wp/default --><div class="wp-block-c7wp-default"><div id="c7-content"></div></div><!-- /wp:c7wp/default -->',
-                          'post_status'  => 'publish',
-                          'post_author'  => 1,
-                          'post_type'    => 'page',
-                        );
-                        $pageid  = wp_insert_post( $c7_post );
+                        // $c7_post = array(
+                        //   'post_title'   => wp_strip_all_tags( ucfirst( $page ) ),
+                        //   'post_name'    => sanitize_title( $slug ),
+                        //   'post_content' => '<!-- wp:c7wp/default --><div class="wp-block-c7wp-default"><div id="c7-content"></div></div><!-- /wp:c7wp/default -->',
+                        //   'post_status'  => 'publish',
+                        //   'post_author'  => 1,
+                        //   'post_type'    => 'page',
+                        // );
+                        // $pageid  = wp_insert_post( $c7_post );
                         continue;
                     }
                 }
@@ -234,8 +234,8 @@ function c7wp_admin_notice_pages() {
         echo '<div class="notice notice-warning is-dismissible"><p>';
         printf(
             /* translators: %s: List of missing pages */
-            esc_html__( 'Commerce7 for WordPress requires specific pages exist in order for integration to work properly. The following pages were missing: %s.  
-            These pages have been recreated and populated with the proper HTML needed to render Commerce7 content.', 'wp-commerce7' ),
+            esc_html__( 'Commerce7 requires specific pages exist in order for integration to work properly. The following pages were missing: %s.  
+            These pages were not recreated in case you have removed them on purpose. Please review and crate these pages if needed.', 'wp-commerce7' ),
             '<strong>' . esc_html( $pages ) . '</strong>'
         );
         echo '</p></div>';
