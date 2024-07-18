@@ -11,13 +11,13 @@
  * @wordpress-plugin
  * Plugin Name: Commerce7 for WordPress
  * Description: Integrate Commerce7 functionality into your WordPress site easily
- * Version: 1.4.4
+ * Version: 1.4.6
  * Author: 5forests
  * Author URI: https://5forests.com
  * Plugin URI: https://c7wp.com
  * Requires at least: 6.0
- * Tested up to: 6.4.3
- * Stable tag: 1.4.4
+ * Tested up to: 6.6
+ * Stable tag: 1.4.6
  * Requires PHP: 7.4
  * License: GPL3
  * License URI: https://www.gnu.org/licenses/gpl-3.0.en.html
@@ -27,13 +27,13 @@
  * Created Date: Friday September 27th 2019
  * Author: Michael Bourne
  * -----
- * Last Modified: Thursday, February 22nd 2024, 6:11:12 pm
+ * Last Modified: Thursday, July 18th 2024, 9:36:56 am
  * Modified By: Michael Bourne
  * -----
  * Copyright (c) 2019-2024 URSA6
  *
  * Commerce7 for WordPress is a plugin for WordPress that enables you to add Commerce7 ecommerce integration into your site.
- * Plugin developed with the cooperation of the Commerce7 company. Commerce7 logo and name used with permission.
+ * Plugin developed with permission of the Commerce7 company. Commerce7 logo and name used with permission.
  * The Commerce7 for WordPress  Plugin is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License or (at your option) any later version.
  * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
  * You should have received a copy of the GNU General Public License along with this program. If not, see <http://www.gnu.org/licenses/>
@@ -47,14 +47,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 defined( 'C7WP_ROOT' ) || define( 'C7WP_ROOT', dirname( __FILE__ ) );
 defined( 'C7WP_URI' ) || define( 'C7WP_URI', plugin_dir_url( __FILE__ ) );
-defined( 'C7WP_VERSION' ) || define( 'C7WP_VERSION', '1.4.4' );
+defined( 'C7WP_VERSION' ) || define( 'C7WP_VERSION', '1.4.6' );
 
 
 /**
  * On plugin activation
  * 1. Create the pages needed for integration to work
  * 2. Inject content into those pages
- * 3. Set privacy policy pag
+ * 3. Set privacy policy page
  */
 function c7wp_activate_plugin() {
     add_option( 'c7wp_activation', true );

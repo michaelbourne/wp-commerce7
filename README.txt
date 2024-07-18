@@ -3,8 +3,8 @@ Contributors: michaelbourne
 Donate link: https://www.paypal.me/yycpro
 Tags: commerce7
 Requires at least: 6.0
-Tested up to: 6.4.3
-Stable tag: 1.4.4
+Tested up to: 6.5.2
+Stable tag: 1.4.6
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.en.html
 
@@ -72,11 +72,14 @@ Removing this plugin will render your widgets inactive, but will not remove them
 
 == Changelog ==
 
+= 1.4.5 =
+* Minor edit. Added clarifying language to default block messages.
+
 = 1.4.4 =
 * Added: V2 Compatibility Mode for some sites that have trouble rendering Commerce7 widgets.
 
 = 1.4.3 =
-* Remove: Automatically create missing Commerce7 pages on plugin update. Some installations may be handling these pages in a custom way and therefor our plugin will not recreate them. These pages will still be created on installation.
+* Removed: Automatically create missing Commerce7 pages on plugin update. Some installations may be handling these pages in a custom way and therefor our plugin will not recreate them. These pages will still be created on installation.
 
 = 1.4.2 =
 * Update: Commerce7 editor stylesheet loaded into after_theme_setup hook at a low priority so theme styles can better override it.
