@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2023-11-08 15:39-0700\n"
-"PO-Revision-Date: 2023-11-08 15:40-0700\n"
+"POT-Creation-Date: 2024-07-18 13:52-0600\n"
+"PO-Revision-Date: 2024-07-18 13:53-0600\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: en_US\n"
@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.2\n"
+"X-Generator: Poedit 3.4.4\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-KeywordsList: __;esc_html_e\n"
 "X-Poedit-SearchPath-0: .\n"
@@ -53,7 +53,7 @@ msgstr ""
 #: admin/template.options.page.php:99
 msgid ""
 "The V2 front-end widgets launched officially on September 1, 2021, and are "
-"the default for all new tenants. V1 (alos known as Beta) will be sunset in "
+"the default for all new tenants. V1 (also known as Beta) will be sunset in "
 "the near future; if you are still on V1, make a plan to migrate as soon as "
 "possible."
 msgstr ""
@@ -82,7 +82,7 @@ msgstr ""
 #: includes/beaverbuilder/quickshop/quickshop.php:29
 #: includes/beaverbuilder/reservation/reservation.php:29
 #: includes/beaverbuilder/subscribe/subscribe.php:29
-#: includes/class-c7wp.php:243 includes/class-c7wp.php:267
+#: includes/class-c7wp.php:261 includes/class-c7wp.php:285
 #: includes/themeco/cornerstone/definition.php:16
 #: includes/wpbakery/wpbakery-legacy.php:26
 #: includes/wpbakery/wpbakery-legacy.php:67
@@ -346,10 +346,7 @@ msgid "Create account form"
 msgstr ""
 
 #: includes/beaverbuilder/legacy/beaver-c7wp.php:55
-#: includes/elementor/elementor-legacy.php:125
-#: includes/themeco/cornerstone/controls.php:39
 #: includes/themeco/cornerstone/controls.php:75
-#: includes/wpbakery/wpbakery-legacy.php:57
 #: includes/wpbakery/wpbakery-legacy.php:102
 msgid "Data"
 msgstr ""
@@ -389,7 +386,8 @@ msgid "Add a Commerce7 Reservation Form to your layouts."
 msgstr ""
 
 #: includes/beaverbuilder/reservation/reservation.php:46
-msgid "Reservation Type Slug"
+#: includes/elementor/elementor-reservation.php:120
+msgid "Experience Slug"
 msgstr ""
 
 #: includes/beaverbuilder/subscribe/subscribe.php:28
@@ -409,40 +407,158 @@ msgstr ""
 msgid "Yes, show fields"
 msgstr ""
 
-#: includes/class-c7wp.php:294
+#: includes/class-c7wp.php:314
 msgid "Commerce7 for WordPress"
 msgstr ""
 
-#: includes/class-c7wp.php:318
+#: includes/class-c7wp.php:338
 msgid "Settings Saved"
 msgstr ""
 
-#: includes/class-c7wp.php:343
+#: includes/class-c7wp.php:363
 msgid "Tenant ID"
 msgstr ""
 
-#: includes/class-c7wp.php:354
+#: includes/class-c7wp.php:374
 msgid "Display Cart Box Automatically?"
 msgstr ""
 
-#: includes/class-c7wp.php:365
+#: includes/class-c7wp.php:385
 msgid "Cart Box Location"
 msgstr ""
 
-#: includes/class-c7wp.php:376
+#: includes/class-c7wp.php:396
 msgid "Cart Box Theme"
 msgstr ""
 
-#: includes/class-c7wp.php:387
+#: includes/class-c7wp.php:407
 msgid "Front-end Widgets Version"
 msgstr ""
 
-#: includes/class-c7wp.php:398
+#: includes/class-c7wp.php:418
 msgid "Override front end routes?"
 msgstr ""
 
-#: includes/class-c7wp.php:409
+#: includes/class-c7wp.php:429
 msgid "Custom Front-end Routes"
+msgstr ""
+
+#: includes/class-c7wp.php:471 includes/class-c7wp.php:551
+#: includes/elementor/elementor-subscribe.php:123
+msgid "No"
+msgstr ""
+
+#: includes/class-c7wp.php:472 includes/class-c7wp.php:554
+#: includes/elementor/elementor-subscribe.php:127
+msgid "Yes"
+msgstr ""
+
+#: includes/class-c7wp.php:476
+msgid ""
+"If set to <strong>yes</strong>, this plugin will add a floating login  cart "
+"box to the front end of your website. If set to <strong>no</strong>, you "
+"will need to add the <code>[c7wp type='login']</code> and <code>[c7wp "
+"type='cart']</code> shortcodes (or Commerce7's HTML) to your header "
+"manually. We recommend setting this to no and placing your cart manually."
+msgstr ""
+
+#: includes/class-c7wp.php:492
+msgid "Top left"
+msgstr ""
+
+#: includes/class-c7wp.php:493
+msgid "Top right"
+msgstr ""
+
+#: includes/class-c7wp.php:494
+msgid "Bottom right"
+msgstr ""
+
+#: includes/class-c7wp.php:495
+msgid "Bottom left"
+msgstr ""
+
+#: includes/class-c7wp.php:510
+msgid "Light website"
+msgstr ""
+
+#: includes/class-c7wp.php:511
+msgid "Dark website"
+msgstr ""
+
+#: includes/class-c7wp.php:515
+msgid ""
+"Please select the color theme for the Cart Box. \"Light website\" is for "
+"light colored or white background site, \"Dark website\" is for dark colored "
+"or black background sites."
+msgstr ""
+
+#: includes/class-c7wp.php:526
+msgid "V2"
+msgstr ""
+
+#: includes/class-c7wp.php:527
+msgid "V2 (Compatibility Mode)"
+msgstr ""
+
+#: includes/class-c7wp.php:528
+msgid "V1"
+msgstr ""
+
+#: includes/class-c7wp.php:558
+msgid ""
+"For V2 frontend only. If set to <strong>yes</strong>, this plugin will allow "
+"you to set custom routing options (page slugs) below. Enable this option and "
+"save changes to edit routes below."
+msgstr ""
+
+#: includes/class-c7wp.php:572
+msgid "Cart Page"
+msgstr ""
+
+#: includes/class-c7wp.php:577
+msgid "Checkout Page"
+msgstr ""
+
+#: includes/class-c7wp.php:582
+msgid "Club Pages"
+msgstr ""
+
+#: includes/class-c7wp.php:587
+msgid "Collection Pages"
+msgstr ""
+
+#: includes/class-c7wp.php:592
+msgid "Product Pages"
+msgstr ""
+
+#: includes/class-c7wp.php:597
+msgid "Profile Page"
+msgstr ""
+
+#: includes/class-c7wp.php:602
+msgid "Reservation Page"
+msgstr ""
+
+#: includes/class-c7wp.php:622
+#, php-format
+msgid ""
+"These routes <strong>must</strong> match your <a href=\"%1$s\" "
+"target=\"_blank\">routing settings in Commerce7</a>.\n"
+"\t\t\t\t\t<br>\n"
+"\t\t\t\t\tMake sure you edit the slugs of any existing pages if you are "
+"changing these values.\n"
+"\t\t\t\t\t<br>\n"
+"\t\t\t\t\tYou <strong>must</strong> <a href=\"%2$s\">resave your permalinks "
+"in WordPress</a> after changing these settings."
+msgstr ""
+
+#: includes/class-c7wp.php:855 includes/elementor/elementor-joinnow.php:131
+msgid "Join Club"
+msgstr ""
+
+#: includes/class-c7wp.php:856 includes/elementor/elementor-joinnow.php:140
+msgid "Edit Membership"
 msgstr ""
 
 #: includes/elementor/elementor-buy.php:55
@@ -483,7 +599,6 @@ msgid "Create Account Form"
 msgstr ""
 
 #: includes/elementor/elementor-createaccount.php:119
-#: includes/elementor/elementor-loginform.php:120
 msgid "Redirect To"
 msgstr ""
 
@@ -508,8 +623,16 @@ msgstr ""
 msgid "12-bottle-reds"
 msgstr ""
 
+#: includes/elementor/elementor-joinnow.php:129
+msgid "Join Club Text"
+msgstr ""
+
+#: includes/elementor/elementor-joinnow.php:138
+msgid "Edit Membership Text"
+msgstr ""
+
 #: includes/elementor/elementor-legacy.php:48
-msgid "Commerce7 (Legacy)"
+msgid "Commerce7 (Deprecated)"
 msgstr ""
 
 #: includes/elementor/elementor-legacy.php:92
@@ -520,8 +643,18 @@ msgstr ""
 msgid "Join/Edit Club magic button"
 msgstr ""
 
+#: includes/elementor/elementor-legacy.php:125
+#: includes/themeco/cornerstone/controls.php:39
+#: includes/wpbakery/wpbakery-legacy.php:57
+msgid "Data/Slug"
+msgstr ""
+
 #: includes/elementor/elementor-login.php:55
 msgid "Login Link"
+msgstr ""
+
+#: includes/elementor/elementor-loginform.php:120
+msgid "Redirect To Path"
 msgstr ""
 
 #: includes/elementor/elementor-personalization.php:121
@@ -532,20 +665,8 @@ msgstr ""
 msgid "Quick Shop Collection"
 msgstr ""
 
-#: includes/elementor/elementor-reservation.php:120
-msgid "Reservation Slug"
-msgstr ""
-
 #: includes/elementor/elementor-reservation.php:122
 msgid "estate-tour"
-msgstr ""
-
-#: includes/elementor/elementor-subscribe.php:123
-msgid "No"
-msgstr ""
-
-#: includes/elementor/elementor-subscribe.php:127
-msgid "Yes"
 msgstr ""
 
 #: includes/gutenberg/blocks-v2/buyslug/c7wp-buyslug.js:15
@@ -700,15 +821,21 @@ msgid "Club Magic Button"
 msgstr ""
 
 #: includes/wpbakery/wpbakery-legacy.php:52
-#: includes/wpbakery/wpbakery-legacy.php:97
-msgid "Choose the type of content you would like to display."
+msgid "Choose the type of widget you would like to display."
 msgstr ""
 
 #: includes/wpbakery/wpbakery-legacy.php:59
-#: includes/wpbakery/wpbakery-legacy.php:104
-msgid "Enter the data for the content type, if applicable."
+msgid "Enter the data or slug for the widget type, if applicable."
 msgstr ""
 
 #: includes/wpbakery/wpbakery-legacy.php:91
 msgid "Join\\Edit Club Magic Button"
+msgstr ""
+
+#: includes/wpbakery/wpbakery-legacy.php:97
+msgid "Choose the type of content you would like to display."
+msgstr ""
+
+#: includes/wpbakery/wpbakery-legacy.php:104
+msgid "Enter the data for the content type, if applicable."
 msgstr ""
