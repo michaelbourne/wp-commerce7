@@ -473,10 +473,7 @@ class C7WP {
 		</select>
 		<p><small>
 			<?php
-				echo wp_kses( __( 'If set to <strong>yes</strong>, this plugin will add a floating login and cart 
-				box to the front end of your website. If set to <strong>no</strong>, you will need to add the 
-				<code>[c7wp type=\'login\']</code> and <code>[c7wp type=\'cart\']</code> shortcodes (or Commerce7\'s HTML) to your
-				header manually. We recommend setting this to no and placing your cart manually.', 'wp-commerce7' ),
+				echo wp_kses( __( 'If set to <strong>yes</strong>, this plugin will add a floating login  cart box to the front end of your website. If set to <strong>no</strong>, you will need to add the <code>[c7wp type=\'login\']</code> and <code>[c7wp type=\'cart\']</code> shortcodes (or Commerce7\'s HTML) to your header manually. We recommend setting this to no and placing your cart manually.', 'wp-commerce7' ),
 				array( 'strong' => array(), 'code' => array() ) );
 		 ?>
 		 </small></p>
@@ -515,8 +512,7 @@ class C7WP {
 		</select>
 		<p><small>
 			<?php
-				esc_html_e( 'Please select the color theme for the Cart Box. "Light website" is for light colored 
-				or white background site, "Dark website" is for dark colored or black background sites.', 'wp-commerce7' );
+				esc_html_e( 'Please select the color theme for the Cart Box. "Light website" is for light colored or white background site, "Dark website" is for dark colored or black background sites.', 'wp-commerce7' );
 			?>
 		</small></p>
 		<?php
@@ -533,12 +529,11 @@ class C7WP {
 		</select>
 		<p><small>
 			<?php
-				esc_html_e( '<strong>V2:</strong> The standard front-end widgets version used by most wineries. Most users should 
-				select this option.
-				<br><strong>V2 (Compatibility Mode):</strong> Use this if you are having issues with the standard V2 widgets, such 
-				as widgets not displaying correctly or displaying multiple times. This will load the V2 widgets in a way that is 
-				compatible with more themes.
-				<br><strong>V1:</strong> Only a select few legacy sites are still using the old beta/V1 widgets.', 'wp-commerce7' );
+				echo wp_kses( '<strong>V2:</strong> The standard front-end widgets version used by most wineries. Most users should select this option.
+				<br>
+				<strong>V2 (Compatibility Mode):</strong> Use this if you are having issues with the standard V2 widgets, such as widgets not displaying correctly or displaying multiple times. This will load the V2 widgets in a way that is compatible with more themes.
+				<br>
+				<strong>V1:</strong> Only a select few legacy sites are still using the old beta/V1 widgets.', array( 'strong' => array(), 'br' => array() ) );
 			?>
 		</small></p>
 		</small></p>
@@ -560,8 +555,7 @@ class C7WP {
 		</select>
 		<p><small>
 			<?php
-				echo wp_kses( __( 'For V2 frontend only. If set to <strong>yes</strong>, this plugin will allow you to set custom routing options
-				(page slugs) below. Enable this option and save changes to edit routes below.', 'wp-commerce7' ), array( 'strong' => array() ) );
+				echo wp_kses( __( 'For V2 frontend only. If set to <strong>yes</strong>, this plugin will allow you to set custom routing options (page slugs) below. Enable this option and save changes to edit routes below.', 'wp-commerce7' ), array( 'strong' => array() ) );
 			?>
 		</small></p>
 		<?php
@@ -625,12 +619,11 @@ class C7WP {
 
 			/* translators: %1$s: URL to the routing settings in Commerce7 %2$s: URL to the permalinks settings in WordPress */
 			$string = __(
-					'These routes <strong>must</strong> match your 
-					<a href="%1$s" target="_blank">routing settings in Commerce7</a>.<br>
-					Make sure you edit the slugs of any existing pages if you are changing these values.<br>
-					You <strong>must</strong> 
-					<a href="%2$s">resave your permalinks in WordPress</a>
-					after changing these settings.',
+					'These routes <strong>must</strong> match your <a href="%1$s" target="_blank">routing settings in Commerce7</a>.
+					<br>
+					Make sure you edit the slugs of any existing pages if you are changing these values.
+					<br>
+					You <strong>must</strong> <a href="%2$s">resave your permalinks in WordPress</a> after changing these settings.',
 					'wp-commerce7',
 			);
 
