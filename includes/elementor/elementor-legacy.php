@@ -45,7 +45,7 @@ class C7WP_Elementor extends \Elementor\Widget_Base {
 	 * @return string Widget title.
 	 */
 	public function get_title() {
-		return __( 'Commerce7 (Depreciated)', 'wp-commerce7' );
+		return __( 'Commerce7 (Deprecated)', 'wp-commerce7' );
 	}
 
 	/**
@@ -122,7 +122,7 @@ class C7WP_Elementor extends \Elementor\Widget_Base {
 		$this->add_control(
 			'data',
 			[
-				'label' => __( 'Data', 'wp-commerce7' ),
+				'label' => __( 'Data/Slug', 'wp-commerce7' ),
 				'type'  => \Elementor\Controls_Manager::TEXT,
 			]
 		);

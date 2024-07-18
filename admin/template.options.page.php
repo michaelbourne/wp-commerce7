@@ -96,7 +96,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                                         <span class="c7wp-box-content-text">
                                             <?php
                                             /* translators: Options page step 3.   */
-                                            esc_html_e( 'The V2 front-end widgets launched officially on September 1, 2021, and are the default for all new tenants. V1 (alos known as Beta) will be sunset in the near future; if you are still on V1, make a plan to migrate as soon as possible.', 'wp-commerce7' );
+                                            esc_html_e( 'The V2 front-end widgets launched officially on September 1, 2021, and are the default for all new tenants. V1 (also known as Beta) will be sunset in the near future; if you are still on V1, make a plan to migrate as soon as possible.', 'wp-commerce7' );
                                             ?>
                                         </span>
                                     </div>

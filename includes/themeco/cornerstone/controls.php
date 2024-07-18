@@ -36,7 +36,7 @@ if ( isset( $options['c7wp_widget_version'] ) && 'v2' == $options['c7wp_widget_v
     'data'   => array(
       'type' => 'text',
       'ui'   => array(
-        'title' => __( 'Data', 'wp-commerce7' ),
+        'title' => __( 'Data/Slug', 'wp-commerce7' ),
       ),
     ),
 

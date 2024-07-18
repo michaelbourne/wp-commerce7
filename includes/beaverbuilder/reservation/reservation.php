@@ -5,7 +5,7 @@
  * Created Date: Thursday September 3rd 2020
  * Author: Michael Bourne
  * -----
- * Last Modified: Thursday, September 3rd 2020, 7:36:05 pm
+ * Last Modified: Thursday, July 18th 2024, 1:34:34 pm
  * Modified By: Michael Bourne
  * -----
  * Copyright (c) 2020 URSA6
@@ -43,7 +43,7 @@ FLBuilder::register_module( 'C7WP_Reservation', array(
 				'fields' => array(
 					'cdata'     => array(
 						'type'  => 'text',
-						'label' => __( 'Reservation Type Slug', 'wp-commerce7' ),
+						'label' => __( 'Experience Slug', 'wp-commerce7' ),
 					),
 				),
 			),

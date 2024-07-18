@@ -5,7 +5,7 @@
  * Created Date: Wednesday September 2nd 2020
  * Author: Michael Bourne
  * -----
- * Last Modified: Thursday, September 3rd 2020, 8:04:58 pm
+ * Last Modified: Thursday, July 18th 2024, 1:34:43 pm
  * Modified By: Michael Bourne
  * -----
  * Copyright (c) 2020 URSA6
@@ -117,7 +117,7 @@ class C7WP_Elementor_Reservation extends \Elementor\Widget_Base {
 		$this->add_control(
 			'data',
 			[
-				'label' 	  => __( 'Reservation Slug', 'wp-commerce7' ),
+				'label' 	  => __( 'Experience Slug', 'wp-commerce7' ),
 				'type'  	  => \Elementor\Controls_Manager::TEXT,
 				'placeholder' => __( 'estate-tour', 'wp-commerce7' ),
 			]

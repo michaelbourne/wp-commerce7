@@ -89,7 +89,7 @@
                         createElement('line', { x1: '12', y1: '8', x2: '12', y2: '12' }),
                         createElement('line', { x1: '12', y1: '16', x2: '12.01', y2: '16' })
                     ),
-                    'Please enter a collection slug.'
+                    'Please enter a collection slug in the block settings (generally in your right sidebar)'
                 )
             ];
 		},

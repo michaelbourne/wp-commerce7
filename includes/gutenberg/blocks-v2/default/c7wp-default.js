@@ -27,7 +27,7 @@
                         el(
                             'strong',
                             null,
-                            'Default Content'
+                            'Default Content. This block will automatically populate with content on a default route.'
                         ),
                     )
                 )
