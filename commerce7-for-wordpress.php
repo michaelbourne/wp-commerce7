@@ -16,7 +16,7 @@
  * Author URI: https://5forests.com
  * Plugin URI: https://c7wp.com
  * Requires at least: 6.0
- * Tested up to: 6.6
+ * Tested up to: 6.6.1
  * Stable tag: 1.4.6
  * Requires PHP: 7.4
  * License: GPL3
@@ -27,7 +27,7 @@
  * Created Date: Friday September 27th 2019
  * Author: Michael Bourne
  * -----
- * Last Modified: Thursday, July 18th 2024, 9:36:56 am
+ * Last Modified: Thursday, August 29th 2024, 12:33:40 pm
  * Modified By: Michael Bourne
  * -----
  * Copyright (c) 2019-2024 URSA6

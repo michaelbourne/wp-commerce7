@@ -3,7 +3,7 @@ Contributors: michaelbourne
 Donate link: https://www.paypal.me/yycpro
 Tags: commerce7
 Requires at least: 6.0
-Tested up to: 6.5.2
+Tested up to: 6.6.1
 Stable tag: 1.4.6
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.en.html
@@ -71,6 +71,12 @@ Removing this plugin will render your widgets inactive, but will not remove them
 
 
 == Changelog ==
+
+= 1.4.6 =
+* Fix: undefined array offset warning
+* Added: more translatable strings and updated translation files
+* Edited: verbiage in widget descriptions and labels
+* Edited: Elementor widget appearance in editor mode.
 
 = 1.4.5 =
 * Minor edit. Added clarifying language to default block messages.

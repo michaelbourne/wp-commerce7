@@ -13,11 +13,17 @@
 .elementor-editor-active .c7wp-wrap::after,
 .vc_element .c7wp-wrap::after {
     content: 'Commerce7 Content: ' attr(data-c7-type);
+    text-align: center;
     color: #333;
     position: absolute;
     top: 50%;
     left: 50%;
+    width: 100%;
     -webkit-transform: translate(-50%,-50%);
         -ms-transform: translate(-50%,-50%);
             transform: translate(-50%,-50%);
+}
+.c7wp-wrap[data-c7-type="login"],
+.c7wp-wrap[data-c7-type="cart"] {
+    min-width: 22ch;
 }
