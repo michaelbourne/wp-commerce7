@@ -3,7 +3,7 @@ Contributors: michaelbourne
 Donate link: https://www.paypal.me/yycpro
 Tags: commerce7
 Requires at least: 6.0
-Tested up to: 6.6.1
+Tested up to: 6.6.2
 Stable tag: 1.4.6
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.en.html
