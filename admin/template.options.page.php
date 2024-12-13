@@ -184,9 +184,9 @@ if ( ! defined( 'ABSPATH' ) ) {
             ?>
 
             <div class="c7wp-cta">
-                <p class="c7wp-cta-note">Plugin created by URSA6 & 5forests. Provided free to Commerce7 customers and agencies.</p>
+                <p class="c7wp-cta-note">Plugin created by URSA6 & 5forests. Provided free to Commerce7 customers and agencies around the world.</p>
                 <hr class="c7wp-cta-spacing">
-                <p class="c7wp-cta-note">We offer unbeatable<a href="https://5forests.com/services/technology/website-care-plans/" target="_blank">sustainble hosting and care plans</a> to our WordPress clients.</p>
+                <p class="c7wp-cta-note">We offer unbeatable <a href="https://5forests.com/services/technology/website-care-plans/" target="_blank">sustainble hosting and care plans</a> to our WordPress clients.</p>
             </div>
         </div>
 

@@ -5,7 +5,7 @@
  * Created Date: Thursday September 3rd 2020
  * Author: Michael Bourne
  * -----
- * Last Modified: Thursday, July 18th 2024, 1:36:40 pm
+ * Last Modified: Sunday, December 8th 2024, 1:30:28 pm
  * Modified By: Michael Bourne
  * -----
  * Copyright (c) 2020 URSA6
@@ -20,7 +20,7 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	return;
 }
-if ( 'v2' == $this->widgetsver ) {
+if ( in_array( $this->widgetsver, [ 'v2', 'v2-compat' ] ) ) {
 	vc_map(
 		array(
 			'name'        => __( 'Commerce7', 'wp-commerce7' ),

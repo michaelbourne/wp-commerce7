@@ -5,7 +5,7 @@
  * Created Date: Wednesday September 2nd 2020
  * Author: Michael Bourne
  * -----
- * Last Modified: Wednesday, November 8th 2023, 4:06:12 pm
+ * Last Modified: Sunday, December 8th 2024, 1:30:35 pm
  * Modified By: Michael Bourne
  * -----
  * Copyright (c) 2020 URSA6
@@ -21,7 +21,7 @@
 require_once C7WP_ROOT . '/includes/elementor/elementor-legacy.php';
 \Elementor\Plugin::instance()->widgets_manager->register_widget_type( new \C7WP_Elementor() );
 
-if ( 'v2' == $this->widgetsver ) {
+if ( in_array( $this->widgetsver, [ 'v2', 'v2-compat' ] ) ) {
     $elements = [
         'personalization',
         'buyslug',

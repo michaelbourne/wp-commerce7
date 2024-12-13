@@ -768,7 +768,7 @@ class C7WP {
 	 */
 	public function add_c7_rewrites() {
 
-		if ( 'v2' === $this->widgetsver || 'v2-compat' === $this->widgetsver ) {
+		if ( in_array( $this->widgetsver, [ 'v2', 'v2-compat' ] ) ) {
 
 			$options = get_option( 'c7wp_settings' );
 
@@ -830,7 +830,7 @@ class C7WP {
 					break;
 			}
 
-			$login = ( 'v2' === $this->widgetsver || 'v2-compat' === $this->widgetsver ) ? 'c7-account' : 'c7-login';
+			$login = ( in_array( $this->widgetsver, [ 'v2', 'v2-compat' ] ) ) ? 'c7-account' : 'c7-login';
 
 			echo '<div id="c7wp-cart-box" class="' . esc_attr( $class ) . esc_attr( $color ) . '"><div id="' . esc_attr( $login ) . '"></div><div id="c7-cart"></div></div>';
 
@@ -882,7 +882,7 @@ class C7WP {
 
 		$output = '<div class="c7wp-wrap" data-c7-type="' . $atts['type'] . '">';
 
-		if ( 'v2' === $this->widgetsver || 'v2-compat' === $this->widgetsver ) {
+		if ( in_array( $this->widgetsver, [ 'v2', 'v2-compat' ] ) ) {
 
 			switch ( $atts['type'] ) {
 				case 'default':

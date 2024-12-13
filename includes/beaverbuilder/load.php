@@ -18,7 +18,7 @@ if ( class_exists( 'FLBuilder' ) ) {
     require_once C7WP_ROOT . '/includes/beaverbuilder/legacy/beaver-c7wp.php';
 }
 
-if ( 'v2' == $this->widgetsver ) {
+if ( in_array( $this->widgetsver, [ 'v2', 'v2-compat' ] ) ) {
     // V2 Frontend
     $elements = [
         'personalization',

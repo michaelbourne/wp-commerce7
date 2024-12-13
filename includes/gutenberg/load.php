@@ -5,7 +5,7 @@
  * Created Date: Wednesday September 2nd 2020
  * Author: Michael Bourne
  * -----
- * Last Modified: Tuesday, November 7th 2023, 2:45:47 pm
+ * Last Modified: Sunday, December 8th 2024, 1:29:52 pm
  * Modified By: Michael Bourne
  * -----
  * Copyright (c) 2020 URSA6
@@ -22,7 +22,7 @@ if ( ! function_exists( 'register_block_type' ) ) {
     return;
 }
 
-if ( 'v2' == $this->widgetsver ) {
+if ( in_array( $this->widgetsver, [ 'v2', 'v2-compat' ] ) ) {
     $elements = [
         'default',
         'personalization',
