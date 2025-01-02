@@ -4,7 +4,7 @@ Donate link: https://www.paypal.me/yycpro
 Tags: commerce7
 Requires at least: 6.0
 Tested up to: 6.7.1
-Stable tag: 1.4.7
+Stable tag: 1.4.8
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.en.html
 
@@ -71,6 +71,9 @@ Removing this plugin will render your widgets inactive, but will not remove them
 
 
 == Changelog ==
+
+= 1.4.8 - January 2, 2025 =
+* Fix: Disable C7 JS in Oxygen's frontend builder to prevent conflicts.
 
 = 1.4.7 - December 13, 2024 =
 * Fix: Proper widgets loading when using compatibility mode.

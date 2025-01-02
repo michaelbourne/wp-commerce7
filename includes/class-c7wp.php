@@ -75,6 +75,7 @@ class C7WP {
 		add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ) );
 		add_action( 'elementor/editor/before_enqueue_scripts', array( $this, 'elementor_editor_enqueue_scripts' ) );
 		add_action( 'after_setup_theme', array( $this, 'load_c7_css' ), 9 );
+		add_filter( 'body_class', array( $this, 'add_body_class' ) );
 
 		// for front end
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ), 10 );
@@ -676,7 +677,17 @@ class C7WP {
 				wp_register_script( 'c7js', 'https://cdn.commerce7.com/v2/commerce7.js', array(), null, true ); // phpcs:ignore
 				break;
 		}
-		wp_enqueue_script( 'c7js' );
+		/**
+		 * Enqueues the 'c7js' script if the following conditions are met:
+		 * - The current request is not an admin request.
+		 * - The 'ct_builder' query parameter is not present in the URL.
+		 *
+		 * This ensures that the C7 script is only enqueued on the front-end and not when
+		 * using certain page builders like Oxygen.
+		 */
+		if ( ! is_admin() && empty( $_GET['ct_builder'] ) ) {
+			wp_enqueue_script( 'c7js' );
+		}
 
 		/**
 		 * Filter: `c7wp_enqueue_c7_css`
@@ -1039,5 +1050,14 @@ class C7WP {
 		}
 
 		return $post_states;
+	}
+
+
+	/**
+	 * Add body class for styles specificity and scope
+	 */
+	public function add_body_class( $classes ) {
+		$classes[] = 'c7wp';
+		return $classes;
 	}
 }

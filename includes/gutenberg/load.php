@@ -5,7 +5,7 @@
  * Created Date: Wednesday September 2nd 2020
  * Author: Michael Bourne
  * -----
- * Last Modified: Sunday, December 8th 2024, 1:29:52 pm
+ * Last Modified: Tuesday, December 17th 2024, 3:46:08 pm
  * Modified By: Michael Bourne
  * -----
  * Copyright (c) 2020 URSA6
@@ -60,7 +60,7 @@ foreach ( $elements as $element ) {
     wp_register_script(
         $block_slug,
         plugins_url( $dir . '/' . $element . '/' . $block_slug . '.js', __FILE__ ),
-        [ 'wp-blocks', 'wp-element', 'wp-editor', 'wp-block-editor' ],
+        [ 'wp-blocks', 'wp-element' ],
         C7WP_VERSION,
         1
     );
