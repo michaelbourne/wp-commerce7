@@ -84,7 +84,7 @@ class C7WP_Elementor extends \Elementor\Widget_Base {
 	 * @since 1.0.0
 	 * @access protected
 	 */
-	protected function _register_controls() { // phpcs:ignore
+	protected function register_controls() { // phpcs:ignore
 
 		$this->start_controls_section(
 			'content_section',

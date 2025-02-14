@@ -5,7 +5,7 @@
  * Created Date: Wednesday September 2nd 2020
  * Author: Michael Bourne
  * -----
- * Last Modified: Thursday, September 3rd 2020, 8:04:45 pm
+ * Last Modified: Thursday, January 9th 2025, 1:51:03 pm
  * Modified By: Michael Bourne
  * -----
  * Copyright (c) 2020 URSA6
@@ -104,7 +104,7 @@ class C7WP_Elementor_Quickshop extends \Elementor\Widget_Base {
 	 * @since 1.0.0
 	 * @access protected
 	 */
-	protected function _register_controls() { // phpcs:ignore
+	protected function register_controls() { // phpcs:ignore
 
 		$this->start_controls_section(
 			'content_section',
@@ -145,7 +145,7 @@ class C7WP_Elementor_Quickshop extends \Elementor\Widget_Base {
 
 	}
 
-	protected function _content_template() {} //phpcs:ignore
+	protected function content_template() {} //phpcs:ignore
 	public function render_plain_content( $instance = [] ) {}
 
 }

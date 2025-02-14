@@ -67,7 +67,7 @@ class C7WP {
 		// Pagebuilder support
 		add_action( 'init', array( $this, 'load_elements' ) );
 		add_action( 'after_setup_theme', array( $this, 'load_cs_elements' ) );
-		add_action( 'elementor/widgets/widgets_registered', array( $this, 'c7wp_elementor_registered' ) );
+		add_action( 'elementor/widgets/register', array( $this, 'c7wp_elementor_registered' ) );
 		add_action( 'elementor/elements/categories_registered', array( $this, 'c7wp_add_elementor_widget_categories' ) );
 		add_filter( 'block_categories_all', array( $this, 'c7wp_block_categories' ), 10, 2 );
 
@@ -295,7 +295,7 @@ class C7WP {
 	public function c7wp_elementor_registered() {
 		if ( class_exists( '\Elementor\Plugin' ) ) {
 			require_once C7WP_ROOT . '/includes/elementor/load.php';
-			\Elementor\Plugin::instance()->widgets_manager->register_widget_type( new \C7WP_Elementor() );
+			\Elementor\Plugin::instance()->widgets_manager->register( new \C7WP_Elementor() );
 		}
 	}
 

@@ -5,7 +5,7 @@
  * Created Date: Wednesday September 2nd 2020
  * Author: Michael Bourne
  * -----
- * Last Modified: Wednesday, November 8th 2023, 4:04:20 pm
+ * Last Modified: Thursday, January 9th 2025, 1:50:49 pm
  * Modified By: Michael Bourne
  * -----
  * Copyright (c) 2020 URSA6
@@ -104,7 +104,7 @@ class C7WP_Elementor_Loginform extends \Elementor\Widget_Base {
 	 * @since 1.0.0
 	 * @access protected
 	 */
-	protected function _register_controls() { // phpcs:ignore
+	protected function register_controls() { // phpcs:ignore
 
 		$this->start_controls_section(
 			'content_section',
@@ -145,7 +145,7 @@ class C7WP_Elementor_Loginform extends \Elementor\Widget_Base {
 
 	}
 
-	protected function _content_template() {} //phpcs:ignore
+	protected function content_template() {} //phpcs:ignore
 	public function render_plain_content( $instance = [] ) {}
 
 }
