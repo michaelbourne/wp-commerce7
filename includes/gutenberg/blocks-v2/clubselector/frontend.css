@@ -1,0 +1,43 @@
+.club-selector-wrapper {
+    margin: 1em 0;
+}
+
+.club-radio-buttons {
+  margin-bottom: 1em;
+}
+
+.club-radio-buttons fieldset {
+    border: none;
+    margin: 0;
+    padding: 0;
+}
+
+.club-radio-buttons .radios {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+}
+
+.club-radio-buttons .row {
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+}
+
+.club-radio-buttons input[type="radio"] {
+    margin: 0;
+}
+
+.club-radio-buttons label {
+    margin: 0;
+}
+
+.club-select {
+    width: 100%;
+    padding: 0.5em;
+    margin-bottom: 1em;
+}
+
+.club-button {
+    margin-top: 1em;
+} 

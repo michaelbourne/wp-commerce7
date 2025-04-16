@@ -3,8 +3,8 @@ Contributors: michaelbourne
 Donate link: https://www.paypal.me/yycpro
 Tags: commerce7
 Requires at least: 6.0
-Tested up to: 6.7.1
-Stable tag: 1.4.8
+Tested up to: 6.8
+Stable tag: 1.5.0
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.en.html
 
@@ -71,6 +71,10 @@ Removing this plugin will render your widgets inactive, but will not remove them
 
 
 == Changelog ==
+
+= 1.5.0 = April 15, 2025
+* Added: Club selector block for Gutenberg.
+* Added: Admin notice management.
 
 = 1.4.8 - January 2, 2025 =
 * Fix: Disable C7 JS in Oxygen's frontend builder to prevent conflicts.
@@ -200,6 +204,9 @@ Removing this plugin will render your widgets inactive, but will not remove them
 
 
 == Upgrade Notice ==
+
+= 1.5.0 =
+Check out the new Club Selector block for Gutenberg!
 
 = 1.4.0 =
 Gutenberg blocks have been reworked. You should test this update on a staging site first to ensure no errors occur. 

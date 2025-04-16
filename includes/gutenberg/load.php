@@ -5,7 +5,7 @@
  * Created Date: Wednesday September 2nd 2020
  * Author: Michael Bourne
  * -----
- * Last Modified: Tuesday, December 17th 2024, 3:46:08 pm
+ * Last Modified: Monday, April 14th 2025, 3:39:26 pm
  * Modified By: Michael Bourne
  * -----
  * Copyright (c) 2020 URSA6
@@ -22,8 +22,8 @@ if ( ! function_exists( 'register_block_type' ) ) {
     return;
 }
 
-if ( in_array( $this->widgetsver, [ 'v2', 'v2-compat' ] ) ) {
-    $elements = [
+if ( in_array( $this->widgetsver, array( 'v2', 'v2-compat' ) ) ) {
+    $elements = array(
         'default',
         'personalization',
         'buyslug',
@@ -33,10 +33,11 @@ if ( in_array( $this->widgetsver, [ 'v2', 'v2-compat' ] ) ) {
         'form',
         'joinnow',
         'loginform',
-    ];
+        'clubselector',
+    );
     $dir = 'blocks-v2';
 } else {
-    $elements = [
+    $elements = array(
         'default',
         'personalization',
         'buy',
@@ -49,7 +50,7 @@ if ( in_array( $this->widgetsver, [ 'v2', 'v2-compat' ] ) ) {
         'quickshop',
         'loginform',
         'createaccount',
-    ];
+    );
     $dir = 'blocks';
 }
 
@@ -60,7 +61,7 @@ foreach ( $elements as $element ) {
     wp_register_script(
         $block_slug,
         plugins_url( $dir . '/' . $element . '/' . $block_slug . '.js', __FILE__ ),
-        [ 'wp-blocks', 'wp-element' ],
+        array( 'wp-blocks', 'wp-element' ),
         C7WP_VERSION,
         1
     );
@@ -69,13 +70,50 @@ foreach ( $elements as $element ) {
     wp_register_style(
         $block_slug,
         plugins_url( $dir . '/' . $element . '/' . $block_slug . '.css', __FILE__ ),
-        [],
+        array(),
         C7WP_VERSION
     );
 
     // Register block script and style.
-    register_block_type( 'c7wp/' . $element, [
+    register_block_type( 'c7wp/' . $element, array(
         'editor_style'  => $block_slug, // Loads both on editor.
         'editor_script' => $block_slug, // Loads only on editor.
-    ] );
+    ) );
+
+    // Check for and load frontend assets
+    $frontend_js_path = $dir . '/' . $element . '/frontend.js';
+    $frontend_css_path = $dir . '/' . $element . '/frontend.css';
+
+    // Register and enqueue frontend script if it exists
+    if ( file_exists( C7WP_ROOT . '/includes/gutenberg/' . $frontend_js_path ) ) {
+        $frontend_script_handle = 'c7wp-' . $element . '-frontend';
+        wp_register_script(
+            $frontend_script_handle,
+            plugins_url( $frontend_js_path, __FILE__ ),
+            array(),
+            C7WP_VERSION,
+            true
+        );
+
+        // Localize settings for clubselector
+        if ( 'clubselector' === $element ) {
+            $options = get_option( 'c7wp_settings' );
+            wp_localize_script( $frontend_script_handle, 'c7wp_settings', array(
+                'c7wp_frontend_routes' => isset( $options['c7wp_frontend_routes'] ) ? $options['c7wp_frontend_routes'] : array( 'club' => 'club' ),
+            ) );
+        }
+
+        wp_enqueue_script( $frontend_script_handle );
+    }
+
+    // Register and enqueue frontend styles if they exist
+    if ( file_exists( C7WP_ROOT . '/includes/gutenberg/' . $frontend_css_path ) ) {
+        wp_register_style(
+            'c7wp-' . $element . '-frontend',
+            plugins_url( $frontend_css_path, __FILE__ ),
+            array(),
+            C7WP_VERSION
+        );
+        wp_enqueue_style( 'c7wp-' . $element . '-frontend' );
+    }
 }

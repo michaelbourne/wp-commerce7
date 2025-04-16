@@ -1,0 +1,44 @@
+/* Editor specific styles */
+.components-placeholder .club-selector-preview {
+    /* padding: 1em;
+    border: 1px dashed #ccc;
+    border-radius: 4px; */
+}
+
+.club-list {
+    margin-top: 1em;
+}
+
+.club-radio-buttons {
+  margin-bottom: 1em;
+}
+
+.club-select {
+  margin-bottom: 1em;
+}
+
+.club-item {
+    padding: 1em;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-bottom: 1em;
+}
+
+.club-item .components-base-control {
+    margin-bottom: 1em;
+}
+
+.club-item .components-button {
+    margin-top: 0.5em;
+}
+
+/* Hide URL input and make button text read-only */
+.club-selector-button .block-editor-url-input {
+    display: none !important;
+}
+
+.club-selector-button .block-editor-rich-text__editable {
+    pointer-events: none;
+    cursor: default;
+    opacity: 0.8;
+} 

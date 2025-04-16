@@ -18,7 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Register our element
  */
 function c7wp_element_register_elements() {
-	cornerstone_register_element( 'C7WP_csElement', 'commerce7', C7WP_ROOT . '/includes/themeco/cornerstone' );
+	cornerstone_register_element( 'C7WP_CsElement', 'commerce7', C7WP_ROOT . '/includes/themeco/cornerstone' );
 }
 add_action( 'cornerstone_register_elements', 'c7wp_element_register_elements' );
 

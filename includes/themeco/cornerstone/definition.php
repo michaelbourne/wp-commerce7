@@ -9,13 +9,13 @@
  * @since     1.0.0
  */
 
-class C7WP_csElement {
+class C7WP_CsElement {
 
 	public function ui() {
 		return array(
-			'title' => __('Commerce7', 'commerce7-for-wordpress') ,
+			'title' => __( 'Commerce7', 'wp-commerce7' ),
 			'icon_group' => 'commerce7',
-			'icon_id' => 'Layer_1'
+			'icon_id' => 'Layer_1',
 		);
 	}
 
@@ -23,6 +23,11 @@ class C7WP_csElement {
 		return false;
 	}
 
+	/**
+	 * Shortcode name for the element
+	 *
+	 * @var string
+	 */
 	public $shortcode_name = 'c7wp';
 
 }
