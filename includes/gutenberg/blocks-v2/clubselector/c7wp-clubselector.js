@@ -245,7 +245,7 @@
                             ),
                         ),
                     ),
-                    createElement('div', { ...blockProps, className: 'components-placeholder' },
+                    createElement('div', { ...blockProps },
                         createElement('div', { className: 'club-selector-preview' },
                             validationIssues.length > 0 && createElement('div', { 
                                 className: 'components-notice is-warning',

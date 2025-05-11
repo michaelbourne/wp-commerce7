@@ -1,10 +1,4 @@
 /* Editor specific styles */
-.components-placeholder .club-selector-preview {
-    /* padding: 1em;
-    border: 1px dashed #ccc;
-    border-radius: 4px; */
-}
-
 .club-list {
     margin-top: 1em;
 }
@@ -30,6 +24,12 @@
 
 .club-item .components-button {
     margin-top: 0.5em;
+    border: 1px solid;
+    font-size: 0.9em;
+}
+
+.club-item .components-button:disabled {
+    cursor: not-allowed;
 }
 
 /* Hide URL input and make button text read-only */
