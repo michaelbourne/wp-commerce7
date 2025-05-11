@@ -21,9 +21,27 @@ if ( ! defined( 'ABSPATH' ) ) {
 
             <div class="c7wp-row">
                 <div class="c7wp-column">
-                    <div class="c7wp-box">
 
-                        <img src="<?php echo esc_url( C7WP_URI . 'assets/heroheader2023.jpg' ); ?>" alt="Commerce7 for WordPress" style="max-width: 100%;" />
+                    <div class="c7wp-box gradient header">
+
+                        <div class="c7wp-box-content cols-2">
+                            <div class="c7wp-box-content-left">
+                                <h1 class="c7wp-box-title"><?php esc_html_e( 'Commerce7 for WordPress', 'wp-commerce7' ); ?></h1>
+                                <p class="c7wp-box-content-text"><?php esc_html_e( 'Built for wineries that want more control, better performance, and smarter marketing.', 'wp-commerce7' ); ?></p>
+                            </div>
+
+                            <div class="c7wp-box-content-right">
+                                <a href="https://c7wp.com/documentation/" target="_blank" class="c7wp-btn c7wp-btn-primary c7wp-btn-large">
+                                    <svg width="800px" height="800px" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path fill="currentColor" d="M512 64a448 448 0 1 1 0 896 448 448 0 0 1 0-896zm23.744 191.488c-52.096 0-92.928 14.784-123.2 44.352-30.976 29.568-45.76 70.4-45.76 122.496h80.256c0-29.568 5.632-52.8 17.6-68.992 13.376-19.712 35.2-28.864 66.176-28.864 23.936 0 42.944 6.336 56.32 19.712 12.672 13.376 19.712 31.68 19.712 54.912 0 17.6-6.336 34.496-19.008 49.984l-8.448 9.856c-45.76 40.832-73.216 70.4-82.368 89.408-9.856 19.008-14.08 42.24-14.08 68.992v9.856h80.96v-9.856c0-16.896 3.52-31.68 10.56-45.76 6.336-12.672 15.488-24.64 28.16-35.2 33.792-29.568 54.208-48.576 60.544-55.616 16.896-22.528 26.048-51.392 26.048-86.592 0-42.944-14.08-76.736-42.24-101.376-28.16-25.344-65.472-37.312-111.232-37.312zm-12.672 406.208a54.272 54.272 0 0 0-38.72 14.784 49.408 49.408 0 0 0-15.488 38.016c0 15.488 4.928 28.16 15.488 38.016A54.848 54.848 0 0 0 523.072 768c15.488 0 28.16-4.928 38.72-14.784a51.52 51.52 0 0 0 16.192-38.72 51.968 51.968 0 0 0-15.488-38.016 55.936 55.936 0 0 0-39.424-14.784z"/></svg>
+                                    <?php esc_html_e( 'Documentation', 'wp-commerce7' ); ?>
+                                </a>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="c7wp-box">
 
                         <div class="c7wp-box-content">
                             <form method="post" action="options.php">
@@ -35,92 +53,6 @@ if ( ! defined( 'ABSPATH' ) ) {
                             </form>
                         </div>
 
-
-                    </div>
-                </div>
-            </div>
-
-
-            <div class="c7wp-row">
-                <div class="c7wp-column">
-                    <div class="c7wp-box c7wp-box-min-height">
-
-                        <header class="c7wp-box-header">
-                            <h2 class="c7wp-box-title"><?php esc_html_e( 'Settings Instructions', 'wp-commerce7' ); ?></h2>
-                        </header>
-
-
-                        <div class="c7wp-box-content">
-                            <ul class="c7wp-box-features">
-                                <li>
-                                    <div class="c7wp-box-feature-icon">
-                                        <img src="data:image/svg+xml;utf8;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iaXNvLTg4NTktMSI/Pgo8IS0tIEdlbmVyYXRvcjogQWRvYmUgSWxsdXN0cmF0b3IgMTkuMC4wLCBTVkcgRXhwb3J0IFBsdWctSW4gLiBTVkcgVmVyc2lvbjogNi4wMCBCdWlsZCAwKSAgLS0+CjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgdmVyc2lvbj0iMS4xIiBpZD0iTGF5ZXJfMSIgeD0iMHB4IiB5PSIwcHgiIHZpZXdCb3g9IjAgMCAyODYuMDU0IDI4Ni4wNTQiIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDI4Ni4wNTQgMjg2LjA1NDsiIHhtbDpzcGFjZT0icHJlc2VydmUiIHdpZHRoPSI1MTJweCIgaGVpZ2h0PSI1MTJweCI+CjxnPgoJPHBhdGggc3R5bGU9ImZpbGw6IzIzOTRCQzsiIGQ9Ik0xNDMuMDI3LDBDNjQuMDMxLDAsMCw2NC4wNCwwLDE0My4wMjdjMCw3OC45OTYsNjQuMDMxLDE0My4wMjcsMTQzLjAyNywxNDMuMDI3ICAgczE0My4wMjctNjQuMDMxLDE0My4wMjctMTQzLjAyN0MyODYuMDU0LDY0LjA0LDIyMi4wMjIsMCwxNDMuMDI3LDB6IE0xNDMuMDI3LDI1OS4yMzZjLTY0LjE4MywwLTExNi4yMDktNTIuMDI2LTExNi4yMDktMTE2LjIwOSAgIFM3OC44NDQsMjYuODE4LDE0My4wMjcsMjYuODE4czExNi4yMDksNTIuMDI2LDExNi4yMDksMTE2LjIwOVMyMDcuMjEsMjU5LjIzNiwxNDMuMDI3LDI1OS4yMzZ6Ii8+Cgk8cGF0aCBzdHlsZT0iZmlsbDojMjM5NEJDOyIgZD0iTTE1MC4wMjYsODAuMzloLTIyLjg0Yy02LjkxLDAtMTAuOTMzLDcuMDQ0LTEwLjkzMywxMy4xNThjMCw1LjkzNiwzLjIwOSwxMy4xNTgsMTAuOTMzLDEzLjE1OCAgIGg3LjI1OXY4NS4zNmMwLDguNzM0LDYuMjU3LDEzLjYwNSwxMy4xNzYsMTMuNjA1czEzLjE4NS00Ljg4MSwxMy4xODUtMTMuNjA1VjkyLjc3MUMxNjAuNzk4LDg1Ljc4OSwxNTYuOTQ1LDgwLjM5LDE1MC4wMjYsODAuMzl6Ii8+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPC9zdmc+Cg==" />
-                                    </div>
-                                    <div class="c7wp-box-feature-info">
-                                        <h4 class="c7wp-box-content-title"><?php esc_html_e( 'Add your Tenant ID', 'wp-commerce7' ); ?></h4>
-                                        <span class="c7wp-box-content-text">
-                                            <?php
-                                            $tags = wp_kses_allowed_html();
-                                            /* translators: Options page step 1. KSES set to a, br, strong, and em.  */
-                                            echo sprintf(
-                                                wp_kses(
-                                                    __( 'Visit your <a href="%s" target="_blank">Commerce7 Dashboard</a>. After logging in, you will find your Tenant ID under <strong>Settings > General</strong>, the General settings first line that says <code>Tenant</code>.', 'wp-commerce7' ),
-                                                    $tags
-                                                ),
-                                                esc_url( 'https://admin.platform.commerce7.com/setting/general' )
-                                            );
-                                            ?>
-                                        </span>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="c7wp-box-feature-icon">
-                                        <img src="data:image/svg+xml;utf8;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iaXNvLTg4NTktMSI/Pgo8IS0tIEdlbmVyYXRvcjogQWRvYmUgSWxsdXN0cmF0b3IgMTkuMC4wLCBTVkcgRXhwb3J0IFBsdWctSW4gLiBTVkcgVmVyc2lvbjogNi4wMCBCdWlsZCAwKSAgLS0+CjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgdmVyc2lvbj0iMS4xIiBpZD0iTGF5ZXJfMSIgeD0iMHB4IiB5PSIwcHgiIHZpZXdCb3g9IjAgMCAyODYuMDU0IDI4Ni4wNTQiIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDI4Ni4wNTQgMjg2LjA1NDsiIHhtbDpzcGFjZT0icHJlc2VydmUiIHdpZHRoPSI1MTJweCIgaGVpZ2h0PSI1MTJweCI+CjxnPgoJPHBhdGggc3R5bGU9ImZpbGw6IzIzOTRCQzsiIGQ9Ik0xNDMuMDI3LDBDNjQuMDMxLDAsMCw2NC4wNCwwLDE0My4wMjdjMCw3OC45OTYsNjQuMDMxLDE0My4wMjcsMTQzLjAyNywxNDMuMDI3ICAgczE0My4wMjctNjQuMDMxLDE0My4wMjctMTQzLjAyN0MyODYuMDU0LDY0LjA0LDIyMi4wMjIsMCwxNDMuMDI3LDB6IE0xNDMuMDI3LDI1OS4yMzZjLTY0LjE4MywwLTExNi4yMDktNTIuMDI2LTExNi4yMDktMTE2LjIwOSAgIFM3OC44NDQsMjYuODE4LDE0My4wMjcsMjYuODE4czExNi4yMDksNTIuMDI2LDExNi4yMDksMTE2LjIwOVMyMDcuMjEsMjU5LjIzNiwxNDMuMDI3LDI1OS4yMzZ6IE0xNzMuMjMyLDE4MC4yMDVoLTMyLjAzOCAgIGMxNS42NjEtMTguNDU5LDQwLjg1Mi0zOS43NTMsNDAuODUyLTYzLjczNmMwLTIxLjkxLTE2LjU2NC0zNS44ODItMzkuMjE2LTM1Ljg4MmMtMjIuNjYxLDAtNDMuODQ3LDE3Ljk3Ny00My44NDcsMzkuNzE3ICAgYzAsNi43MzEsNC42MDQsMTIuNTg2LDEzLjQ0NSwxMi41ODZjMTcuNjkxLDAsOC4xMDgtMjguNDk4LDI5LjI5NC0yOC40OThjNy41NTQsMCwxMy4yNjYsNi4yMDQsMTMuMjY2LDEzLjI4NCAgIGMwLDYuMjA0LTMuMTM4LDExLjU1OC02LjQ1NCwxNi4wNDZjLTEzLjk5OSwxOC45NjktMzAuNTgxLDM0LjQ5Ni00NS44NjcsNTEuNTc5Yy0xLjg0MSwyLjA2NS00LjI0Niw1LjE3Ni00LjI0Niw4Ljc5NiAgIGMwLDcuOTM4LDYuMjY2LDExLjM4LDE0LjM2NSwxMS4zOGg2MS41MjhjNi45OTksMCwxMy4yNjYtNC41NjgsMTMuMjY2LTEyLjQ5N0MxODcuNTgsMTg1LjA1LDE4MS4zMzEsMTgwLjIwNSwxNzMuMjMyLDE4MC4yMDV6Ii8+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPC9zdmc+Cg==" />
-                                    </div>
-                                    <div class="c7wp-box-feature-info">
-                                        <h4 class="c7wp-box-content-title"><?php esc_html_e( 'Choose whether or not to enable the Cart Box', 'wp-commerce7' ); ?></h4>
-                                        <span class="c7wp-box-content-text">
-                                            <?php
-                                            /* translators: Options page step 2.  */
-                                            esc_html_e( 'The Cart Box will contain a magic login/logut link, as well as the cart totals and a link for the flyout shopping cart. It is often preferrable to include this in your theme manually. You should disable it here if you would prefer to place the login/logout link and cart link in your header with the shortcodes below. The Cart Box can be positioned to any corner of the screen to accomodate different design layouts. Try all of them to find your preferred placement.', 'wp-commerce7' );
-                                            ?>
-                                        </span>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="c7wp-box-feature-icon">
-                                        <img src="data:image/svg+xml;utf8;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iaXNvLTg4NTktMSI/Pgo8IS0tIEdlbmVyYXRvcjogQWRvYmUgSWxsdXN0cmF0b3IgMTkuMC4wLCBTVkcgRXhwb3J0IFBsdWctSW4gLiBTVkcgVmVyc2lvbjogNi4wMCBCdWlsZCAwKSAgLS0+CjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgdmVyc2lvbj0iMS4xIiBpZD0iTGF5ZXJfMSIgeD0iMHB4IiB5PSIwcHgiIHZpZXdCb3g9IjAgMCAyODYuMDU0IDI4Ni4wNTQiIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDI4Ni4wNTQgMjg2LjA1NDsiIHhtbDpzcGFjZT0icHJlc2VydmUiIHdpZHRoPSI1MTJweCIgaGVpZ2h0PSI1MTJweCI+CjxnPgoJPHBhdGggc3R5bGU9ImZpbGw6IzIzOTRCQzsiIGQ9Ik0xNDMuMDI3LDBDNjQuMDQsMCwwLDY0LjA0LDAsMTQzLjAyN2MwLDc4Ljk5Niw2NC4wNCwxNDMuMDI3LDE0My4wMjcsMTQzLjAyNyAgIHMxNDMuMDI3LTY0LjAzMSwxNDMuMDI3LTE0My4wMjdDMjg2LjA1NCw2NC4wNCwyMjIuMDE0LDAsMTQzLjAyNywweiBNMTQzLjAyNywyNTkuMjM2Yy02NC4xODMsMC0xMTYuMjA5LTUyLjAyNi0xMTYuMjA5LTExNi4yMDkgICBTNzguODQ0LDI2LjgxOCwxNDMuMDI3LDI2LjgxOHMxMTYuMjA5LDUyLjAyNiwxMTYuMjA5LDExNi4yMDlTMjA3LjIxLDI1OS4yMzYsMTQzLjAyNywyNTkuMjM2eiBNMTY3LjcxNywxMzcuNjM3ICAgYzguOTY2LTUuOTM2LDEzLjM2NC0xNS4yNzcsMTMuMzY0LTI1Ljk3N2MwLTEzLjIzOS0xMS4yNTQtMzEuMDgyLTM0LjcyOS0zMS4wODJjLTE4LjA5MywwLTM1LjU0MiwxNC4yNzYtMzUuNTQyLDI3LjUxNSAgIGMwLDYuMjg0LDMuOTE1LDEyLjU2LDEwLjYwMiwxMi41NmMxMS4wODUsMCw4Ljk2Ni0xNi42MzYsMjQuNDQ5LTE2LjYzNmM3LjMzOSwwLDExLjczNyw0LjkyNSwxMS43MzcsMTEuMzcxICAgYzAsMTguODUzLTIzLjE1Miw2Ljc5NC0yMy4xNTIsMjQuNjI3YzAsMjAuMDMzLDI3LjcyLDIuNTQ4LDI3LjcyLDI2LjMxN2MwLDkuMDAyLTYuODU2LDE1Ljc5Ni0xNS4zMzEsMTUuNzk2ICAgYy0xOC40MjQsMC0xNS44MTMtMTkuODcyLTI2Ljg5OC0xOS44NzJjLTUuODczLDAtMTIuNTUxLDQuNzU2LTEyLjU1MSwxMS4zOGMwLDEzLjQxOCwxNSwzMS45MjIsMzkuMTI3LDMxLjkyMiAgIGMyMy4xNTIsMCw0MS4wODQtMTcuMTU0LDQxLjA4NC0zNy41MjdDMTg3LjU5OCwxNTQuNjIxLDE3OS40NDUsMTQzLjI1LDE2Ny43MTcsMTM3LjYzN3oiLz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8L3N2Zz4K" />
-                                    </div>
-                                    <div class="c7wp-box-feature-info">
-                                        <h4 class="c7wp-box-content-title"><?php esc_html_e( 'Choose your front-end widgets version.', 'wp-commerce7' ); ?></h4>
-                                        <span class="c7wp-box-content-text">
-                                            <?php
-                                            /* translators: Options page step 3.   */
-                                            esc_html_e( 'The V2 front-end widgets launched officially on September 1, 2021, and are the default for all new tenants. V1 (also known as Beta) will be sunset in the near future; if you are still on V1, make a plan to migrate as soon as possible.', 'wp-commerce7' );
-                                            ?>
-                                        </span>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-
-            <div class="c7wp-row">
-                <div class="c7wp-column">
-                    <div class="c7wp-box c7wp-box-min-height">
-
-                        <header class="c7wp-box-header">
-                            <h2 class="c7wp-box-title"><?php esc_html_e( 'Need a hand?', 'wp-commerce7' ); ?></h2>
-                        </header>
-
-                        <div class="c7wp-box-content ">
-                            <p>Be sure to read the documentation first, as it covers everything from installation, to setup, and use of the plugins features.</p>
-                            <p>If you are looking for a professional agency to hire for your website build, contact us at 5forests for a consultation.</p>
-                            <a href="https://c7wp.com/" target="_blank" style="display: block; color:#fff; background: #333; text-align: center; padding: 1em; font-weight: bold; text-decoration: none; margin-top: 3em;">Read the Docs</a>
-                        </div>
 
                     </div>
                 </div>
