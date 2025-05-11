@@ -12,7 +12,7 @@
 .ember-application .c7wp-wrap::after,
 .elementor-editor-active .c7wp-wrap::after,
 .vc_element .c7wp-wrap::after {
-    content: 'Commerce7 Content: ' attr(data-c7-type);
+    content: 'Commerce7 Widget: ' attr(data-c7-type);
     text-align: center;
     color: #333;
     position: absolute;

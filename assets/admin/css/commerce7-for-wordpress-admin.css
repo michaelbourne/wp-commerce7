@@ -211,6 +211,11 @@ input[type="submit"].c7wp-btn,
     box-shadow: none;
 }
 
+.c7wp-btn:focus {
+    outline-offset: 5px;
+    outline: 5px auto -webkit-focus-ring-color;
+}
+
 .c7wp-btn svg {
     width: 1.5em;
     height: 1.5em;

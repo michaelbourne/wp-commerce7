@@ -76,6 +76,8 @@ Removing this plugin will render your widgets inactive, but will not remove them
 * Added: Club selector block for Gutenberg.
 * Added: Admin notice management.
 * Changed: Slight UI tweaks in options page.
+* Added: Default Content widget for Elementor. The legacy widget will be deleted in the next version, please replace those on all of your pages asap.
+* Added: Default Content widget for Beaver Builder. The legacy widget will be deleted in the next version, please replace those on all of your pages asap.
 
 = 1.4.9 - April 15, 2025 =
 * Updated: Elementor custom widget markup.

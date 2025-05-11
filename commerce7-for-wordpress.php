@@ -12,11 +12,11 @@
  * Plugin Name: Commerce7 for WordPress
  * Description: Integrate Commerce7 functionality into your WordPress site easily
  * Version: 1.5.0
- * Author: 5forests
+ * Author: URSA6 & 5forests
  * Author URI: https://5forests.com
  * Plugin URI: https://c7wp.com
  * Requires at least: 6.0
- * Tested up to: 6.8.1
+ * Tested up to: 6.8
  * Stable tag: 1.5.0
  * Requires PHP: 7.4
  * License: GPL3
@@ -27,7 +27,7 @@
  * Created Date: Friday September 27th 2019
  * Author: Michael Bourne
  * -----
- * Last Modified: Sunday, May 11th 2025, 12:21:31 pm
+ * Last Modified: Sunday, May 11th 2025, 1:50:44 pm
  * Modified By: Michael Bourne
  * -----
  * Copyright (c) 2019-2025 URSA6
