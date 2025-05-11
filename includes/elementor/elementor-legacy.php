@@ -59,7 +59,7 @@ class C7WP_Elementor extends \Elementor\Widget_Base {
 	 * @return string Widget icon.
 	 */
 	public function get_icon() {
-		return 'fa fa-code';
+		return 'c7icon-c7sm';
 	}
 
 	/**

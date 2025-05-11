@@ -5,7 +5,7 @@
  * Created Date: Wednesday September 2nd 2020
  * Author: Michael Bourne
  * -----
- * Last Modified: Sunday, December 8th 2024, 1:30:35 pm
+ * Last Modified: Sunday, May 11th 2025, 1:30:39 pm
  * Modified By: Michael Bourne
  * -----
  * Copyright (c) 2020 URSA6
@@ -32,6 +32,7 @@ if ( in_array( $this->widgetsver, [ 'v2', 'v2-compat' ] ) ) {
         'reservation',
         'form',
         'joinnow',
+        'default',
     ];
 } else {
     $elements = [
