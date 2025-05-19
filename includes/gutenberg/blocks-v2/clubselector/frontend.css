@@ -26,10 +26,12 @@
 
 .club-radio-buttons input[type="radio"] {
     margin: 0;
+    cursor: pointer;
 }
 
 .club-radio-buttons label {
     margin: 0;
+    cursor: pointer;
 }
 
 .club-select {

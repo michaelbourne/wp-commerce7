@@ -53,6 +53,7 @@
             const { attributes, setAttributes, clientId } = props;
             const { displayType, clubs } = attributes;
             const blockProps = useBlockProps();
+            const radioGroupName = `club-selector-${clientId}`;
 
             // Check for validation issues
             const validationIssues = [];
@@ -86,7 +87,7 @@
                 if (buttonBlock && clubs.length > 0) {
                     const firstClub = clubs[0];
                     const clubRoute = window.c7wp_settings?.c7wp_frontend_routes?.club || 'club';
-                    
+
                     if (firstClub.slug && firstClub.name) {
                         wp.data.dispatch('core/block-editor').updateBlockAttributes(buttonBlock.clientId, {
                             text: firstClub.buttonText || __('Join Club', 'wp-commerce7'),
@@ -98,6 +99,20 @@
 
             // Watch for button changes and revert if modified
             useEffect(() => {
+                const block = wp.data.select('core/block-editor').getBlock(clientId);
+                if (!block) return;
+                // Filter to only core/button blocks
+                const buttonBlocks = block.innerBlocks.filter(b => b.name === 'core/button');
+                // If more than one button, remove extras
+                if (buttonBlocks.length > 1) {
+                    // Keep only the first button
+                    const firstButton = buttonBlocks[0];
+                    wp.data.dispatch('core/block-editor').replaceInnerBlocks(
+                        clientId,
+                        [firstButton],
+                        false // do not update selection
+                    );
+                }
                 const buttonBlock = wp.data.select('core/block-editor').getBlock(clientId).innerBlocks[0];
                 if (buttonBlock) {
                     const unsubscribe = wp.data.subscribe(() => {
@@ -105,12 +120,12 @@
                         if (currentButton && clubs.length > 0) {
                             const firstClub = clubs[0];
                             const clubRoute = window.c7wp_settings?.c7wp_frontend_routes?.club || 'club';
-                            
+
                             if (firstClub.slug && firstClub.name) {
                                 const expectedUrl = `/${clubRoute}/${firstClub.slug}/`;
                                 const expectedText = firstClub.buttonText || __('Join Club', 'wp-commerce7');
-                                
-                                if (currentButton.attributes.url !== expectedUrl || 
+
+                                if (currentButton.attributes.url !== expectedUrl ||
                                     currentButton.attributes.text !== expectedText) {
                                     wp.data.dispatch('core/block-editor').updateBlockAttributes(buttonBlock.clientId, {
                                         text: expectedText,
@@ -120,7 +135,7 @@
                             }
                         }
                     });
-                    
+
                     return () => unsubscribe();
                 }
             }, [clubs, clientId]);
@@ -144,7 +159,7 @@
             const updateClub = (index, field, value) => {
                 const newClubs = [...clubs];
                 newClubs[index] = { ...newClubs[index], [field]: value };
-                
+
                 if (field === 'slug') {
                     if (!value) {
                         return; // Don't allow empty slugs
@@ -153,18 +168,18 @@
                 if (field === 'name' && !value) {
                     return; // Don't allow empty names
                 }
-                
+
                 setAttributes({ clubs: newClubs });
             };
 
             // Add a new function to validate slugs on blur
             const validateSlug = (index, value) => {
                 if (!value) return;
-                
-                const isDuplicate = clubs.some((club, i) => 
+
+                const isDuplicate = clubs.some((club, i) =>
                     i !== index && club.slug && club.slug.toLowerCase() === value.toLowerCase()
                 );
-                
+
                 if (isDuplicate) {
                     // Reset to previous value if duplicate
                     const newClubs = [...clubs];
@@ -247,14 +262,14 @@
                     ),
                     createElement('div', { ...blockProps },
                         createElement('div', { className: 'club-selector-preview' },
-                            validationIssues.length > 0 && createElement('div', { 
+                            validationIssues.length > 0 && createElement('div', {
                                 className: 'components-notice is-warning',
                                 style: { marginBottom: '1em' }
                             },
                                 createElement('div', { className: 'components-notice__content' },
                                     createElement('p', null, __('The following issues need to be fixed before the block will render:')),
                                     createElement('ul', null,
-                                        validationIssues.map((issue, index) => 
+                                        validationIssues.map((issue, index) =>
                                             createElement('li', { key: index }, issue)
                                         )
                                     )
@@ -269,7 +284,7 @@
                                                 createElement('div', { key: index, className: 'row' },
                                                     createElement('input', {
                                                         type: 'radio',
-                                                        name: 'club-selector',
+                                                        name: radioGroupName,
                                                         id: `club-${club.slug}`,
                                                         value: club.slug,
                                                         'data-button-text': club.buttonText,
@@ -285,7 +300,7 @@
                                     ),
                                 )
                             ) : (
-                                createElement('select', { 
+                                createElement('select', {
                                     className: 'club-select',
                                     'aria-label': __('Choose your desired club')
                                 },
@@ -315,19 +330,20 @@
             );
         },
         save: function (props) {
-            const { attributes } = props;
+            const { attributes, clientId } = props;
             const { displayType, clubs } = attributes;
-            
+
             // Don't render if no clubs, any club is invalid, or slugs are not unique
-            if (!clubs.length || 
-                !clubs.every(club => 
-                    club.slug && club.slug.trim() !== '' && 
-                    club.name && club.name.trim() !== ''
+            if (!clubs.length ||
+                !clubs.every(club =>
+                    club.slug && club.slug.trim() !== '' &&
+                    club.name && club.name.trim() !== '' &&
+                    club.buttonText && club.buttonText.trim() !== ''
                 ) ||
-                !clubs.every((club, index) => 
-                    !clubs.some((otherClub, otherIndex) => 
-                        index !== otherIndex && 
-                        club.slug && otherClub.slug && 
+                !clubs.every((club, index) =>
+                    !clubs.some((otherClub, otherIndex) =>
+                        index !== otherIndex &&
+                        club.slug && otherClub.slug &&
                         club.slug.toLowerCase() === otherClub.slug.toLowerCase()
                     )
                 )
@@ -340,6 +356,7 @@
             const clubRoute = window.c7wp_settings?.c7wp_frontend_routes?.club || 'club';
             const buttonText = firstClub.buttonText || __('Join Club', 'wp-commerce7');
             const buttonUrl = `/${clubRoute}/${firstClub.slug}/`;
+            const radioGroupName = `club-selector-${clientId}`;
 
             return (
                 createElement('div', { ...blockProps, className: 'club-selector-wrapper' },
@@ -352,7 +369,7 @@
                                         createElement('div', { key: index, className: 'row' },
                                             createElement('input', {
                                                 type: 'radio',
-                                                name: 'club-selector',
+                                                name: radioGroupName,
                                                 id: `club-${club.slug}`,
                                                 value: club.slug,
                                                 'data-button-text': club.buttonText,
@@ -368,7 +385,7 @@
                             ),
                         )
                     ) : (
-                        createElement('select', { 
+                        createElement('select', {
                             className: 'club-select',
                             'aria-label': __('Choose your desired club')
                         },
@@ -383,15 +400,7 @@
                         )
                     ),
                     createElement('div', { className: 'wp-block-buttons' },
-                        createElement(InnerBlocks.Content, {
-                            template: [
-                                ['core/button', {
-                                    text: buttonText,
-                                    url: buttonUrl,
-                                    className: 'club-selector-button'
-                                }]
-                            ]
-                        }),
+                        createElement(InnerBlocks.Content),
                     ),
                 )
             );
