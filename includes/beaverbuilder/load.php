@@ -29,6 +29,7 @@ if ( in_array( $this->widgetsver, [ 'v2', 'v2-compat' ] ) ) {
         'joinnow',
         'buyslug',
         'default',
+        'collectionlist',
     ];
 } else {
     // Beta Frontend

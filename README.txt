@@ -4,7 +4,7 @@ Donate link: https://www.paypal.me/yycpro
 Tags: commerce7
 Requires at least: 6.0
 Tested up to: 6.8.1
-Stable tag: 1.5.0
+Stable tag: 1.5.2
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.en.html
 
@@ -72,7 +72,13 @@ Removing this plugin will render your widgets inactive, but will not remove them
 
 == Changelog ==
 
-= 1.5.0 = May 11, 2025
+= 1.5.2 - June 5, 2025 =
+* Added: New "Collection List" block - Outputs a list of links to all Collections with a Web Status of "Available"
+
+= 1.5.1 - May 29, 2025 =
+* Fixed: Allow multiple club selectors per page using the new Radio Group Name field. You may have to recreate your existing selectors, or at the very least, press the "attempt recovery" button when you edit them next.
+
+= 1.5.0 - May 11, 2025 =
 * Added: Club selector block for Gutenberg.
 * Added: Admin notice management.
 * Changed: Slight UI tweaks in options page.
@@ -210,6 +216,9 @@ Removing this plugin will render your widgets inactive, but will not remove them
 
 
 == Upgrade Notice ==
+
+= 1.5.1 =
+You may need to resave existing Club Selector blocks if you've used them already.
 
 = 1.5.0 =
 Check out the new Club Selector block for Gutenberg!

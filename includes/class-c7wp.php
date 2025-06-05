@@ -885,6 +885,7 @@ class C7WP {
 			'quickshop',
 			'createaccount',
 			'loginform',
+			'collectionlist',
 		);
 
 		if ( ! in_array( $atts['type'], $allowed_types, true ) ) {
@@ -942,6 +943,10 @@ class C7WP {
 
 				case 'loginform':
 					$output .= '<div id="c7-login-form" data-redirect-to="' . esc_attr( $atts['data'] ) . '"></div>';
+					break;
+
+				case 'collectionlist':
+					$output .= '<div class="c7-collection-list"></div>';
 					break;
 
 				default:

@@ -5,7 +5,7 @@
  * Created Date: Wednesday September 2nd 2020
  * Author: Michael Bourne
  * -----
- * Last Modified: Monday, April 14th 2025, 3:39:26 pm
+ * Last Modified: Wednesday, June 4th 2025, 4:19:48 pm
  * Modified By: Michael Bourne
  * -----
  * Copyright (c) 2020 URSA6
@@ -34,6 +34,7 @@ if ( in_array( $this->widgetsver, array( 'v2', 'v2-compat' ) ) ) {
         'joinnow',
         'loginform',
         'clubselector',
+        'collectionlist',
     );
     $dir = 'blocks-v2';
 } else {

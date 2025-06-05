@@ -43,6 +43,10 @@
                 type: 'boolean',
                 default: true,
             },
+            radioGroupName: {
+                type: 'string',
+                default: '',
+            },
         },
         supports: {
             customClassName: false,
@@ -53,7 +57,7 @@
             const { attributes, setAttributes, clientId } = props;
             const { displayType, clubs } = attributes;
             const blockProps = useBlockProps();
-            const radioGroupName = `club-selector-${clientId}`;
+            const radioGroupName = attributes.radioGroupName || 'club-selector';
 
             // Check for validation issues
             const validationIssues = [];
@@ -209,6 +213,18 @@
                 createElement(Fragment, null,
                     createElement(InspectorControls, null,
                         createElement(PanelBody, { title: __('Club Selector Settings'), initialOpen: true },
+                            createElement(TextControl, {
+                                label: __('Radio Group Name', 'wp-commerce7'),
+                                value: attributes.radioGroupName,
+                                onChange: (value) => {
+                                    // Sanitize: allow only a-z, A-Z, 0-9, -, _
+                                    const sanitized = value.replace(/[^a-zA-Z0-9_-]/g, '');
+                                    setAttributes({ radioGroupName: sanitized });
+                                },
+                                help: __('This must be unique if you use more than one Club Selector block on a page.', 'wp-commerce7'),
+                                placeholder: __('premierclub', 'wp-commerce7'),
+                                required: true,
+                            }),
                             createElement(RadioControl, {
                                 label: __('Display Type'),
                                 selected: displayType,
@@ -330,8 +346,9 @@
             );
         },
         save: function (props) {
-            const { attributes, clientId } = props;
+            const { attributes } = props;
             const { displayType, clubs } = attributes;
+            const radioGroupName = attributes.radioGroupName || 'club-selector';
 
             // Don't render if no clubs, any club is invalid, or slugs are not unique
             if (!clubs.length ||
@@ -352,11 +369,6 @@
             }
 
             const blockProps = useBlockProps.save();
-            const firstClub = clubs[0];
-            const clubRoute = window.c7wp_settings?.c7wp_frontend_routes?.club || 'club';
-            const buttonText = firstClub.buttonText || __('Join Club', 'wp-commerce7');
-            const buttonUrl = `/${clubRoute}/${firstClub.slug}/`;
-            const radioGroupName = `club-selector-${clientId}`;
 
             return (
                 createElement('div', { ...blockProps, className: 'club-selector-wrapper' },

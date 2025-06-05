@@ -30,6 +30,7 @@ if ( isset( $options['c7wp_widget_version'] ) && 'v2' == $options['c7wp_widget_v
           array( 'value' => 'reservation', 'label' => __( 'Reservation Widget', 'wp-commerce7' ) ),
           array( 'value' => 'form', 'label' => __( 'General Form', 'wp-commerce7' ) ),
           array( 'value' => 'joinnow', 'label' => __( 'Join/Edit Club Magic Button', 'wp-commerce7' ) ),
+          array( 'value' => 'collectionlist', 'label' => __( 'Collection List', 'wp-commerce7' ) ),
         ),
       ),
     ),

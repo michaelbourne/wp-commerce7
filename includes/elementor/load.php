@@ -5,7 +5,7 @@
  * Created Date: Wednesday September 2nd 2020
  * Author: Michael Bourne
  * -----
- * Last Modified: Sunday, May 11th 2025, 1:30:39 pm
+ * Last Modified: Thursday, June 5th 2025, 5:11:55 pm
  * Modified By: Michael Bourne
  * -----
  * Copyright (c) 2020 URSA6
@@ -33,6 +33,7 @@ if ( in_array( $this->widgetsver, [ 'v2', 'v2-compat' ] ) ) {
         'form',
         'joinnow',
         'default',
+        'collectionlist',
     ];
 } else {
     $elements = [

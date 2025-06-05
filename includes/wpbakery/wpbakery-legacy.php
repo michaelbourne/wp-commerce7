@@ -5,7 +5,7 @@
  * Created Date: Thursday September 3rd 2020
  * Author: Michael Bourne
  * -----
- * Last Modified: Sunday, December 8th 2024, 1:30:28 pm
+ * Last Modified: Thursday, June 5th 2025, 5:11:17 pm
  * Modified By: Michael Bourne
  * -----
  * Copyright (c) 2020 URSA6
@@ -92,6 +92,7 @@ if ( in_array( $this->widgetsver, [ 'v2', 'v2-compat' ] ) ) {
 						__( 'Quick Shop Form', 'wp-commerce7' )             => 'quickshop',
 						__( 'Login Form', 'wp-commerce7' )                  => 'loginform',
 						__( 'Create Account Form', 'wp-commerce7' )         => 'creataccount',
+						__( 'Collection List', 'wp-commerce7' )               => 'collectionlist',
 					),
 					'std'         => 'default',
 					'description' => __( 'Choose the type of content you would like to display.', 'wp-commerce7' ),
@@ -101,7 +102,7 @@ if ( in_array( $this->widgetsver, [ 'v2', 'v2-compat' ] ) ) {
 					'class'       => '',
 					'heading'     => __( 'Data', 'wp-commerce7' ),
 					'param_name'  => 'data',
-					'description' => __( 'Enter the data for the content type, if applicable.', 'wp-commerce7' ),
+					'description' => __( 'Enter the data (normally a slug) for the content type, if applicable.', 'wp-commerce7' ),
 				),
 			),
 		)
