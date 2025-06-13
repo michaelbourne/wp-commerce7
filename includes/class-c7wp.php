@@ -946,7 +946,7 @@ class C7WP {
 					break;
 
 				case 'collectionlist':
-					$output .= '<div class="c7-collection-list"></div>';
+					$output .= '<div id="c7-collection-list"></div>';
 					break;
 
 				default:

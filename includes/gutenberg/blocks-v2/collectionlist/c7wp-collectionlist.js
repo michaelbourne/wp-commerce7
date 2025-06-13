@@ -22,7 +22,7 @@
                     className: 'components-placeholder ' + props.className
                     },
                     el( 'div', { 
-                        className: 'c7-collection-list'
+                        id: 'c7-collection-list'
                         },
                         el(
                             'strong',
@@ -39,7 +39,7 @@
                     className: props.className
                     },
                     el( 'div', { 
-                        className: 'c7-collection-list'
+                        id: 'c7-collection-list'
                         }
                     )
                 )
