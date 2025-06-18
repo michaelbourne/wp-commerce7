@@ -4,7 +4,7 @@ Donate link: https://www.paypal.me/yycpro
 Tags: commerce7
 Requires at least: 6.0
 Tested up to: 6.8.1
-Stable tag: 1.5.2
+Stable tag: 1.5.3
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.en.html
 
@@ -71,6 +71,9 @@ Removing this plugin will render your widgets inactive, but will not remove them
 
 
 == Changelog ==
+
+= 1.5.3 =
+* Fix: fatal error in Beaver Builder
 
 = 1.5.2 - June 5, 2025 =
 * Added: New "Collection List" block - Outputs a list of links to all Collections with a Web Status of "Available"
