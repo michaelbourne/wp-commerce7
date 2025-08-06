@@ -24,8 +24,8 @@
         },
 		edit: function( props ) {
 
-            function updateData( event ) {
-                props.setAttributes( { data: event.target.value } );
+            function updateData( value ) {
+                props.setAttributes( { data: value } );
             }
 
             return (
