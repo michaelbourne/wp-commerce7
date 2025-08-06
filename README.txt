@@ -3,7 +3,7 @@ Contributors: michaelbourne
 Donate link: https://www.paypal.me/yycpro
 Tags: commerce7
 Requires at least: 6.0
-Tested up to: 6.8.1
+Tested up to: 6.8
 Stable tag: 1.5.4
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.en.html
@@ -73,8 +73,8 @@ Removing this plugin will render your widgets inactive, but will not remove them
 == Changelog ==
 
 = 1.5.4 =
-* Fix: Gutenberg block settings update
-* Fix: Login widget redirect path
+* Fix: Gutenberg block settings for old beta frontend
+* Fix: Login widget redirect path on V2 frontend
 
 = 1.5.3 =
 * Fix: fatal error in Beaver Builder
