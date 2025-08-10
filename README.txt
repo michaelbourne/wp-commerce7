@@ -75,6 +75,7 @@ Removing this plugin will render your widgets inactive, but will not remove them
 = 1.5.4 =
 * Fix: Gutenberg block settings for old beta frontend
 * Fix: Login widget redirect path on V2 frontend
+* Fix: Club Selector block conflict with Oxygen page builder front end edit mode
 
 = 1.5.3 =
 * Fix: fatal error in Beaver Builder

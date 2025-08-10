@@ -5,7 +5,7 @@
  * Created Date: Wednesday September 2nd 2020
  * Author: Michael Bourne
  * -----
- * Last Modified: Wednesday, June 4th 2025, 4:19:48 pm
+ * Last Modified: Thursday, August 7th 2025, 9:42:01 pm
  * Modified By: Michael Bourne
  * -----
  * Copyright (c) 2020 URSA6
@@ -86,7 +86,7 @@ foreach ( $elements as $element ) {
     $frontend_css_path = $dir . '/' . $element . '/frontend.css';
 
     // Register and enqueue frontend script if it exists
-    if ( file_exists( C7WP_ROOT . '/includes/gutenberg/' . $frontend_js_path ) ) {
+    if ( file_exists( C7WP_ROOT . '/includes/gutenberg/' . $frontend_js_path ) && empty( $_GET['ct_builder'] ) ) {
         $frontend_script_handle = 'c7wp-' . $element . '-frontend';
         wp_register_script(
             $frontend_script_handle,
