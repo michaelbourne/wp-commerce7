@@ -12,10 +12,10 @@
 
 	registerBlockType( 'c7wp/form', {
         title: __( 'Custom Form' ), // The title of block in editor.
-        description: __( 'Displays a Commerce7 custom form. These can be built in the Marketing tab of the Commerce7 CRM.' ),
+        description: __( 'Displays a Commerce7 custom form. These can be built in the Website tab of the Commerce7 CRM.' ),
 		icon: iconEl,
         category: 'commerce7', // The category of block in editor.
-        keywords: [ 'commerce7', 'form', 'contact' ],
+        keywords: [ 'commerce7', 'form', 'custom', 'custom form','contact' ],
         example: {},
 		attributes: {
             data: {
