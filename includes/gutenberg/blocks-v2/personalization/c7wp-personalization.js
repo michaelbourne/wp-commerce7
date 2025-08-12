@@ -12,7 +12,7 @@
 
 	registerBlockType( 'c7wp/personalization', {
         title: __( 'Personalization Block' ), // The title of block in editor.
-        description: __( 'Displays a Commerce7 personalization block. These are created in the Developer section inside Commerce7 and can be edited in the Marketing tab.' ),
+        description: __( 'Displays a Commerce7 personalization block. These are created in the Developer section inside Commerce7 and can be edited in the Website tab.' ),
 		icon: iconEl,
         category: 'commerce7', // The category of block in editor.
         keywords: [ 'commerce7', 'personalization', 'personal' ],
