@@ -5,7 +5,7 @@
  * Created Date: Wednesday September 2nd 2020
  * Author: Michael Bourne
  * -----
- * Last Modified: Thursday, June 5th 2025, 5:11:55 pm
+ * Last Modified: Tuesday, September 16th 2025, 8:35:52 pm
  * Modified By: Michael Bourne
  * -----
  * Copyright (c) 2020 URSA6
@@ -21,8 +21,8 @@
 require_once C7WP_ROOT . '/includes/elementor/elementor-legacy.php';
 \Elementor\Plugin::instance()->widgets_manager->register_widget_type( new \C7WP_Elementor() );
 
-if ( in_array( $this->widgetsver, [ 'v2', 'v2-compat' ] ) ) {
-    $elements = [
+if ( in_array( $this->widgetsver, array( 'v2', 'v2-compat' ), true ) ) {
+    $elements = array(
         'personalization',
         'buyslug',
         'subscribe',
@@ -34,9 +34,10 @@ if ( in_array( $this->widgetsver, [ 'v2', 'v2-compat' ] ) ) {
         'joinnow',
         'default',
         'collectionlist',
-    ];
+        'clubselector',
+    );
 } else {
-    $elements = [
+    $elements = array(
         'personalization',
         'buy',
         'buyslug',
@@ -50,7 +51,8 @@ if ( in_array( $this->widgetsver, [ 'v2', 'v2-compat' ] ) ) {
         'quickshop',
         'loginform',
         'createaccount',
-    ];
+    );
+
 }
 
 foreach ( $elements as $element ) {

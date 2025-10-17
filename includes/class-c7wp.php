@@ -74,6 +74,7 @@ class C7WP {
 		// add admin styles and scripts
 		add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ) );
 		add_action( 'elementor/editor/before_enqueue_scripts', array( $this, 'elementor_editor_enqueue_scripts' ) );
+		add_action( 'elementor/frontend/after_enqueue_scripts', array( $this, 'elementor_frontend_assets_fallback' ) );
 		add_action( 'after_setup_theme', array( $this, 'load_c7_css' ), 9 );
 		add_filter( 'body_class', array( $this, 'add_body_class' ) );
 
@@ -270,9 +271,9 @@ class C7WP {
 	 * Cornerstone element
 	 */
 	public function load_cs_elements() {
-		// Cornerstone Support
+		// Cornerstone Support for older versions
 		if ( class_exists( 'Cornerstone_Plugin' ) || function_exists( 'cornerstone_boot' ) ) {
-			require_once C7WP_ROOT . '/includes/themeco/load.php';
+			require_once C7WP_ROOT . '/includes/themeco/legacy/load.php';
 		}
 	}
 
@@ -750,6 +751,54 @@ class C7WP {
 		wp_enqueue_style( 'wp-commerce7-icons', C7WP_URI . 'assets/admin/css/c7wpicons.css', array(), C7WP_VERSION );
 	}
 
+	/**
+	 * Ensure clubselector frontend assets are loaded for Elementor when Gutenberg is disabled
+	 *
+	 * @return void
+	 */
+	public function elementor_frontend_assets_fallback() {
+		// Only run if Gutenberg is not available (Classic Editor scenario)
+		if ( ! function_exists( 'register_block_type' ) ) {
+			// Check if we're on v2 widgets and clubselector frontend assets exist
+			if ( in_array( $this->widgetsver, array( 'v2', 'v2-compat' ), true ) ) {
+				$frontend_js_path  = 'blocks-v2/clubselector/frontend.js';
+				$frontend_css_path = 'blocks-v2/clubselector/frontend.css';
+
+				// Register and enqueue frontend script if it exists
+				if ( file_exists( C7WP_ROOT . '/includes/gutenberg/' . $frontend_js_path ) && empty( $_GET['ct_builder'] ) ) {
+					$frontend_script_handle = 'c7wp-clubselector-frontend';
+					wp_register_script(
+						$frontend_script_handle,
+						plugins_url( $frontend_js_path, C7WP_ROOT . '/includes/gutenberg/load.php' ),
+						array(),
+						C7WP_VERSION,
+						true
+					);
+
+					// Localize settings
+					$options = get_option( 'c7wp_settings' );
+					wp_localize_script( $frontend_script_handle, 'c7wp_settings', array(
+						'c7wp_frontend_routes' => isset( $options['c7wp_frontend_routes'] ) ? $options['c7wp_frontend_routes'] : array( 'club' => 'club' ),
+					) );
+
+					wp_enqueue_script( $frontend_script_handle );
+				}
+
+				// Register and enqueue frontend styles if they exist
+				if ( file_exists( C7WP_ROOT . '/includes/gutenberg/' . $frontend_css_path ) ) {
+					wp_register_style(
+						'c7wp-clubselector-frontend',
+						plugins_url( $frontend_css_path, C7WP_ROOT . '/includes/gutenberg/load.php' ),
+						array(),
+						C7WP_VERSION
+					);
+					wp_enqueue_style( 'c7wp-clubselector-frontend' );
+				}
+			}
+		}
+	}
+
+
 
 	/**
 	 * Add custom attributes to enqueued C7 script. Add RocketLoader false sync flag in case customer uses CloudFlare.
@@ -779,7 +828,7 @@ class C7WP {
 	 */
 	public function add_c7_rewrites() {
 
-		if ( in_array( $this->widgetsver, [ 'v2', 'v2-compat' ] ) ) {
+		if ( in_array( $this->widgetsver, array( 'v2', 'v2-compat' ), true ) ) {
 
 			$options = get_option( 'c7wp_settings' );
 
@@ -894,7 +943,7 @@ class C7WP {
 
 		$output = '<div class="c7wp-wrap" data-c7-type="' . $atts['type'] . '">';
 
-		if ( in_array( $this->widgetsver, [ 'v2', 'v2-compat' ] ) ) {
+		if ( in_array( $this->widgetsver, array( 'v2', 'v2-compat' ), true ) ) {
 
 			switch ( $atts['type'] ) {
 				case 'default':

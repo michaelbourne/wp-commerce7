@@ -115,6 +115,15 @@ class C7WP_Elementor_Loginform extends \Elementor\Widget_Base {
 		);
 
 		$this->add_control(
+			'preview_notice',
+			[
+				'type'            => \Elementor\Controls_Manager::RAW_HTML,
+				'raw'             => '<div style="background: #fff3cd; border: 1px solid #ffeaa7; padding: 10px; border-radius: 4px; margin-bottom: 15px;"><strong>Preview Notice:</strong> The preview shown in your editor is for example purposes only, it does not reflect the redirect path you provide nor is it interactive.</div>',
+				'content_classes' => 'elementor-panel-alert elementor-panel-alert-warning',
+			]
+		);
+
+		$this->add_control(
 			'data',
 			[
 				'label' 	  => __( 'Redirect To Path', 'wp-commerce7' ),
@@ -141,11 +150,66 @@ class C7WP_Elementor_Loginform extends \Elementor\Widget_Base {
 
 		$data = esc_attr( $settings['data'] );
 
-		echo do_shortcode( '[c7wp type="loginform" data="' . $data . '"]' );
+		// Show preview in Elementor editor, shortcode on frontend
+		if ( \Elementor\Plugin::$instance->editor->is_edit_mode() || \Elementor\Plugin::$instance->preview->is_preview_mode() ) {
+			?>
+			<div id="c7-login-form-placeholder" data-redirect-to="<?php echo esc_attr( $data ); ?>">
+				<form class="c7-form c7-form--login" data-sku="<?php echo esc_attr( $data ); ?>">
+					<div class="c7-form__field">
+						<label class="c7-required">Email</label>
+						<input name="email" tabindex="-1" disabled type="text">
+					</div>
+					<div class="c7-form__field">
+						<label class="c7-required">Password</label>
+						<input name="password" tabindex="-1" disabled type="password">
+					</div>
+					<div class="c7-form__buttons c7-form__buttons--wide">
+						<button type="submit" tabindex="-1" disabled class="c7-btn c7-btn--primary">
+							<span>Log in</span>
+						</button>
+					</div>
+				</form>
+			</div>
+			<?php
+		} else {
+			// Frontend - show actual shortcode
+			echo do_shortcode( '[c7wp type="loginform" data="' . $data . '"]' );
+		}
 
 	}
 
-	protected function content_template() {} //phpcs:ignore
+	/**
+	 * Render widget output in the editor.
+	 *
+	 * Written as a Backbone JavaScript template and used to generate the live preview.
+	 *
+	 * @since 1.0.0
+	 * @access protected
+	 */
+	protected function content_template() {
+		?>
+		<#
+		var slugProvided = settings.data && settings.data.length > 0;
+		#>
+		<div id="c7-login-form-placeholder" data-redirect-to="{{{ settings.data }}}">
+			<form class="c7-form c7-form--login" data-sku="{{{ settings.data }}}">
+				<div class="c7-form__field">
+					<label class="c7-required">Email</label>
+					<input name="email" tabindex="-1" disabled type="text">
+				</div>
+				<div class="c7-form__field">
+					<label class="c7-required">Password</label>
+					<input name="password" tabindex="-1" disabled type="password">
+				</div>
+				<div class="c7-form__buttons c7-form__buttons--wide">
+					<button type="submit" tabindex="-1" disabled class="c7-btn c7-btn--primary">
+						<span>Log in</span>
+					</button>
+				</div>
+			</form>
+		</div>
+		<?php
+	}
 	public function render_plain_content( $instance = [] ) {}
 
 }
