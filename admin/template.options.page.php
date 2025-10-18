@@ -53,7 +53,37 @@ if ( ! defined( 'ABSPATH' ) ) {
                             </form>
                         </div>
 
+                    </div>
 
+                    <div class="c7wp-box">
+                        <div class="c7wp-box-content">
+                            <h3><?php esc_html_e( 'Import/Export Settings', 'wp-commerce7' ); ?></h3>
+                            <p><?php esc_html_e( 'Export your Commerce7 settings to move them between sites, or import settings from another installation.', 'wp-commerce7' ); ?></p>
+                            
+                            <div style="display: flex; gap: 20px; margin-top: 20px;">
+                                <div>
+                                    <h4><?php esc_html_e( 'Export Settings', 'wp-commerce7' ); ?></h4>
+                                    <p><?php esc_html_e( 'Download your current settings as a JSON file.', 'wp-commerce7' ); ?></p>
+                                    <form method="post" action="">
+                                        <?php wp_nonce_field( 'c7wp_export_settings', 'c7wp_export_nonce' ); ?>
+                                        <input type="hidden" name="action" value="c7wp_export_settings">
+                                        <?php submit_button( __( 'Export Settings', 'wp-commerce7' ), 'secondary', 'export_settings', false ); ?>
+                                    </form>
+                                </div>
+                                
+                                <div>
+                                    <h4><?php esc_html_e( 'Import Settings', 'wp-commerce7' ); ?></h4>
+                                    <p><?php esc_html_e( 'Upload a settings file to import configuration.', 'wp-commerce7' ); ?></p>
+                                    <form method="post" action="" enctype="multipart/form-data">
+                                        <?php wp_nonce_field( 'c7wp_import_settings', 'c7wp_import_nonce' ); ?>
+                                        <input type="hidden" name="action" value="c7wp_import_settings">
+                                        <input type="file" name="settings_file" accept=".json" required>
+                                        <br><br>
+                                        <?php submit_button( __( 'Import Settings', 'wp-commerce7' ), 'secondary', 'import_settings', false ); ?>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -82,14 +112,14 @@ if ( ! defined( 'ABSPATH' ) ) {
                 ];
 
                 $allowed_html = wp_kses_allowed_html( 'post' );
-                $allowed_protocols = [
+                $allowed_protocols = array(
                     'https',
                     'data',
-                ];
+                );
 
-                $args = [
-                    'headers' => [ 'Content-Type' => 'application/json; charset=utf-8' ],
-                ];
+                $args = array(
+                    'headers' => array( 'Content-Type' => 'application/json; charset=utf-8' ),
+                );
 
                 foreach ( $gists as $gist ) {
                     $callout = get_transient( 'c7wp_' . $gist );
@@ -97,19 +127,33 @@ if ( ! defined( 'ABSPATH' ) ) {
                     if ( empty( $callout ) ) {
                         $response = wp_remote_get( 'https://api.github.com/gists/' . $gist, $args );
 
-                        if ( is_array( $response ) && ! is_wp_error( $response ) && '200' == wp_remote_retrieve_response_code( $response ) ) {
+                        if ( is_array( $response ) && ! is_wp_error( $response ) && '200' === wp_remote_retrieve_response_code( $response ) ) {
                             $headers = $response['headers']; // array of http header lines
                             $body    = json_decode( $response['body'], true ); // use the content
 
-                            $callout = stripslashes( $body['files']['index.html']['content'] );
-
-                            $trans = set_transient( 'c7wp_' . $gist, $callout, WEEK_IN_SECONDS );
+                            if ( isset( $body['files']['index.html']['content'] ) ) {
+                                $callout = stripslashes( $body['files']['index.html']['content'] );
+                                set_transient( 'c7wp_' . $gist, $callout, WEEK_IN_SECONDS );
+                            } else {
+                                // Log error if WP_DEBUG is enabled
+                                if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+                                    error_log( 'Commerce7: Invalid response structure from GitHub API for gist ' . $gist );
+                                }
+                                continue;
+                            }
                         } else {
+                            // Log error if WP_DEBUG is enabled
+                            if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+                                $error_message = is_wp_error( $response ) ? $response->get_error_message() : 'HTTP ' . wp_remote_retrieve_response_code( $response );
+                                error_log( 'Commerce7: Failed to fetch gist ' . $gist . ': ' . $error_message );
+                            }
                             continue;
                         }
                     }
 
-                    echo wp_kses( $callout, $allowed_html, $allowed_protocols );
+                    if ( ! empty( $callout ) ) {
+                        echo wp_kses( $callout, $allowed_html, $allowed_protocols );
+                    }
                 }
 
                 endif;
@@ -118,7 +162,7 @@ if ( ! defined( 'ABSPATH' ) ) {
             <div class="c7wp-cta">
                 <p class="c7wp-cta-note">Plugin created by URSA6 & 5forests. Provided free to Commerce7 customers and agencies around the world.</p>
                 <hr class="c7wp-cta-spacing">
-                <p class="c7wp-cta-note">We offer unbeatable <a href="https://5forests.com/services/technology/website-care-plans/" target="_blank">sustainble hosting and care plans</a> to our WordPress clients.</p>
+                <p class="c7wp-cta-note">We offer unbeatable <a href="https://5forests.com/services/technology/website-care-plans/" target="_blank">sustainable hosting and care plans</a> to our WordPress clients.</p>
             </div>
         </div>
 

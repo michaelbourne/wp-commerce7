@@ -5,7 +5,7 @@
  * Created Date: Wednesday October 12th 2022
  * Author: Michael Bourne
  * -----
- * Last Modified: Monday, December 12th 2022, 10:19:35 am
+ * Last Modified: Friday, October 17th 2025, 6:55:09 pm
  * Modified By: Michael Bourne
  * -----
  * Copyright (c) 2022 URSA6
@@ -17,7 +17,7 @@
  * @since     1.3.3
  */
 
-add_action( 'wp_head', function( $canonical_url ) {
+add_action( 'rank_math/frontend/canonical', function( $canonical ) {
 
     $options = get_option( 'c7wp_settings' );
 
@@ -32,7 +32,8 @@ add_action( 'wp_head', function( $canonical_url ) {
 
     // If the current page is a product or collection page, remove action to disable canonical URL.
 	if ( is_page( [ $product_route, $collection_route ] ) ) {
-		remove_all_actions( 'rank_math/head' );
+		return false;
 	}
 
 }, 1 );
+

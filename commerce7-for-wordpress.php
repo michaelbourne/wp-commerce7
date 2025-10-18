@@ -62,6 +62,9 @@ if ( ! defined( 'C7WP_NOTICES_URL' ) || C7WP_NOTICES_URL !== 'https://c7wp.com/n
 function c7wp_activate_plugin() {
     add_option( 'c7wp_activation', true );
 
+    // Schedule remote notices cron job
+    c7wp_schedule_notices_cron();
+
     $pages = array( 'profile', 'collection', 'product', 'club', 'checkout', 'cart', 'reservation' );
     $fail  = array();
 
@@ -80,6 +83,21 @@ function c7wp_activate_plugin() {
         );
 
         $pageid = wp_insert_post( $c7_post );
+
+        // Check if page creation was successful
+        if ( is_wp_error( $pageid ) ) {
+            // Log error if WP_DEBUG is enabled
+            if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+                error_log( 'Commerce7: Failed to create page "' . $page . '": ' . $pageid->get_error_message() );
+            }
+            $fail[] = $page;
+        } elseif ( ! $pageid ) {
+            // Log error if WP_DEBUG is enabled
+            if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+                error_log( 'Commerce7: Failed to create page "' . $page . '": Unknown error' );
+            }
+            $fail[] = $page;
+        }
     }
 
     if ( ! empty( $fail ) ) {
@@ -192,9 +210,14 @@ function c7wp_upgrade_function( $upgrader_object, $options ) {
                 $normalized_options = array_merge( $c7options, $options );
                 update_option( 'c7wp_settings', $normalized_options, true );
 
-                // flush rewrite rules.
-                if ( function_exists( 'flush_rewrite_rules' ) ) {
-                    flush_rewrite_rules();
+                // Only flush rewrite rules if route settings have changed
+                $old_routes = isset( $options['c7wp_frontend_routes'] ) ? $options['c7wp_frontend_routes'] : array();
+                $new_routes = $normalized_options['c7wp_frontend_routes'];
+
+                if ( $old_routes !== $new_routes ) {
+                    if ( function_exists( 'flush_rewrite_rules' ) ) {
+                        flush_rewrite_rules();
+                    }
                 }
             }
         }
@@ -261,20 +284,61 @@ function commerce7_wp_manager() {
 commerce7_wp_manager();
 
 /**
- * Fetch and display remote admin notices
+ * Fetch remote admin notices via cron job
  */
-function c7wp_remote_notices() {
-    $transient_key = 'c7wp_remote_notices';
-    $notices = get_transient( $transient_key );
+function c7wp_fetch_remote_notices() {
+    $response = wp_remote_get( C7WP_NOTICES_URL, array(
+        'timeout' => 10,
+        'headers' => array(
+            'User-Agent' => 'Commerce7-WordPress-Plugin/' . C7WP_VERSION,
+        ),
+    ) );
 
-    if ( false === $notices ) {
-        $response = wp_remote_get( C7WP_NOTICES_URL );
-
-        if ( ! is_wp_error( $response ) && 200 === wp_remote_retrieve_response_code( $response ) ) {
-            $notices = json_decode( wp_remote_retrieve_body( $response ), true );
-            set_transient( $transient_key, $notices, 12 * HOUR_IN_SECONDS );
+    if ( is_wp_error( $response ) ) {
+        // Log error if WP_DEBUG is enabled
+        if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+            error_log( 'Commerce7: Failed to fetch remote notices: ' . $response->get_error_message() );
         }
+        return;
     }
+
+    $response_code = wp_remote_retrieve_response_code( $response );
+    if ( 200 !== $response_code ) {
+        // Log error if WP_DEBUG is enabled
+        if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+            error_log( 'Commerce7: Remote notices API returned HTTP ' . $response_code );
+        }
+        return;
+    }
+
+    $notices = json_decode( wp_remote_retrieve_body( $response ), true );
+    if ( json_last_error() !== JSON_ERROR_NONE ) {
+        // Log error if WP_DEBUG is enabled
+        if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+            error_log( 'Commerce7: Failed to parse remote notices JSON: ' . json_last_error_msg() );
+        }
+        return;
+    }
+
+    if ( is_array( $notices ) ) {
+        set_transient( 'c7wp_remote_notices', $notices, 12 * HOUR_IN_SECONDS );
+    }
+}
+
+/**
+ * Schedule remote notices cron job
+ */
+function c7wp_schedule_notices_cron() {
+    if ( ! wp_next_scheduled( 'c7wp_fetch_remote_notices' ) ) {
+        wp_schedule_event( time(), 'twicedaily', 'c7wp_fetch_remote_notices' );
+    }
+}
+
+/**
+ * Display remote admin notices
+ */
+function c7wp_display_remote_notices() {
+    $notices = get_transient( 'c7wp_remote_notices' );
 
     if ( ! empty( $notices ) && is_array( $notices ) ) {
         foreach ( $notices as $notice ) {
@@ -299,13 +363,29 @@ function c7wp_remote_notices() {
         }
     }
 }
-add_action( 'admin_init', 'c7wp_remote_notices' );
+
+
+// Clean up cron job on deactivation
+register_deactivation_hook( __FILE__, function() {
+    wp_clear_scheduled_hook( 'c7wp_fetch_remote_notices' );
+});
+
+// Hook the cron job
+add_action( 'c7wp_fetch_remote_notices', 'c7wp_fetch_remote_notices' );
+
+// Display notices on admin pages
+add_action( 'admin_init', 'c7wp_display_remote_notices' );
 
 /**
  * Handle notice dismissal
  */
 function c7wp_handle_notice_dismissal() {
-    if ( isset( $_GET['c7wp_dismiss_notice'] ) && isset( $_GET['_wpnonce'] ) && wp_verify_nonce( wp_unslash( $_GET['_wpnonce'] ), 'c7wp_dismiss_notice' ) ) {
+    // Check user capabilities first
+    if ( ! current_user_can( 'manage_options' ) ) {
+        return;
+    }
+
+    if ( isset( $_GET['c7wp_dismiss_notice'] ) && isset( $_GET['_wpnonce'] ) && wp_verify_nonce( sanitize_text_field( wp_unslash( $_GET['_wpnonce'] ) ), 'c7wp_dismiss_notice' ) ) {
         $notice_id = sanitize_text_field( wp_unslash( $_GET['c7wp_dismiss_notice'] ) );
         update_user_meta( get_current_user_id(), 'c7wp_notice_dismissed_' . $notice_id, true );
         wp_safe_redirect( remove_query_arg( array( 'c7wp_dismiss_notice', '_wpnonce' ) ) );

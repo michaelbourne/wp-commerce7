@@ -1,0 +1,52 @@
+{
+	"apiVersion": 3,
+	"name": "c7wp/collection",
+	"title": "Commerce7 Collection",
+	"category": "commerce7",
+	"description": "Display a Commerce7 collection with customizable layout options.",
+	"keywords": ["commerce7", "collection", "products", "grid"],
+	"textdomain": "wp-commerce7",
+	"editorScript": "file:./c7wp-collection.js",
+	"editorStyle": "file:./c7wp-collection.css",
+	"style": "file:./c7wp-collection.css",
+	"supports": {
+		"html": false,
+		"customClassName": true,
+		"inserter": true,
+		"reusable": true,
+		"spacing": {
+			"margin": true,
+			"padding": true
+		}
+	},
+	"attributes": {
+		"collectionSlug": {
+			"type": "string",
+			"default": ""
+		},
+		"displayType": {
+			"type": "string",
+			"default": "grid"
+		},
+		"itemsPerRow": {
+			"type": "number",
+			"default": 3
+		},
+		"showPagination": {
+			"type": "boolean",
+			"default": true
+		},
+		"itemsPerPage": {
+			"type": "number",
+			"default": 12
+		},
+		"showFilters": {
+			"type": "boolean",
+			"default": false
+		},
+		"sortBy": {
+			"type": "string",
+			"default": "default"
+		}
+	}
+}

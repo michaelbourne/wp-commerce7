@@ -22,6 +22,9 @@ if ( ! function_exists( 'register_block_type' ) ) {
     return;
 }
 
+// Load validation helper
+require_once C7WP_ROOT . '/includes/class-c7wp-validation.php';
+
 if ( in_array( $this->widgetsver, array( 'v2', 'v2-compat' ) ) ) {
     $elements = array(
         'default',
@@ -56,30 +59,38 @@ if ( in_array( $this->widgetsver, array( 'v2', 'v2-compat' ) ) ) {
 }
 
 foreach ( $elements as $element ) {
-
     $block_slug = 'c7wp-' . $element;
-    // Add block script.
-    wp_register_script(
-        $block_slug,
-        plugins_url( $dir . '/' . $element . '/' . $block_slug . '.js', __FILE__ ),
-        array( 'wp-blocks', 'wp-element' ),
-        C7WP_VERSION,
-        1
-    );
+    
+    // Check if block.json exists (new format)
+    $block_json_path = C7WP_ROOT . '/includes/gutenberg/' . $dir . '/' . $element . '/block.json';
+    if ( file_exists( $block_json_path ) ) {
+        // Register block using block.json metadata
+        register_block_type_from_metadata( $block_json_path );
+    } else {
+        // Fallback to old registration method
+        // Add block script.
+        wp_register_script(
+            $block_slug,
+            plugins_url( $dir . '/' . $element . '/' . $block_slug . '.js', __FILE__ ),
+            array( 'wp-blocks', 'wp-element' ),
+            C7WP_VERSION,
+            1
+        );
 
-    // Add block style.
-    wp_register_style(
-        $block_slug,
-        plugins_url( $dir . '/' . $element . '/' . $block_slug . '.css', __FILE__ ),
-        array(),
-        C7WP_VERSION
-    );
+        // Add block style.
+        wp_register_style(
+            $block_slug,
+            plugins_url( $dir . '/' . $element . '/' . $block_slug . '.css', __FILE__ ),
+            array(),
+            C7WP_VERSION
+        );
 
-    // Register block script and style.
-    register_block_type( 'c7wp/' . $element, array(
-        'editor_style'  => $block_slug, // Loads both on editor.
-        'editor_script' => $block_slug, // Loads only on editor.
-    ) );
+        // Register block script and style.
+        register_block_type( 'c7wp/' . $element, array(
+            'editor_style'  => $block_slug, // Loads both on editor.
+            'editor_script' => $block_slug, // Loads only on editor.
+        ) );
+    }
 
     // Check for and load frontend assets
     $frontend_js_path = $dir . '/' . $element . '/frontend.js';

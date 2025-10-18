@@ -46,6 +46,13 @@ class C7WP {
 	 */
 	private $seoplugin;
 
+	/**
+	 * Cached plugin settings
+	 *
+	 * @var array
+	 */
+	private $settings;
+
 
 	/**
 	 * Constructor.
@@ -87,19 +94,34 @@ class C7WP {
 		// Backend
 		add_filter( 'display_post_states', array( $this, 'add_display_post_states' ), 10, 2 );
 
+		// Import/Export handlers
+		add_action( 'admin_init', array( $this, 'handle_import_export' ) );
+
 		// main variables
 		$this->prefix    = 'c7wp_';
 		$this->seoplugin = false;
 
-		$options = get_option( 'c7wp_settings' );
-		if ( isset( $options['c7wp_widget_version'] ) && ! empty( $options['c7wp_widget_version'] ) ) {
-			$this->widgetsver = esc_attr( $options['c7wp_widget_version'] );
+		// Cache settings to avoid multiple database calls
+		$this->settings = get_option( 'c7wp_settings', array() );
+		if ( isset( $this->settings['c7wp_widget_version'] ) && ! empty( $this->settings['c7wp_widget_version'] ) ) {
+			$this->widgetsver = esc_attr( $this->settings['c7wp_widget_version'] );
 		} else {
 			$this->widgetsver = 'v2';
 		}
 
 		// load translations
 		add_action( 'plugins_loaded', array( $this, 'c7wp_load_textdomain' ) );
+
+		// load health check integration
+		require_once C7WP_ROOT . '/includes/health-check.php';
+
+		// Block Patterns
+		require_once C7WP_ROOT . '/includes/block-patterns.php';
+
+		// load WP-CLI integration
+		if ( defined( 'WP_CLI' ) && WP_CLI ) {
+			require_once C7WP_ROOT . '/includes/wp-cli.php';
+		}
 
 		// c7 div output for certain pagebuilders
 		add_shortcode( 'c7wp', array( $this, 'c7wp_shortcode' ) );
@@ -119,6 +141,22 @@ class C7WP {
 	}
 
 	/**
+	 * Get plugin settings with caching
+	 *
+	 * @return array Plugin settings
+	 */
+	public function get_settings() {
+		return $this->settings;
+	}
+
+	/**
+	 * Refresh cached settings
+	 */
+	public function refresh_settings() {
+		$this->settings = get_option( 'c7wp_settings', array() );
+	}
+
+	/**
 	 * @param mixed $instance Singleton instance.
 	 */
 	public static function setInstance( $instance ) { // phpcs:ignore
@@ -130,9 +168,8 @@ class C7WP {
 	 */
 	public function admin_init() {
 
-		$options = get_option( 'c7wp_settings' );
-		if ( ! isset( $options['c7wp_frontend_routes'] ) || ! is_array( $options['c7wp_frontend_routes'] ) ) {
-			$options['c7wp_frontend_routes'] = array(
+		if ( ! isset( $this->settings['c7wp_frontend_routes'] ) || ! is_array( $this->settings['c7wp_frontend_routes'] ) ) {
+			$this->settings['c7wp_frontend_routes'] = array(
 				'profile'     => 'profile',
 				'collection'  => 'collection',
 				'product'     => 'product',
@@ -143,7 +180,8 @@ class C7WP {
 				'terms'       => 'terms',
 				'reservation' => 'reservation',
 			);
-			update_option( 'c7wp_settings', $options, true );
+			update_option( 'c7wp_settings', $this->settings, true );
+			$this->refresh_settings();
 		}
 
 		$this->settings_init();
@@ -446,10 +484,10 @@ class C7WP {
 			if ( isset( $input[ $key ] ) && ! empty( $value ) ) {
 				if ( is_array( $value ) ) {
 					foreach ( $value as $subkey => $subvalue ) {
-						$output[ $key ][ $subkey ] = sanitize_title( $subvalue );
+						$output[ $key ][ $subkey ] = $this->sanitize_setting_field( $key, $subkey, $subvalue );
 					}
 				} else {
-					$output[ $key ] = sanitize_title( $value );
+					$output[ $key ] = $this->sanitize_setting_field( $key, null, $value );
 				}
 			}
 		}
@@ -457,9 +495,75 @@ class C7WP {
 		return apply_filters( 'c7wp_settings_post_validation', $output, $input );
 	}
 
+	/**
+	 * Sanitize individual setting fields based on field type
+	 *
+	 * @param string $key The setting key.
+	 * @param string|null $subkey The subkey for array values.
+	 * @param mixed $value The value to sanitize.
+	 * @return mixed The sanitized value.
+	 */
+	private function sanitize_setting_field( $key, $subkey, $value ) {
+		// Handle tenant ID specifically
+		if ( 'c7wp_tenant' === $key ) {
+			// Tenant ID should be alphanumeric with possible hyphens/underscores
+			return sanitize_text_field( $value );
+		}
+
+		// Handle frontend routes (page slugs)
+		if ( 'c7wp_frontend_routes' === $key && ! is_null( $subkey ) ) {
+			// Page slugs should be valid WordPress slugs
+			$sanitized = sanitize_title( $value );
+			// Ensure it's not empty and doesn't conflict with WordPress reserved terms
+			$reserved_terms = array( 'admin', 'api', 'wp-admin', 'wp-content', 'wp-includes' );
+			if ( empty( $sanitized ) || in_array( $sanitized, $reserved_terms, true ) ) {
+				// Return default value if invalid
+				$defaults = array(
+					'profile'     => 'profile',
+					'collection'  => 'collection',
+					'product'     => 'product',
+					'club'        => 'club',
+					'checkout'    => 'checkout',
+					'cart'        => 'cart',
+					'reservation' => 'reservation',
+				);
+				return isset( $defaults[ $subkey ] ) ? $defaults[ $subkey ] : sanitize_title( $value );
+			}
+			return $sanitized;
+		}
+
+		// Handle select fields (these should be from predefined options)
+		$select_fields = array(
+			'c7wp_display_cart'          => array( 'yes', 'no' ),
+			'c7wp_display_cart_location' => array( 'tl', 'tr', 'br', 'bl' ),
+			'c7wp_display_cart_color'    => array( 'light', 'dark' ),
+			'c7wp_widget_version'        => array( 'v2', 'v2-compat', 'beta' ),
+			'c7wp_enable_custom_routes'  => array( 'yes', 'no' ),
+		);
+
+		if ( isset( $select_fields[ $key ] ) ) {
+			$allowed_values = $select_fields[ $key ];
+			if ( in_array( $value, $allowed_values, true ) ) {
+				return $value;
+			}
+			// Return default value if invalid
+			$defaults = array(
+				'c7wp_display_cart'          => 'no',
+				'c7wp_display_cart_location' => 'tr',
+				'c7wp_display_cart_color'    => 'light',
+				'c7wp_widget_version'        => 'v2',
+				'c7wp_enable_custom_routes'  => 'no',
+			);
+			return isset( $defaults[ $key ] ) ? $defaults[ $key ] : '';
+		}
+
+		// Default sanitization for other fields
+		return sanitize_text_field( $value );
+	}
+
 	public function c7wp_tenant_render() {
 
-		$options = get_option( 'c7wp_settings' );
+		$options = $this->settings;
 		?>
 		<input type='text' name='c7wp_settings[c7wp_tenant]' value='<?php echo esc_attr( $options['c7wp_tenant'] ); ?>'>
 		<?php
@@ -467,7 +571,7 @@ class C7WP {
 
 	public function c7wp_display_cart_render() {
 
-		$options = get_option( 'c7wp_settings' );
+		$options = $this->settings;
 		?>
 		<select name='c7wp_settings[c7wp_display_cart]' class='c7displaycart'>
 			<option value='no' <?php selected( $options['c7wp_display_cart'], 'no' ); ?>><?php esc_html_e( 'No', 'wp-commerce7' ); ?></option>
@@ -484,7 +588,7 @@ class C7WP {
 
 	public function c7wp_display_cart_location_render() {
 
-		$options  = get_option( 'c7wp_settings' );
+		$options  = $this->settings;
 		$disabled = ( 'no' === $options['c7wp_display_cart'] ) ? 'disabled' : '';
 		if ( ! isset( $options['c7wp_display_cart_location'] ) ) {
 			$options['c7wp_display_cart_location'] = 'tr';
@@ -502,7 +606,7 @@ class C7WP {
 
 	public function c7wp_display_cart_color_render() {
 
-		$options  = get_option( 'c7wp_settings' );
+		$options  = $this->settings;
 		$disabled = ( 'no' === $options['c7wp_display_cart'] ) ? 'disabled' : '';
 		if ( ! isset( $options['c7wp_display_cart_color'] ) ) {
 			$options['c7wp_display_cart_color'] = 'light';
@@ -522,7 +626,7 @@ class C7WP {
 
 	public function c7wp_widget_version_render() {
 
-		$options = get_option( 'c7wp_settings' );
+		$options = $this->settings;
 		?>
 		<select name='c7wp_settings[c7wp_widget_version]' class='c7widgetversion'>
 			<option value='v2' <?php selected( $options['c7wp_widget_version'], 'v2' ); ?>><?php esc_html_e( 'V2', 'wp-commerce7' ); ?></option>
@@ -544,7 +648,7 @@ class C7WP {
 
 	public function c7wp_enable_custom_routes_render() {
 
-		$options  = get_option( 'c7wp_settings' );
+		$options  = $this->settings;
 		$disabled = ( 'beta' === $options['c7wp_widget_version'] ) ? 'disabled' : '';
 		?>
 		<select name='c7wp_settings[c7wp_enable_custom_routes]' <?php echo esc_attr( $disabled ); ?> >
@@ -565,7 +669,7 @@ class C7WP {
 
 	public function c7wp_frontend_routes_render() {
 
-		$options  = get_option( 'c7wp_settings' );
+		$options  = $this->settings;
 		$disabled = ( 'yes' === $options['c7wp_enable_custom_routes'] ) ? '' : 'disabled';
 		?>
 		<div class="routing-row"><input type='text' name='c7wp_settings[c7wp_frontend_routes][cart]' 
@@ -652,7 +756,7 @@ class C7WP {
 	 */
 	public function enqueue_scripts() {
 
-		$options = get_option( 'c7wp_settings' );
+		$options = $this->settings;
 
 		/**
 		 * Load the magic cart box CSS if enabled
@@ -689,6 +793,9 @@ class C7WP {
 		if ( ! is_admin() && empty( $_GET['ct_builder'] ) ) {
 			wp_enqueue_script( 'c7js' );
 		}
+
+		// Enqueue block-specific assets only when needed
+		$this->enqueue_block_assets();
 
 		/**
 		 * Filter: `c7wp_enqueue_c7_css`
@@ -740,6 +847,106 @@ class C7WP {
 				wp_enqueue_script( 'c7wp-seo' );
 			}
 		}
+	}
+
+	/**
+	 * Enqueue block-specific assets only when blocks are present
+	 */
+	private function enqueue_block_assets() {
+		global $post;
+
+		if ( ! $post ) {
+			return;
+		}
+
+		$post_content = $post->post_content;
+
+		// Check for Gutenberg blocks
+		if ( has_blocks( $post_content ) ) {
+			$blocks = parse_blocks( $post_content );
+			$this->enqueue_blocks_assets( $blocks );
+		}
+
+		// Check for shortcodes
+		if ( has_shortcode( $post_content, 'c7wp' ) ) {
+			$this->enqueue_shortcode_assets();
+		}
+	}
+
+	/**
+	 * Recursively enqueue assets for blocks
+	 *
+	 * @param array $blocks Array of blocks to check.
+	 */
+	private function enqueue_blocks_assets( $blocks ) {
+		foreach ( $blocks as $block ) {
+			// Check if this is a Commerce7 block
+			if ( isset( $block['blockName'] ) && strpos( $block['blockName'], 'c7wp/' ) === 0 ) {
+				$block_type = str_replace( 'c7wp/', '', $block['blockName'] );
+				$this->enqueue_specific_block_assets( $block_type );
+			}
+
+			// Check inner blocks
+			if ( isset( $block['innerBlocks'] ) && ! empty( $block['innerBlocks'] ) ) {
+				$this->enqueue_blocks_assets( $block['innerBlocks'] );
+			}
+		}
+	}
+
+	/**
+	 * Enqueue assets for a specific block type
+	 *
+	 * @param string $block_type The block type to enqueue assets for.
+	 */
+	private function enqueue_specific_block_assets( $block_type ) {
+		$widgetsver = $this->get_widgets_version();
+
+		// Determine the correct directory
+		$dir = in_array( $widgetsver, array( 'v2', 'v2-compat' ), true ) ? 'blocks-v2' : 'blocks';
+
+		// Enqueue frontend styles
+		$frontend_css_path = $dir . '/' . $block_type . '/frontend.css';
+		if ( file_exists( C7WP_ROOT . '/includes/gutenberg/' . $frontend_css_path ) ) {
+			wp_enqueue_style(
+				'c7wp-' . $block_type . '-frontend',
+				C7WP_URI . 'includes/gutenberg/' . $frontend_css_path,
+				array(),
+				C7WP_VERSION
+			);
+		}
+
+		// Enqueue frontend scripts
+		$frontend_js_path = $dir . '/' . $block_type . '/frontend.js';
+		if ( file_exists( C7WP_ROOT . '/includes/gutenberg/' . $frontend_js_path ) ) {
+			wp_enqueue_script(
+				'c7wp-' . $block_type . '-frontend',
+				C7WP_URI . 'includes/gutenberg/' . $frontend_js_path,
+				array(),
+				C7WP_VERSION,
+				true
+			);
+
+			// Localize settings for specific blocks
+			if ( 'clubselector' === $block_type ) {
+				$options = $this->settings;
+				wp_localize_script( 'c7wp-' . $block_type . '-frontend', 'c7wp_settings', array(
+					'c7wp_frontend_routes' => isset( $options['c7wp_frontend_routes'] ) ? $options['c7wp_frontend_routes'] : array( 'club' => 'club' ),
+				) );
+			}
+		}
+	}
+
+	/**
+	 * Enqueue assets for shortcode usage
+	 */
+	private function enqueue_shortcode_assets() {
+		// Enqueue general Commerce7 styles
+		wp_enqueue_style(
+			'c7wp-shortcode',
+			C7WP_URI . 'assets/public/css/commerce7-for-wordpress.css',
+			array(),
+			C7WP_VERSION
+		);
 	}
 
 	/**
@@ -811,7 +1018,7 @@ class C7WP {
 	 */
 	public function add_data_to_c7_script( $tag, $handle, $src ) {
 		if ( 'c7js' === $handle ) {
-			$options = get_option( 'c7wp_settings' );
+			$options = $this->settings;
 			$tag     = '<script data-cfasync="false" type="text/javascript" src="' . esc_url( $src ) . '" id="c7-javascript" data-tenant="' . esc_attr( $options['c7wp_tenant'] ) . '"></script>'; // phpcs:ignore
 		}
 
@@ -830,7 +1037,7 @@ class C7WP {
 
 		if ( in_array( $this->widgetsver, array( 'v2', 'v2-compat' ), true ) ) {
 
-			$options = get_option( 'c7wp_settings' );
+			$options = $this->settings;
 
 			if ( isset( $options['c7wp_frontend_routes'] ) && 'yes' === $options['c7wp_enable_custom_routes'] ) {
 				$routes = implode( '|', array_values( $options['c7wp_frontend_routes'] ) );
@@ -863,7 +1070,7 @@ class C7WP {
 	 */
 	public function footer_inject() {
 
-		$options = get_option( 'c7wp_settings' );
+		$options = $this->settings;
 		if ( 'yes' === $options['c7wp_display_cart'] ) {
 
 			$color = ( 'dark' === $options['c7wp_display_cart_color'] ) ? 'c7dark' : 'c7light';
@@ -944,132 +1151,122 @@ class C7WP {
 		$output = '<div class="c7wp-wrap" data-c7-type="' . $atts['type'] . '">';
 
 		if ( in_array( $this->widgetsver, array( 'v2', 'v2-compat' ), true ) ) {
-
-			switch ( $atts['type'] ) {
-				case 'default':
-					$output .= '<div id="c7-content"></div>';
-					break;
-
-				case 'personalization':
-					$output .= '<div class="c7-personalization" data-block-code="' . esc_attr( $atts['data'] ) . '"></div>';
-					break;
-
-				case 'subscribe':
-					$output .= ( 'true' === $atts['data'] ) ? '<div class="c7-subscribe" data-has-name-field="true"></div>' : '<div class="c7-subscribe"></div>';
-					break;
-
-				case 'collection':
-					$output .= '<div class="c7-product-collection" data-collection-slug="' . esc_attr( $atts['data'] ) . '"></div>';
-					break;
-
-				case 'login':
-					$output .= '<div id="c7-account"></div>';
-					break;
-
-				case 'cart':
-					$output .= '<div id="c7-cart"></div>';
-					break;
-
-				case 'reservation':
-					$output .= '<div class="c7-reservation-availability" data-reservation-type-slug="' . esc_attr( $atts['data'] ) . '"></div>';
-					break;
-
-				case 'form':
-					$output .= '<div class="c7-custom-form" data-form-code="' . esc_attr( $atts['data'] ) . '"></div>';
-					break;
-
-				case 'joinnow':
-					$output .= '<div class="c7-club-join-button" 
-												data-club-slug="' . esc_attr( $atts['data'] ) . '"
-												data-join-text="' . esc_attr( $atts['join-text'] ) . '"
-												data-edit-text="' . esc_attr( $atts['edit-text'] ) . '"
-												></div>';
-					break;
-
-				case 'buyslug':
-					$output .= '<div class="c7-buy-product" data-product-slug="' . esc_attr( $atts['data'] ) . '"></div>';
-					break;
-
-				case 'loginform':
-					$output .= '<div id="c7-login-form" data-redirect-to="' . esc_attr( $atts['data'] ) . '"></div>';
-					break;
-
-				case 'collectionlist':
-					$output .= '<div id="c7-collection-list"></div>';
-					break;
-
-				default:
-					$output .= '<div id="c7-content"></div>';
-					break;
-			}
+			$output .= $this->render_v2_widget( $atts );
 		} else {
-
-			switch ( $atts['type'] ) {
-				case 'default':
-					$output .= '<div id="c7-content"></div>';
-					break;
-
-				case 'personalization':
-					$output .= '<div class="c7-personalization" data-block-code="' . esc_attr( $atts['data'] ) . '"></div>';
-					break;
-
-				case 'buy':
-					$output .= '<div class="c7-buy-variant" data-sku="' . esc_attr( $atts['data'] ) . '"></div>';
-					break;
-
-				case 'buyslug':
-					$output .= '<div class="c7-buy-variant" data-product-slug="' . esc_attr( $atts['data'] ) . '"></div>';
-					break;
-
-				case 'subscribe':
-					$output .= ( 'true' === $atts['data'] ) ? '<div class="c7-subscribe" data-has-name-fields="true"></div>' : '<div class="c7-subscribe"></div>';
-					break;
-
-				case 'collection':
-					$output .= '<div class="c7-product-collection" data-collection-slug="' . esc_attr( $atts['data'] ) . '"></div>';
-					break;
-
-				case 'login':
-					$output .= '<div id="c7-login"></div>';
-					break;
-
-				case 'cart':
-					$output .= '<div id="c7-cart"></div>';
-					break;
-
-				case 'reservation':
-					$output .= '<div class="c7-reservation-availability" data-reservation-type-slug="' . esc_attr( $atts['data'] ) . '"></div>';
-					break;
-
-				case 'form':
-					$output .= '<div class="c7-form-wrapper" data-form-code="' . esc_attr( $atts['data'] ) . '"></div>';
-					break;
-
-				case 'joinnow':
-					$output .= '<div class="c7-club-join-button" data-club-slug="' . esc_attr( $atts['data'] ) . '"></div>';
-					break;
-
-				case 'quickshop':
-					$output .= '<div id="c7-quick-shop" data-collection-slug="' . esc_attr( $atts['data'] ) . '"></div>';
-					break;
-
-				case 'loginform':
-					$output .= '<div id="c7-login-form" data-redirect-to="' . esc_attr( $atts['data'] ) . '"></div>';
-					break;
-
-				case 'createaccount':
-					$output .= '<div id="c7-create-account" data-redirect-to="' . esc_attr( $atts['data'] ) . '"></div>';
-					break;
-
-				default:
-					$output .= '<div id="c7-content"></div>';
-					break;
-			}
+			$output .= $this->render_v1_widget( $atts );
 		}
 
 		$output .= '</div>';
 
 		return $output;
+	}
+
+	/**
+	 * Render V2 widget output
+	 *
+	 * @param array $atts Shortcode attributes.
+	 * @return string Widget HTML.
+	 */
+	private function render_v2_widget( $atts ) {
+		switch ( $atts['type'] ) {
+			case 'default':
+				return '<div id="c7-content"></div>';
+
+			case 'personalization':
+				return '<div class="c7-personalization" data-block-code="' . esc_attr( $atts['data'] ) . '"></div>';
+
+			case 'subscribe':
+				return ( 'true' === $atts['data'] ) ? '<div class="c7-subscribe" data-has-name-field="true"></div>' : '<div class="c7-subscribe"></div>';
+
+			case 'collection':
+				return '<div class="c7-product-collection" data-collection-slug="' . esc_attr( $atts['data'] ) . '"></div>';
+
+			case 'login':
+				return '<div id="c7-account"></div>';
+
+			case 'cart':
+				return '<div id="c7-cart"></div>';
+
+			case 'reservation':
+				return '<div class="c7-reservation-availability" data-reservation-type-slug="' . esc_attr( $atts['data'] ) . '"></div>';
+
+			case 'form':
+				return '<div class="c7-custom-form" data-form-code="' . esc_attr( $atts['data'] ) . '"></div>';
+
+			case 'joinnow':
+				return '<div class="c7-club-join-button" 
+					data-club-slug="' . esc_attr( $atts['data'] ) . '"
+					data-join-text="' . esc_attr( $atts['join-text'] ) . '"
+					data-edit-text="' . esc_attr( $atts['edit-text'] ) . '"
+					></div>';
+
+			case 'buyslug':
+				return '<div class="c7-buy-product" data-product-slug="' . esc_attr( $atts['data'] ) . '"></div>';
+
+			case 'loginform':
+				return '<div id="c7-login-form" data-redirect-to="' . esc_attr( $atts['data'] ) . '"></div>';
+
+			case 'collectionlist':
+				return '<div id="c7-collection-list"></div>';
+
+			default:
+				return '<div id="c7-content"></div>';
+		}
+	}
+
+	/**
+	 * Render V1 widget output
+	 *
+	 * @param array $atts Shortcode attributes.
+	 * @return string Widget HTML.
+	 */
+	private function render_v1_widget( $atts ) {
+		switch ( $atts['type'] ) {
+			case 'default':
+				return '<div id="c7-content"></div>';
+
+			case 'personalization':
+				return '<div class="c7-personalization" data-block-code="' . esc_attr( $atts['data'] ) . '"></div>';
+
+			case 'buy':
+				return '<div class="c7-buy-variant" data-sku="' . esc_attr( $atts['data'] ) . '"></div>';
+
+			case 'buyslug':
+				return '<div class="c7-buy-variant" data-product-slug="' . esc_attr( $atts['data'] ) . '"></div>';
+
+			case 'subscribe':
+				return ( 'true' === $atts['data'] ) ? '<div class="c7-subscribe" data-has-name-fields="true"></div>' : '<div class="c7-subscribe"></div>';
+
+			case 'collection':
+				return '<div class="c7-product-collection" data-collection-slug="' . esc_attr( $atts['data'] ) . '"></div>';
+
+			case 'login':
+				return '<div id="c7-login"></div>';
+
+			case 'cart':
+				return '<div id="c7-cart"></div>';
+
+			case 'reservation':
+				return '<div class="c7-reservation-availability" data-reservation-type-slug="' . esc_attr( $atts['data'] ) . '"></div>';
+
+			case 'form':
+				return '<div class="c7-form-wrapper" data-form-code="' . esc_attr( $atts['data'] ) . '"></div>';
+
+			case 'joinnow':
+				return '<div class="c7-club-join-button" data-club-slug="' . esc_attr( $atts['data'] ) . '"></div>';
+
+			case 'quickshop':
+				return '<div id="c7-quick-shop" data-collection-slug="' . esc_attr( $atts['data'] ) . '"></div>';
+
+			case 'loginform':
+				return '<div id="c7-login-form" data-redirect-to="' . esc_attr( $atts['data'] ) . '"></div>';
+
+			case 'createaccount':
+				return '<div id="c7-create-account" data-redirect-to="' . esc_attr( $atts['data'] ) . '"></div>';
+
+			default:
+				return '<div id="c7-content"></div>';
+		}
 	}
 
 	/**
@@ -1081,7 +1278,7 @@ class C7WP {
 	 */
 	public function add_display_post_states( $post_states, $post ) {
 
-		$options = get_option( 'c7wp_settings' );
+		$options = $this->settings;
 		if ( isset( $options['c7wp_widget_version'] ) && 'v2' === $options['c7wp_widget_version']
 		&& isset( $options['c7wp_frontend_routes'] ) && 'yes' === $options['c7wp_enable_custom_routes'] ) {
 			$pages = array_values( $options['c7wp_frontend_routes'] );
@@ -1113,5 +1310,158 @@ class C7WP {
 	public function add_body_class( $classes ) {
 		$classes[] = 'c7wp';
 		return $classes;
+	}
+
+	/**
+	 * Check if a page has proper Commerce7 content
+	 *
+	 * @param int|WP_Post $page Page ID or WP_Post object.
+	 * @return bool True if page has proper C7 content.
+	 */
+	public function page_has_c7_content( $page ) {
+		if ( is_numeric( $page ) ) {
+			$page = get_post( $page );
+		}
+
+		if ( ! $page || 'page' !== $page->post_type ) {
+			return false;
+		}
+
+		$content = $page->post_content;
+
+		// Check for various C7 content patterns
+		$patterns = array(
+			'/c7-content/',                    // Basic C7 div
+			'/wp:c7wp/',                       // Gutenberg blocks
+			'/<!-- wp:c7wp/',                  // Gutenberg block comments
+			'/\[c7wp/',                        // Shortcodes
+			'/class="c7wp-/',                  // C7WP wrapper classes
+		);
+
+		foreach ( $patterns as $pattern ) {
+			if ( preg_match( $pattern, $content ) ) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	/**
+	 * Get pages that need Commerce7 content
+	 *
+	 * @return array Array of page objects that need C7 content.
+	 */
+	public function get_pages_needing_c7_content() {
+		$options = $this->settings;
+		
+		if ( isset( $options['c7wp_frontend_routes'] ) && 'yes' === $options['c7wp_enable_custom_routes'] ) {
+			$required_pages = array_values( $options['c7wp_frontend_routes'] );
+		} else {
+			$required_pages = array( 'profile', 'collection', 'product', 'club', 'checkout', 'cart', 'reservation' );
+		}
+
+		$pages_needing_content = array();
+
+		foreach ( $required_pages as $page_slug ) {
+			$page = get_page_by_path( $page_slug, 'ARRAY_N', 'page' );
+			if ( $page && ! $this->page_has_c7_content( $page[0] ) ) {
+				$pages_needing_content[] = get_post( $page[0] );
+			}
+		}
+
+		return $pages_needing_content;
+	}
+
+	/**
+	 * Handle import/export actions
+	 */
+	public function handle_import_export() {
+		// Check if we're on the Commerce7 settings page
+		if ( ! isset( $_GET['page'] ) || 'commerce7' !== $_GET['page'] ) {
+			return;
+		}
+
+		// Handle export
+		if ( isset( $_POST['action'] ) && 'c7wp_export_settings' === $_POST['action'] ) {
+			if ( ! isset( $_POST['c7wp_export_nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['c7wp_export_nonce'] ) ), 'c7wp_export_settings' ) ) {
+				wp_die( esc_html__( 'Security check failed', 'wp-commerce7' ) );
+			}
+
+			if ( ! current_user_can( 'manage_options' ) ) {
+				wp_die( esc_html__( 'You do not have permission to export settings', 'wp-commerce7' ) );
+			}
+
+			$this->export_settings();
+		}
+
+		// Handle import
+		if ( isset( $_POST['action'] ) && 'c7wp_import_settings' === $_POST['action'] ) {
+			if ( ! isset( $_POST['c7wp_import_nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['c7wp_import_nonce'] ) ), 'c7wp_import_settings' ) ) {
+				wp_die( esc_html__( 'Security check failed', 'wp-commerce7' ) );
+			}
+
+			if ( ! current_user_can( 'manage_options' ) ) {
+				wp_die( esc_html__( 'You do not have permission to import settings', 'wp-commerce7' ) );
+			}
+
+			$this->import_settings();
+		}
+	}
+
+	/**
+	 * Export settings to JSON file
+	 */
+	private function export_settings() {
+		$settings = $this->settings;
+
+		// Remove sensitive data
+		unset( $settings['c7wp_tenant'] );
+
+		$json = wp_json_encode( $settings, JSON_PRETTY_PRINT );
+		$filename = 'c7wp-settings-' . gmdate( 'Y-m-d-H-i-s' ) . '.json';
+
+		header( 'Content-Type: application/json' );
+		header( 'Content-Disposition: attachment; filename="' . $filename . '"' );
+		header( 'Content-Length: ' . strlen( $json ) );
+
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- JSON output for download
+		echo $json;
+		exit;
+	}
+
+	/**
+	 * Import settings from uploaded file
+	 */
+	private function import_settings() {
+		if ( ! isset( $_FILES['settings_file'] ) || ! isset( $_FILES['settings_file']['error'] ) || UPLOAD_ERR_OK !== $_FILES['settings_file']['error'] ) {
+			add_action( 'admin_notices', function() {
+				echo '<div class="notice notice-error"><p>' . esc_html__( 'Error uploading settings file.', 'wp-commerce7' ) . '</p></div>';
+			});
+			return;
+		}
+
+		$file = $_FILES['settings_file'];
+		// phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- Local file upload
+		$json = file_get_contents( $file['tmp_name'] );
+		$settings = json_decode( $json, true );
+
+		if ( json_last_error() !== JSON_ERROR_NONE ) {
+			add_action( 'admin_notices', function() {
+				echo '<div class="notice notice-error"><p>' . esc_html__( 'Invalid JSON file.', 'wp-commerce7' ) . '</p></div>';
+			});
+			return;
+		}
+
+		// Merge with existing settings to preserve tenant ID
+		$existing_settings = $this->settings;
+		$settings = array_merge( $existing_settings, $settings );
+
+		update_option( 'c7wp_settings', $settings );
+		$this->refresh_settings();
+
+		add_action( 'admin_notices', function() {
+			echo '<div class="notice notice-success"><p>' . esc_html__( 'Settings imported successfully.', 'wp-commerce7' ) . '</p></div>';
+		});
 	}
 }

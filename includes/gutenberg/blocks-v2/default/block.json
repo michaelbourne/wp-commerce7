@@ -1,0 +1,24 @@
+{
+	"apiVersion": 3,
+	"name": "c7wp/default",
+	"title": "Commerce7 Default Content",
+	"category": "commerce7",
+	"description": "Placeholder for dynamic Commerce7 content on base routes. Required on product, club, collection, reservation, cart, and checkout pages.",
+	"keywords": ["commerce7", "default", "content"],
+	"textdomain": "wp-commerce7",
+	"editorScript": "file:./c7wp-default.js",
+	"editorStyle": "file:./c7wp-default.css",
+	"style": "file:./c7wp-default.css",
+	"supports": {
+		"html": false,
+		"customClassName": false,
+		"inserter": true,
+		"reusable": false
+	},
+	"attributes": {
+		"pageType": {
+			"type": "string",
+			"default": "default"
+		}
+	}
+}
