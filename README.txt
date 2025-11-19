@@ -4,7 +4,7 @@ Donate link: https://www.paypal.me/yycpro
 Tags: commerce7
 Requires at least: 6.0
 Tested up to: 6.8
-Stable tag: 1.5.4
+Stable tag: 1.6
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.en.html
 
@@ -71,6 +71,19 @@ Removing this plugin will render your widgets inactive, but will not remove them
 
 
 == Changelog ==
+
+= 1.6 =
+* Large plugin changes, please backup site before updating
+* Improved: Elementor blocks, adding static previews to some block types for inline styles and visual verifications
+* Improved: Themeco Cornerstone blocks, adding static previews to some block types for inline styles and visual verifications
+* Improved: Settings sanitization
+* Improved: C7WP notices
+* Improved: Page creation on initial plugin activation
+* Improved: Plugin settings cache speed
+* Added: WP Health Check screen
+* Fixed: RankMath canonical tag
+* Added: Uninstall handler to remove plugin data
+
 
 = 1.5.4 =
 * Fix: Gutenberg block settings for old beta frontend

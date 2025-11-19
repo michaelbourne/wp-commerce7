@@ -55,36 +55,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 
                     </div>
 
-                    <div class="c7wp-box">
-                        <div class="c7wp-box-content">
-                            <h3><?php esc_html_e( 'Import/Export Settings', 'wp-commerce7' ); ?></h3>
-                            <p><?php esc_html_e( 'Export your Commerce7 settings to move them between sites, or import settings from another installation.', 'wp-commerce7' ); ?></p>
-                            
-                            <div style="display: flex; gap: 20px; margin-top: 20px;">
-                                <div>
-                                    <h4><?php esc_html_e( 'Export Settings', 'wp-commerce7' ); ?></h4>
-                                    <p><?php esc_html_e( 'Download your current settings as a JSON file.', 'wp-commerce7' ); ?></p>
-                                    <form method="post" action="">
-                                        <?php wp_nonce_field( 'c7wp_export_settings', 'c7wp_export_nonce' ); ?>
-                                        <input type="hidden" name="action" value="c7wp_export_settings">
-                                        <?php submit_button( __( 'Export Settings', 'wp-commerce7' ), 'secondary', 'export_settings', false ); ?>
-                                    </form>
-                                </div>
-                                
-                                <div>
-                                    <h4><?php esc_html_e( 'Import Settings', 'wp-commerce7' ); ?></h4>
-                                    <p><?php esc_html_e( 'Upload a settings file to import configuration.', 'wp-commerce7' ); ?></p>
-                                    <form method="post" action="" enctype="multipart/form-data">
-                                        <?php wp_nonce_field( 'c7wp_import_settings', 'c7wp_import_nonce' ); ?>
-                                        <input type="hidden" name="action" value="c7wp_import_settings">
-                                        <input type="file" name="settings_file" accept=".json" required>
-                                        <br><br>
-                                        <?php submit_button( __( 'Import Settings', 'wp-commerce7' ), 'secondary', 'import_settings', false ); ?>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
 

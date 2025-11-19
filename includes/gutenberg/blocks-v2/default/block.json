@@ -8,7 +8,7 @@
 	"textdomain": "wp-commerce7",
 	"editorScript": "file:./c7wp-default.js",
 	"editorStyle": "file:./c7wp-default.css",
-	"style": "file:./c7wp-default.css",
+	"style": "",
 	"supports": {
 		"html": false,
 		"customClassName": false,

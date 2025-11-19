@@ -1,7 +1,7 @@
 (function (blocks, blockEditor, element, i18n, components) {
 
     const { registerBlockType } = blocks;
-    const { InspectorControls } = blockEditor;
+    const { InspectorControls, useBlockProps } = blockEditor; // ADD useBlockProps here
     const { TextControl, PanelBody } = components;
     const { createElement } = element;
     const { __ } = i18n;
@@ -10,14 +10,14 @@
     createElement('path', { fill: '#333', d: "M12.7.8c-2.6.3-5 1.3-7 2.9S2.2 7.5 1.5 10c-.8 2.4-.8 5.1-.2 7.5.7 2.5 2.1 4.7 4 6.4.1.1.2.1.3.2h.3c.1 0 .2 0 .3-.1.1-.1.2-.1.2-.2.1-.1.1-.2.1-.3v-.3c0-.1 0-.2-.1-.3-.1-.1-.1-.2-.2-.2-1.5-1.3-2.6-2.9-3.2-4.8s-.7-3.9-.4-5.8c.3-1.9 1.1-3.7 2.3-5.3s2.8-2.7 4.6-3.5c1.8-.8 3.8-1.1 5.7-.9 1.9.2 3.8.9 5.4 2 1.6 1.1 2.9 2.6 3.8 4.4.9 1.8 1.3 3.7 1.2 5.6-.1 2.3-.9 4.5-2.3 6.3-1.3 1.8-3.2 3.3-5.3 4.1-2.1.8-4.3 1-6.5.5l8-15.1c.1-.2.2-.5.2-.8 0-.1 0-.2-.1-.3 0-.1-.1-.2-.2-.3-.1-.1-.2-.1-.3-.2-.1 0-.2-.1-.4 0h-10c-.2 0-.5.1-.7.2 0 .2 0 .3-.1.4 0 .1-.1.2 0 .3 0 .1 0 .2.1.3 0 .2 0 .3.1.4.2.2.4.2.7.2h8.5L9.6 24.7c-.7 1.1-.3 1.7 1.1 2.1 1.9.5 3.8.5 5.7.2 1.9-.4 3.7-1.1 5.3-2.3 1.6-1.1 2.9-2.6 3.8-4.3s1.5-3.6 1.6-5.5c.1-1.9-.1-3.9-.8-5.7-.7-1.8-1.8-3.4-3.1-4.8s-3-2.4-4.9-3C16.5.9 14.6.6 12.7.8z" } )
     );
 
-	registerBlockType( 'c7wp/collection', {
-        title: __( 'Collection Grid' ), // The title of block in editor.
-        description: __( 'Displays a single Commerce7 Collection.' ),
-		icon: iconEl,
-        category: 'commerce7', // The category of block in editor.
+    registerBlockType( 'c7wp/collection', {
+        title: __( 'Collection Grid', 'wp-commerce7' ),
+        description: __( 'Displays a single Commerce7 Collection.', 'wp-commerce7' ),
+        icon: iconEl,
+        category: 'commerce7',
         keywords: [ 'commerce7', 'collection', 'shop', 'products' ],
         example: {},
-		attributes: {
+        attributes: {
             data: {
                 type: 'string',
                 source: 'attribute',
@@ -25,7 +25,8 @@
                 attribute: 'data-collection-slug',
             }
         },
-		edit: function( props ) {
+        edit: function( props ) {
+            const blockProps = useBlockProps();
 
             function updateData(value) {
                 props.setAttributes({ data: value });
@@ -40,12 +41,7 @@
                         className: 'components-notice is-warning', style: {
                             marginBottom: '5px',
                         }
-                    },
-                        createElement('small',
-                            null,
-                            'The preview shown in your editor is for example purposes only, it does not reflect the collection slug you provide nor is it interactive.'
-                        )
-                    ),
+                    }),
                     createElement(PanelBody, { title: 'Settings' },
                         createElement(TextControl, {
                             label: 'Collection Slug',
@@ -54,23 +50,22 @@
                         })
                     ),
                 ),
-                slugProvided && createElement( 'div', {
-                    className: 'components-placeholder ' + props.className
-                    },
+                slugProvided && createElement( 'div', blockProps,
                     createElement( 'div', { 
                         className: 'c7-product-collection',
                         'data-collection-slug': props.attributes.data,
                         },
-                        // todo: insert demo html here
-                        createElement( 'div', { style: { 
-                            textAlign: 'center',
-                         } },
+                        createElement( 'div', null,
                             createElement( 'h2', null, "Commerce7 Collection" ),
-                            createElement( 'p', null, props.attributes.data )
+                            createElement( 'p', null, "Collection slug: " + props.attributes.data )
                         ),
                     )
                 ),
-                !slugProvided && createElement('div', { className: 'c7-message c7-message--alert-error', role: 'presentation' },
+                !slugProvided && createElement('div', { 
+                    ...blockProps,
+                    className: blockProps.className + ' c7-message c7-message--alert-error',
+                    role: 'presentation'
+                },
                     createElement('svg', {
                         'aria-hidden': 'true',
                         focusable: 'false',
@@ -92,12 +87,11 @@
                     'Please enter a collection slug in the block settings (generally in your right sidebar)'
                 )
             ];
-		},
-		save: function( props ) {
+        },
+        save: function( props ) {
+            const blockProps = useBlockProps.save();
             return (
-                createElement( 'div', { 
-                    className: props.className
-                    },
+                createElement( 'div', blockProps,
                     createElement( 'div', { 
                         className: 'c7-product-collection',
                         'data-collection-slug': props.attributes.data,
@@ -105,6 +99,30 @@
                     )
                 )
             );
-		},
-	} );
+        },
+        // Deprecated version to handle old blocks without proper className
+        deprecated: [
+            {
+                attributes: {
+                    data: {
+                        type: 'string',
+                        source: 'attribute',
+                        selector: '.c7-product-collection',
+                        attribute: 'data-collection-slug',
+                    }
+                },
+                save: function( props ) {
+                    return (
+                        createElement( 'div', { className: props.className },
+                            createElement( 'div', { 
+                                className: 'c7-product-collection',
+                                'data-collection-slug': props.attributes.data,
+                                }
+                            )
+                        )
+                    );
+                }
+            }
+        ]
+    } );
 })(window.wp.blocks, window.wp.blockEditor, window.wp.element, window.wp.i18n, window.wp.components);

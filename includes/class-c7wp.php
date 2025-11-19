@@ -94,9 +94,6 @@ class C7WP {
 		// Backend
 		add_filter( 'display_post_states', array( $this, 'add_display_post_states' ), 10, 2 );
 
-		// Import/Export handlers
-		add_action( 'admin_init', array( $this, 'handle_import_export' ) );
-
 		// main variables
 		$this->prefix    = 'c7wp_';
 		$this->seoplugin = false;
@@ -114,14 +111,6 @@ class C7WP {
 
 		// load health check integration
 		require_once C7WP_ROOT . '/includes/health-check.php';
-
-		// Block Patterns
-		require_once C7WP_ROOT . '/includes/block-patterns.php';
-
-		// load WP-CLI integration
-		if ( defined( 'WP_CLI' ) && WP_CLI ) {
-			require_once C7WP_ROOT . '/includes/wp-cli.php';
-		}
 
 		// c7 div output for certain pagebuilders
 		add_shortcode( 'c7wp', array( $this, 'c7wp_shortcode' ) );
@@ -374,6 +363,7 @@ class C7WP {
 			return;
 		}
 
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		if ( isset( $_GET['settings-updated'] ) && empty( get_settings_errors( 'c7wp_settings' ) ) ) { // phpcs:ignore
 			add_settings_error( 'c7wp_settings', 'c7wp_settings_saved', __( 'Settings Saved', 'wp-commerce7' ), 'updated' );
 		}
@@ -389,7 +379,14 @@ class C7WP {
 	 */
 	protected function settings_init() {
 
-		register_setting( 'commerce7', 'c7wp_settings', 'c7wp_settings_callback' );
+		register_setting(
+			'commerce7',
+			'c7wp_settings',
+			array(
+					'sanitize_callback' => array( $this, 'c7wp_settings_callback' ),
+					'default' => array(),
+			)
+		);
 
 		add_settings_section(
 			'c7wp_commerce7_section',
@@ -492,22 +489,24 @@ class C7WP {
 			}
 		}
 
+		$this->settings = $output;
+
 		return apply_filters( 'c7wp_settings_post_validation', $output, $input );
 	}
 
 	/**
 	 * Sanitize individual setting fields based on field type
 	 *
-	 * @param string $key The setting key.
+	 * @param string      $key The setting key.
 	 * @param string|null $subkey The subkey for array values.
-	 * @param mixed $value The value to sanitize.
+	 * @param mixed       $value The value to sanitize.
 	 * @return mixed The sanitized value.
 	 */
 	private function sanitize_setting_field( $key, $subkey, $value ) {
 		// Handle tenant ID specifically
 		if ( 'c7wp_tenant' === $key ) {
 			// Tenant ID should be alphanumeric with possible hyphens/underscores
-			return sanitize_text_field( $value );
+			return trim( sanitize_text_field( $value ) );
 		}
 
 		// Handle frontend routes (page slugs)
@@ -641,7 +640,6 @@ class C7WP {
 				<br>
 				<strong>V1:</strong> Only a select few legacy sites are still using the old beta/V1 widgets.', array( 'strong' => array(), 'br' => array() ) );
 			?>
-		</small></p>
 		</small></p>
 		<?php
 	}
@@ -899,7 +897,8 @@ class C7WP {
 	 * @param string $block_type The block type to enqueue assets for.
 	 */
 	private function enqueue_specific_block_assets( $block_type ) {
-		$widgetsver = $this->get_widgets_version();
+		$options    = $this->settings;
+		$widgetsver = $options['c7wp_widget_version'];
 
 		// Determine the correct directory
 		$dir = in_array( $widgetsver, array( 'v2', 'v2-compat' ), true ) ? 'blocks-v2' : 'blocks';
@@ -1097,7 +1096,7 @@ class C7WP {
 					break;
 			}
 
-			$login = ( in_array( $this->widgetsver, [ 'v2', 'v2-compat' ] ) ) ? 'c7-account' : 'c7-login';
+			$login = ( in_array( $this->widgetsver, array( 'v2', 'v2-compat' ) ) ) ? 'c7-account' : 'c7-login';
 
 			echo '<div id="c7wp-cart-box" class="' . esc_attr( $class ) . esc_attr( $color ) . '"><div id="' . esc_attr( $login ) . '"></div><div id="c7-cart"></div></div>';
 
@@ -1354,7 +1353,7 @@ class C7WP {
 	 */
 	public function get_pages_needing_c7_content() {
 		$options = $this->settings;
-		
+
 		if ( isset( $options['c7wp_frontend_routes'] ) && 'yes' === $options['c7wp_enable_custom_routes'] ) {
 			$required_pages = array_values( $options['c7wp_frontend_routes'] );
 		} else {
@@ -1373,95 +1372,4 @@ class C7WP {
 		return $pages_needing_content;
 	}
 
-	/**
-	 * Handle import/export actions
-	 */
-	public function handle_import_export() {
-		// Check if we're on the Commerce7 settings page
-		if ( ! isset( $_GET['page'] ) || 'commerce7' !== $_GET['page'] ) {
-			return;
-		}
-
-		// Handle export
-		if ( isset( $_POST['action'] ) && 'c7wp_export_settings' === $_POST['action'] ) {
-			if ( ! isset( $_POST['c7wp_export_nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['c7wp_export_nonce'] ) ), 'c7wp_export_settings' ) ) {
-				wp_die( esc_html__( 'Security check failed', 'wp-commerce7' ) );
-			}
-
-			if ( ! current_user_can( 'manage_options' ) ) {
-				wp_die( esc_html__( 'You do not have permission to export settings', 'wp-commerce7' ) );
-			}
-
-			$this->export_settings();
-		}
-
-		// Handle import
-		if ( isset( $_POST['action'] ) && 'c7wp_import_settings' === $_POST['action'] ) {
-			if ( ! isset( $_POST['c7wp_import_nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['c7wp_import_nonce'] ) ), 'c7wp_import_settings' ) ) {
-				wp_die( esc_html__( 'Security check failed', 'wp-commerce7' ) );
-			}
-
-			if ( ! current_user_can( 'manage_options' ) ) {
-				wp_die( esc_html__( 'You do not have permission to import settings', 'wp-commerce7' ) );
-			}
-
-			$this->import_settings();
-		}
-	}
-
-	/**
-	 * Export settings to JSON file
-	 */
-	private function export_settings() {
-		$settings = $this->settings;
-
-		// Remove sensitive data
-		unset( $settings['c7wp_tenant'] );
-
-		$json = wp_json_encode( $settings, JSON_PRETTY_PRINT );
-		$filename = 'c7wp-settings-' . gmdate( 'Y-m-d-H-i-s' ) . '.json';
-
-		header( 'Content-Type: application/json' );
-		header( 'Content-Disposition: attachment; filename="' . $filename . '"' );
-		header( 'Content-Length: ' . strlen( $json ) );
-
-		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- JSON output for download
-		echo $json;
-		exit;
-	}
-
-	/**
-	 * Import settings from uploaded file
-	 */
-	private function import_settings() {
-		if ( ! isset( $_FILES['settings_file'] ) || ! isset( $_FILES['settings_file']['error'] ) || UPLOAD_ERR_OK !== $_FILES['settings_file']['error'] ) {
-			add_action( 'admin_notices', function() {
-				echo '<div class="notice notice-error"><p>' . esc_html__( 'Error uploading settings file.', 'wp-commerce7' ) . '</p></div>';
-			});
-			return;
-		}
-
-		$file = $_FILES['settings_file'];
-		// phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- Local file upload
-		$json = file_get_contents( $file['tmp_name'] );
-		$settings = json_decode( $json, true );
-
-		if ( json_last_error() !== JSON_ERROR_NONE ) {
-			add_action( 'admin_notices', function() {
-				echo '<div class="notice notice-error"><p>' . esc_html__( 'Invalid JSON file.', 'wp-commerce7' ) . '</p></div>';
-			});
-			return;
-		}
-
-		// Merge with existing settings to preserve tenant ID
-		$existing_settings = $this->settings;
-		$settings = array_merge( $existing_settings, $settings );
-
-		update_option( 'c7wp_settings', $settings );
-		$this->refresh_settings();
-
-		add_action( 'admin_notices', function() {
-			echo '<div class="notice notice-success"><p>' . esc_html__( 'Settings imported successfully.', 'wp-commerce7' ) . '</p></div>';
-		});
-	}
 }

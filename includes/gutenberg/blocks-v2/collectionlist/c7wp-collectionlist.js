@@ -27,7 +27,7 @@
                         el(
                             'strong',
                             null,
-                            'This block will automatically populate with list of collections.'
+                            'This block will automatically populate with list of Web Available collections.'
                         ),
                     )
                 )

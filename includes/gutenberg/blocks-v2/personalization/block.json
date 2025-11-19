@@ -1,13 +1,13 @@
 {
 	"apiVersion": 3,
-	"name": "c7wp/collection",
-	"title": "Commerce7 Collection",
+	"name": "c7wp/personalization",
+	"title": "Commerce7 Personalization Block",
 	"category": "commerce7",
 	"description": "Display a Commerce7 collection with customizable layout options.",
 	"keywords": ["commerce7", "collection", "products", "grid"],
 	"textdomain": "wp-commerce7",
-	"editorScript": "file:./c7wp-collection.js",
-	"editorStyle": "file:./c7wp-collection.css",
+	"editorScript": "file:./c7wp-personalization.js",
+	"editorStyle": "file:./c7wp-personalization.css",
 	"style": "",
 	"supports": {
 		"html": false,
@@ -20,7 +20,7 @@
 		}
 	},
 	"attributes": {
-		"collectionSlug": {
+		"blockCode": {
 			"type": "string",
 			"default": ""
 		}
