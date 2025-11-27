@@ -1289,14 +1289,21 @@ class C7WP {
 				'club',
 				'checkout',
 				'cart',
-				'privacy',
-				'terms',
 				'reservation',
 			);
 		}
 
 		if ( in_array( $post->post_name, $pages, true ) ) {
-			$post_states['c7wp'] = esc_html__( 'Commerce7 Required Page', 'wp-commerce7' );
+			$post_states['c7wp'] = esc_html__( 'Commerce7 Dynamic Route', 'wp-commerce7' );
+		}
+
+		$static_pages = array (
+			'privacy',
+			'terms',
+		);
+
+		if ( in_array( $post->post_name, $static_pages, true ) ) {
+			$post_states['c7wp-static'] = esc_html__( 'Commerce7 Required Page', 'wp-commerce7' );
 		}
 
 		return $post_states;
