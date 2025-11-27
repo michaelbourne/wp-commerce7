@@ -106,9 +106,6 @@ class C7WP {
 			$this->widgetsver = 'v2';
 		}
 
-		// load translations
-		add_action( 'plugins_loaded', array( $this, 'c7wp_load_textdomain' ) );
-
 		// load health check integration
 		require_once C7WP_ROOT . '/includes/health-check.php';
 
@@ -325,13 +322,6 @@ class C7WP {
 			require_once C7WP_ROOT . '/includes/elementor/load.php';
 			\Elementor\Plugin::instance()->widgets_manager->register( new \C7WP_Elementor() );
 		}
-	}
-
-	/**
-	 * Internationalization
-	 */
-	public function c7wp_load_textdomain() {
-		load_plugin_textdomain( 'wp-commerce7', false, C7WP_ROOT . '/languages/' );
 	}
 
 	/**
