@@ -80,6 +80,7 @@ Removing this plugin will render your widgets inactive, but will not remove them
 * Improved: C7WP notices
 * Improved: Page creation on initial plugin activation
 * Improved: Plugin settings cache speed
+* Improved: Pages post state text on dynamic routes
 * Added: WP Health Check screen
 * Fixed: RankMath canonical tag
 * Added: Uninstall handler to remove plugin data
