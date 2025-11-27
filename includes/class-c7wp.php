@@ -1172,13 +1172,13 @@ class C7WP {
 				return '<div id="c7-content"></div>';
 
 			case 'personalization':
-				return '<div class="c7-personalization" data-block-code="' . esc_attr( $atts['data'] ) . '"></div>';
+				return '<div class="c7-personalization" data-block-code="' . trim( esc_attr( $atts['data'] ) ) . '"></div>';
 
 			case 'subscribe':
 				return ( 'true' === $atts['data'] ) ? '<div class="c7-subscribe" data-has-name-field="true"></div>' : '<div class="c7-subscribe"></div>';
 
 			case 'collection':
-				return '<div class="c7-product-collection" data-collection-slug="' . esc_attr( $atts['data'] ) . '"></div>';
+				return '<div class="c7-product-collection" data-collection-slug="' . trim( esc_attr( $atts['data'] ) ) . '"></div>';
 
 			case 'login':
 				return '<div id="c7-account"></div>';
@@ -1187,23 +1187,23 @@ class C7WP {
 				return '<div id="c7-cart"></div>';
 
 			case 'reservation':
-				return '<div class="c7-reservation-availability" data-reservation-type-slug="' . esc_attr( $atts['data'] ) . '"></div>';
+				return '<div class="c7-reservation-availability" data-reservation-type-slug="' . trim( esc_attr( $atts['data'] ) ) . '"></div>';
 
 			case 'form':
-				return '<div class="c7-custom-form" data-form-code="' . esc_attr( $atts['data'] ) . '"></div>';
+				return '<div class="c7-custom-form" data-form-code="' . trim( esc_attr( $atts['data'] ) ) . '"></div>';
 
 			case 'joinnow':
 				return '<div class="c7-club-join-button" 
-					data-club-slug="' . esc_attr( $atts['data'] ) . '"
-					data-join-text="' . esc_attr( $atts['join-text'] ) . '"
-					data-edit-text="' . esc_attr( $atts['edit-text'] ) . '"
+					data-club-slug="' . trim( esc_attr( $atts['data'] ) ) . '"
+					data-join-text="' . trim( esc_attr( $atts['join-text'] ) ) . '"
+					data-edit-text="' . trim( esc_attr( $atts['edit-text'] ) ) . '"
 					></div>';
 
 			case 'buyslug':
-				return '<div class="c7-buy-product" data-product-slug="' . esc_attr( $atts['data'] ) . '"></div>';
+				return '<div class="c7-buy-product" data-product-slug="' . trim( esc_attr( $atts['data'] ) ) . '"></div>';
 
 			case 'loginform':
-				return '<div id="c7-login-form" data-redirect-to="' . esc_attr( $atts['data'] ) . '"></div>';
+				return '<div id="c7-login-form" data-redirect-to="' . trim( esc_attr( $atts['data'] ) ) . '"></div>';
 
 			case 'collectionlist':
 				return '<div id="c7-collection-list"></div>';
@@ -1225,19 +1225,19 @@ class C7WP {
 				return '<div id="c7-content"></div>';
 
 			case 'personalization':
-				return '<div class="c7-personalization" data-block-code="' . esc_attr( $atts['data'] ) . '"></div>';
+				return '<div class="c7-personalization" data-block-code="' . trim( esc_attr( $atts['data'] ) ) . '"></div>';
 
 			case 'buy':
-				return '<div class="c7-buy-variant" data-sku="' . esc_attr( $atts['data'] ) . '"></div>';
+				return '<div class="c7-buy-variant" data-sku="' . trim( esc_attr( $atts['data'] ) ) . '"></div>';
 
 			case 'buyslug':
-				return '<div class="c7-buy-variant" data-product-slug="' . esc_attr( $atts['data'] ) . '"></div>';
+				return '<div class="c7-buy-variant" data-product-slug="' . trim( esc_attr( $atts['data'] ) ) . '"></div>';
 
 			case 'subscribe':
 				return ( 'true' === $atts['data'] ) ? '<div class="c7-subscribe" data-has-name-fields="true"></div>' : '<div class="c7-subscribe"></div>';
 
 			case 'collection':
-				return '<div class="c7-product-collection" data-collection-slug="' . esc_attr( $atts['data'] ) . '"></div>';
+				return '<div class="c7-product-collection" data-collection-slug="' . trim( esc_attr( $atts['data'] ) ) . '"></div>';
 
 			case 'login':
 				return '<div id="c7-login"></div>';
@@ -1246,22 +1246,22 @@ class C7WP {
 				return '<div id="c7-cart"></div>';
 
 			case 'reservation':
-				return '<div class="c7-reservation-availability" data-reservation-type-slug="' . esc_attr( $atts['data'] ) . '"></div>';
+				return '<div class="c7-reservation-availability" data-reservation-type-slug="' . trim( esc_attr( $atts['data'] ) ) . '"></div>';
 
 			case 'form':
-				return '<div class="c7-form-wrapper" data-form-code="' . esc_attr( $atts['data'] ) . '"></div>';
+				return '<div class="c7-form-wrapper" data-form-code="' . trim( esc_attr( $atts['data'] ) ) . '"></div>';
 
 			case 'joinnow':
-				return '<div class="c7-club-join-button" data-club-slug="' . esc_attr( $atts['data'] ) . '"></div>';
+				return '<div class="c7-club-join-button" data-club-slug="' . trim( esc_attr( $atts['data'] ) ) . '"></div>';
 
 			case 'quickshop':
-				return '<div id="c7-quick-shop" data-collection-slug="' . esc_attr( $atts['data'] ) . '"></div>';
+				return '<div id="c7-quick-shop" data-collection-slug="' . trim( esc_attr( $atts['data'] ) ) . '"></div>';
 
 			case 'loginform':
-				return '<div id="c7-login-form" data-redirect-to="' . esc_attr( $atts['data'] ) . '"></div>';
+				return '<div id="c7-login-form" data-redirect-to="' . trim( esc_attr( $atts['data'] ) ) . '"></div>';
 
 			case 'createaccount':
-				return '<div id="c7-create-account" data-redirect-to="' . esc_attr( $atts['data'] ) . '"></div>';
+				return '<div id="c7-create-account" data-redirect-to="' . trim( esc_attr( $atts['data'] ) ) . '"></div>';
 
 			default:
 				return '<div id="c7-content"></div>';
