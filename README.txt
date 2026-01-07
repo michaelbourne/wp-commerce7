@@ -3,8 +3,8 @@ Contributors: michaelbourne
 Donate link: https://www.paypal.me/yycpro
 Tags: commerce7
 Requires at least: 6.0
-Tested up to: 6.8
-Stable tag: 1.6
+Tested up to: 6.9
+Stable tag: 1.6.1
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.en.html
 
@@ -59,7 +59,7 @@ Fourth, email Commerce7 for support.
 
 == Plugin Removal ==
 
-Removing this plugin will render your widgets inactive, but will not remove them or the pages created.
+Removing this plugin will render your widgets and/or blocks inactive, but will not remove them or the pages created. Be sure to clean out all pages of Commerce7 content if removing.
 
 
 == Screenshots ==
@@ -72,7 +72,10 @@ Removing this plugin will render your widgets inactive, but will not remove them
 
 == Changelog ==
 
-= 1.6 =
+= 1.6.1 - January 7, 2026 =
+* Added: alignment controls form blocks
+
+= 1.6 - Decemner 15, 2025 =
 * Large plugin changes, please backup site before updating
 * Improved: Elementor blocks, adding static previews to some block types for inline styles and visual verifications
 * Improved: Themeco Cornerstone blocks, adding static previews to some block types for inline styles and visual verifications
@@ -86,7 +89,8 @@ Removing this plugin will render your widgets inactive, but will not remove them
 * Added: Uninstall handler to remove plugin data
 
 
-= 1.5.4 =
+
+= 1.5.4 - August 11, 2025 =
 * Fix: Gutenberg block settings for old beta frontend
 * Fix: Login widget redirect path on V2 frontend
 * Fix: Club Selector block conflict with Oxygen page builder front end edit mode

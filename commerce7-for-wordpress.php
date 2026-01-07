@@ -11,13 +11,13 @@
  * @wordpress-plugin
  * Plugin Name: Commerce7 for WordPress
  * Description: Integrate Commerce7 functionality into your WordPress site easily
- * Version: 1.6
+ * Version: 1.6.1
  * Author: URSA6 & 5forests
  * Author URI: https://5forests.com
  * Plugin URI: https://c7wp.com
  * Requires at least: 6.0
- * Tested up to: 6.8
- * Stable tag: 1.6
+ * Tested up to: 6.9
+ * Stable tag: 1.6.1
  * Requires PHP: 7.4
  * License: GPL3
  * License URI: https://www.gnu.org/licenses/gpl-3.0.en.html
@@ -27,7 +27,7 @@
  * Created Date: Friday September 27th 2019
  * Author: Michael Bourne
  * -----
- * Last Modified: Tuesday, November 18th 2025, 12:10:07 pm
+ * Last Modified: Wednesday, January 7th 2026, 3:14:12 pm
  * Modified By: Michael Bourne
  * -----
  * Copyright (c) 2019-2025 URSA6
@@ -47,9 +47,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 defined( 'C7WP_ROOT' ) || define( 'C7WP_ROOT', __DIR__ );
 defined( 'C7WP_URI' ) || define( 'C7WP_URI', plugin_dir_url( __FILE__ ) );
-defined( 'C7WP_VERSION' ) || define( 'C7WP_VERSION', '1.6' );
+defined( 'C7WP_VERSION' ) || define( 'C7WP_VERSION', '1.6.1' );
 if ( ! defined( 'C7WP_NOTICES_URL' ) || C7WP_NOTICES_URL !== 'https://c7wp.com/notices.json' ) {
-    define( 'C7WP_NOTICES_URL', 'https://c7wp.com/notices.json' );
+	define( 'C7WP_NOTICES_URL', 'https://c7wp.com/notices.json' );
 }
 
 
@@ -60,75 +60,75 @@ if ( ! defined( 'C7WP_NOTICES_URL' ) || C7WP_NOTICES_URL !== 'https://c7wp.com/n
  * 3. Set privacy policy page
  */
 function c7wp_activate_plugin() {
-    add_option( 'c7wp_activation', true );
+	add_option( 'c7wp_activation', true );
 
-    // Schedule remote notices cron job
-    c7wp_schedule_notices_cron();
+	// Schedule remote notices cron job
+	c7wp_schedule_notices_cron();
 
-    $pages = array( 'profile', 'collection', 'product', 'club', 'checkout', 'cart', 'reservation' );
-    $fail  = array();
+	$pages = array( 'profile', 'collection', 'product', 'club', 'checkout', 'cart', 'reservation' );
+	$fail  = array();
 
-    foreach ( $pages as $page ) {
-        if ( get_page_by_path( $page, 'ARRAY_N', 'page' ) ) {
-            $fail[] = $page;
-            continue;
-        }
+	foreach ( $pages as $page ) {
+		if ( get_page_by_path( $page, 'ARRAY_N', 'page' ) ) {
+			$fail[] = $page;
+			continue;
+		}
 
-        $c7_post = array(
-        'post_title'   => wp_strip_all_tags( ucfirst( $page ) ),
-        'post_content' => '<!-- wp:c7wp/default --><div class="wp-block-c7wp-default"><div id="c7-content"></div></div><!-- /wp:c7wp/default -->',
-        'post_status'  => 'publish',
-        'post_author'  => 1,
-        'post_type'    => 'page',
-        );
+		$c7_post = array(
+			'post_title'   => wp_strip_all_tags( ucfirst( $page ) ),
+			'post_content' => '<!-- wp:c7wp/default --><div class="wp-block-c7wp-default"><div id="c7-content"></div></div><!-- /wp:c7wp/default -->',
+			'post_status'  => 'publish',
+			'post_author'  => 1,
+			'post_type'    => 'page',
+		);
 
-        $pageid = wp_insert_post( $c7_post );
+		$pageid = wp_insert_post( $c7_post );
 
-        // Check if page creation was successful
-        if ( is_wp_error( $pageid ) ) {
-            // Log error if WP_DEBUG is enabled
-            if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
-                error_log( 'Commerce7: Failed to create page "' . $page . '": ' . $pageid->get_error_message() );
-            }
-            $fail[] = $page;
-        } elseif ( ! $pageid ) {
-            // Log error if WP_DEBUG is enabled
-            if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
-                error_log( 'Commerce7: Failed to create page "' . $page . '": Unknown error' );
-            }
-            $fail[] = $page;
-        }
-    }
+		// Check if page creation was successful
+		if ( is_wp_error( $pageid ) ) {
+			// Log error if WP_DEBUG is enabled
+			if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+				error_log( 'Commerce7: Failed to create page "' . $page . '": ' . $pageid->get_error_message() );
+			}
+			$fail[] = $page;
+		} elseif ( ! $pageid ) {
+			// Log error if WP_DEBUG is enabled
+			if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+				error_log( 'Commerce7: Failed to create page "' . $page . '": Unknown error' );
+			}
+			$fail[] = $page;
+		}
+	}
 
-    if ( ! empty( $fail ) ) {
-        set_transient( 'c7wp-admin-notice-pages', $fail, 5 );
-    }
+	if ( ! empty( $fail ) ) {
+		set_transient( 'c7wp-admin-notice-pages', $fail, 5 );
+	}
 
-    $c7options = array(
-                    'c7wp_tenant'                => '',
-                    'c7wp_display_cart'          => 'no',
-                    'c7wp_display_cart_location' => 'tr',
-                    'c7wp_display_cart_color'    => 'light',
-                    'c7wp_widget_version'        => 'v2',
-                    'c7wp_enable_custom_routes'  => 'no',
-                    'c7wp_frontend_routes'       => array(
-                        'profile'     => 'profile',
-                        'collection'  => 'collection',
-                        'product'     => 'product',
-                        'club'        => 'club',
-                        'checkout'    => 'checkout',
-                        'cart'        => 'cart',
-                        'reservation' => 'reservation',
-                    ),
-                );
+	$c7options = array(
+		'c7wp_tenant'                => '',
+		'c7wp_display_cart'          => 'no',
+		'c7wp_display_cart_location' => 'tr',
+		'c7wp_display_cart_color'    => 'light',
+		'c7wp_widget_version'        => 'v2',
+		'c7wp_enable_custom_routes'  => 'no',
+		'c7wp_frontend_routes'       => array(
+			'profile'     => 'profile',
+			'collection'  => 'collection',
+			'product'     => 'product',
+			'club'        => 'club',
+			'checkout'    => 'checkout',
+			'cart'        => 'cart',
+			'reservation' => 'reservation',
+		),
+	);
 
-    update_option( 'c7wp_settings', $c7options, true );
+	update_option( 'c7wp_settings', $c7options, true );
 
-    // set a default permalink structure if the installation has not yet done this
-    require_once ABSPATH . 'wp-admin/includes/upgrade.php';
-    if ( function_exists( 'wp_install_maybe_enable_pretty_permalinks' ) ) {
-        wp_install_maybe_enable_pretty_permalinks();
-    }
+	// set a default permalink structure if the installation has not yet done this
+	require_once ABSPATH . 'wp-admin/includes/upgrade.php';
+	if ( function_exists( 'wp_install_maybe_enable_pretty_permalinks' ) ) {
+		wp_install_maybe_enable_pretty_permalinks();
+	}
 }
 register_activation_hook( __FILE__, 'c7wp_activate_plugin' );
 
@@ -147,81 +147,81 @@ add_action( 'upgrader_process_complete', 'c7wp_upgrade_function', 10, 2 );
  * @return void
  */
 function c7wp_upgrade_function( $upgrader_object, $options ) {
-    $current_plugin_path_name = plugin_basename( __FILE__ );
+	$current_plugin_path_name = plugin_basename( __FILE__ );
 
-    // If a plugin is being updated.
-    if ( 'update' === $options['action'] && 'plugin' === $options['type'] && isset( $options['plugins'] ) ) {
-        foreach ( $options['plugins'] as $each_plugin ) {
-            // If the plugin being updated is this plugin.
+	// If a plugin is being updated.
+	if ( 'update' === $options['action'] && 'plugin' === $options['type'] && isset( $options['plugins'] ) ) {
+		foreach ( $options['plugins'] as $each_plugin ) {
+			// If the plugin being updated is this plugin.
             if ( $each_plugin == $current_plugin_path_name ) { // phpcs:ignore
 
-                $options = get_option( 'c7wp_settings' );
+				$options = get_option( 'c7wp_settings' );
 
-                if ( isset( $options['c7wp_widget_version'] ) && 'v2' === $options['c7wp_widget_version']
-                  && isset( $options['c7wp_enable_custom_routes'] ) && 'yes' === $options['c7wp_enable_custom_routes']
-                  && isset( $options['c7wp_frontend_routes'] ) && is_array( $options['c7wp_frontend_routes'] ) ) {
-                    $pages = $options['c7wp_frontend_routes'];
-                } else {
-                    $pages = array(
-                        'profile'     => 'profile',
-                        'collection'  => 'collection',
-                        'product'     => 'product',
-                        'club'        => 'club',
-                        'checkout'    => 'checkout',
-                        'cart'        => 'cart',
-                        'reservation' => 'reservation',
-                    );
-                }
+				if ( isset( $options['c7wp_widget_version'] ) && 'v2' === $options['c7wp_widget_version']
+				  && isset( $options['c7wp_enable_custom_routes'] ) && 'yes' === $options['c7wp_enable_custom_routes']
+				  && isset( $options['c7wp_frontend_routes'] ) && is_array( $options['c7wp_frontend_routes'] ) ) {
+					$pages = $options['c7wp_frontend_routes'];
+				} else {
+					$pages = array(
+						'profile'     => 'profile',
+						'collection'  => 'collection',
+						'product'     => 'product',
+						'club'        => 'club',
+						'checkout'    => 'checkout',
+						'cart'        => 'cart',
+						'reservation' => 'reservation',
+					);
+				}
 
-                $fail = array();
-                // Loop through required paged for C7.
-                foreach ( $pages as $page => $slug ) {
-                    // if the page is missing, add it to the notice
-                    if ( ! get_page_by_path( $slug, 'ARRAY_N', 'page' ) ) {
-                        $fail[] = wp_strip_all_tags( ucfirst( $page ) );
-                        continue;
-                    }
-                }
+				$fail = array();
+				// Loop through required paged for C7.
+				foreach ( $pages as $page => $slug ) {
+					// if the page is missing, add it to the notice
+					if ( ! get_page_by_path( $slug, 'ARRAY_N', 'page' ) ) {
+						$fail[] = wp_strip_all_tags( ucfirst( $page ) );
+						continue;
+					}
+				}
 
-                // If we have missing pages, let's set a transient to display a notice.
-                if ( ! empty( $fail ) ) {
-                    set_transient( 'c7wp-admin-notice-pages-missing', $fail, 0 );
-                }
+				// If we have missing pages, let's set a transient to display a notice.
+				if ( ! empty( $fail ) ) {
+					set_transient( 'c7wp-admin-notice-pages-missing', $fail, 0 );
+				}
 
-                $c7options = array(
-                    'c7wp_tenant'                => '',
-                    'c7wp_display_cart'          => 'no',
-                    'c7wp_display_cart_location' => 'tr',
-                    'c7wp_display_cart_color'    => 'light',
-                    'c7wp_widget_version'        => 'v2',
-                    'c7wp_enable_custom_routes'  => 'no',
-                    'c7wp_frontend_routes'       => array(
-                        'profile'     => 'profile',
-                        'collection'  => 'collection',
-                        'product'     => 'product',
-                        'club'        => 'club',
-                        'checkout'    => 'checkout',
-                        'cart'        => 'cart',
-                        'reservation' => 'reservation',
-                    ),
-                );
+				$c7options = array(
+					'c7wp_tenant'                => '',
+					'c7wp_display_cart'          => 'no',
+					'c7wp_display_cart_location' => 'tr',
+					'c7wp_display_cart_color'    => 'light',
+					'c7wp_widget_version'        => 'v2',
+					'c7wp_enable_custom_routes'  => 'no',
+					'c7wp_frontend_routes'       => array(
+						'profile'     => 'profile',
+						'collection'  => 'collection',
+						'product'     => 'product',
+						'club'        => 'club',
+						'checkout'    => 'checkout',
+						'cart'        => 'cart',
+						'reservation' => 'reservation',
+					),
+				);
 
-                // Merge client set options with default options to fix any unset array keys.
-                $normalized_options = array_merge( $c7options, $options );
-                update_option( 'c7wp_settings', $normalized_options, true );
+				// Merge client set options with default options to fix any unset array keys.
+				$normalized_options = array_merge( $c7options, $options );
+				update_option( 'c7wp_settings', $normalized_options, true );
 
-                // Only flush rewrite rules if route settings have changed
-                $old_routes = isset( $options['c7wp_frontend_routes'] ) ? $options['c7wp_frontend_routes'] : array();
-                $new_routes = $normalized_options['c7wp_frontend_routes'];
+				// Only flush rewrite rules if route settings have changed
+				$old_routes = isset( $options['c7wp_frontend_routes'] ) ? $options['c7wp_frontend_routes'] : array();
+				$new_routes = $normalized_options['c7wp_frontend_routes'];
 
-                if ( $old_routes !== $new_routes ) {
-                    if ( function_exists( 'flush_rewrite_rules' ) ) {
-                        flush_rewrite_rules();
-                    }
-                }
-            }
-        }
-    }
+				if ( $old_routes !== $new_routes ) {
+					if ( function_exists( 'flush_rewrite_rules' ) ) {
+						flush_rewrite_rules();
+					}
+				}
+			}
+		}
+	}
 }
 
 
@@ -231,34 +231,40 @@ function c7wp_upgrade_function( $upgrader_object, $options ) {
 function c7wp_admin_notice_pages() {
 
     if ( $data = get_transient( 'c7wp-admin-notice-pages' ) ) { // phpcs:ignore
-        $pages = implode( ', ', $data );
-        echo '<div class="notice notice-warning is-dismissible"><p>';
-        printf(
-            /* translators: 1: List of missing pages 2: List of missing pages */
-            esc_html__( 'Commerce7 requires specific pages exist in order for integration to work properly. The following pages are needed but were not created, as they already exist: %1$s. 
-            Please ensure these pages contain the proper content.', 'wp-commerce7' ),
-            '<strong>' . esc_html( $pages ) . '</strong>'
-        );
-        echo '</p></div>';
+		$pages = implode( ', ', $data );
+		echo '<div class="notice notice-warning is-dismissible"><p>';
+		printf(
+			/* translators: 1: List of missing pages 2: List of missing pages */
+			esc_html__(
+				'Commerce7 requires specific pages exist in order for integration to work properly. The following pages are needed but were not created, as they already exist: %1$s. 
+            Please ensure these pages contain the proper content.',
+				'wp-commerce7'
+			),
+			'<strong>' . esc_html( $pages ) . '</strong>'
+		);
+		echo '</p></div>';
 
-        /* Delete transient, only display this notice once. */
-        delete_transient( 'c7wp-admin-notice-pages' );
-    }
+		/* Delete transient, only display this notice once. */
+		delete_transient( 'c7wp-admin-notice-pages' );
+	}
 
     if ( $data = get_transient( 'c7wp-admin-notice-pages-missing' ) ) { // phpcs:ignore
-        $pages = implode( ', ', $data );
-        echo '<div class="notice notice-warning is-dismissible"><p>';
-        printf(
-            /* translators: %s: List of missing pages */
-            esc_html__( 'Commerce7 requires specific pages exist in order for integration to work properly. The following pages were missing: %s.  
-            These pages were not recreated in case you have removed them on purpose. Please review and crate these pages if needed.', 'wp-commerce7' ),
-            '<strong>' . esc_html( $pages ) . '</strong>'
-        );
-        echo '</p></div>';
+		$pages = implode( ', ', $data );
+		echo '<div class="notice notice-warning is-dismissible"><p>';
+		printf(
+			/* translators: %s: List of missing pages */
+			esc_html__(
+				'Commerce7 requires specific pages exist in order for integration to work properly. The following pages were missing: %s.  
+            These pages were not recreated in case you have removed them on purpose. Please review and crate these pages if needed.',
+				'wp-commerce7'
+			),
+			'<strong>' . esc_html( $pages ) . '</strong>'
+		);
+		echo '</p></div>';
 
-        /* Delete transient, only display this notice once. */
-        delete_transient( 'c7wp-admin-notice-pages-missing' );
-    }
+		/* Delete transient, only display this notice once. */
+		delete_transient( 'c7wp-admin-notice-pages-missing' );
+	}
 }
 add_action( 'admin_notices', 'c7wp_admin_notice_pages' );
 
@@ -268,7 +274,7 @@ add_action( 'admin_notices', 'c7wp_admin_notice_pages' );
  * 1. Flush rewrite rules to clear redirects
  */
 function c7wp_deactivate_plugin() {
-    flush_rewrite_rules();
+	flush_rewrite_rules();
 }
 
 register_deactivation_hook( __FILE__, 'c7wp_deactivate_plugin' );
@@ -287,88 +293,99 @@ commerce7_wp_manager();
  * Fetch remote admin notices via cron job
  */
 function c7wp_fetch_remote_notices() {
-    $response = wp_remote_get( C7WP_NOTICES_URL, array(
-        'timeout' => 10,
-        'headers' => array(
-            'User-Agent' => 'Commerce7-WordPress-Plugin/' . C7WP_VERSION,
-        ),
-    ) );
+	$response = wp_remote_get(
+		C7WP_NOTICES_URL,
+		array(
+			'timeout' => 10,
+			'headers' => array(
+				'User-Agent' => 'Commerce7-WordPress-Plugin/' . C7WP_VERSION,
+			),
+		)
+	);
 
-    if ( is_wp_error( $response ) ) {
-        // Log error if WP_DEBUG is enabled
-        if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
-            error_log( 'Commerce7: Failed to fetch remote notices: ' . $response->get_error_message() );
-        }
-        return;
-    }
+	if ( is_wp_error( $response ) ) {
+		// Log error if WP_DEBUG is enabled
+		if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+			error_log( 'Commerce7: Failed to fetch remote notices: ' . $response->get_error_message() );
+		}
+		return;
+	}
 
-    $response_code = wp_remote_retrieve_response_code( $response );
-    if ( 200 !== $response_code ) {
-        // Log error if WP_DEBUG is enabled
-        if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
-            error_log( 'Commerce7: Remote notices API returned HTTP ' . $response_code );
-        }
-        return;
-    }
+	$response_code = wp_remote_retrieve_response_code( $response );
+	if ( 200 !== $response_code ) {
+		// Log error if WP_DEBUG is enabled
+		if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+			error_log( 'Commerce7: Remote notices API returned HTTP ' . $response_code );
+		}
+		return;
+	}
 
-    $notices = json_decode( wp_remote_retrieve_body( $response ), true );
-    if ( json_last_error() !== JSON_ERROR_NONE ) {
-        // Log error if WP_DEBUG is enabled
-        if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
-            error_log( 'Commerce7: Failed to parse remote notices JSON: ' . json_last_error_msg() );
-        }
-        return;
-    }
+	$notices = json_decode( wp_remote_retrieve_body( $response ), true );
+	if ( json_last_error() !== JSON_ERROR_NONE ) {
+		// Log error if WP_DEBUG is enabled
+		if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+			error_log( 'Commerce7: Failed to parse remote notices JSON: ' . json_last_error_msg() );
+		}
+		return;
+	}
 
-    if ( is_array( $notices ) ) {
-        set_transient( 'c7wp_remote_notices', $notices, 12 * HOUR_IN_SECONDS );
-    }
+	if ( is_array( $notices ) ) {
+		set_transient( 'c7wp_remote_notices', $notices, 12 * HOUR_IN_SECONDS );
+	}
 }
 
 /**
  * Schedule remote notices cron job
  */
 function c7wp_schedule_notices_cron() {
-    if ( ! wp_next_scheduled( 'c7wp_fetch_remote_notices' ) ) {
-        wp_schedule_event( time(), 'twicedaily', 'c7wp_fetch_remote_notices' );
-    }
+	if ( ! wp_next_scheduled( 'c7wp_fetch_remote_notices' ) ) {
+		wp_schedule_event( time(), 'twicedaily', 'c7wp_fetch_remote_notices' );
+	}
 }
 
 /**
  * Display remote admin notices
  */
 function c7wp_display_remote_notices() {
-    $notices = get_transient( 'c7wp_remote_notices' );
+	$notices = get_transient( 'c7wp_remote_notices' );
 
-    if ( ! empty( $notices ) && is_array( $notices ) ) {
-        foreach ( $notices as $notice ) {
-            if ( ! empty( $notice['message'] ) && ! get_user_meta( get_current_user_id(), 'c7wp_notice_dismissed_' . md5( $notice['message'] ), true ) ) {
-                add_action('admin_notices', function() use ( $notice ) {
-                    $dismiss_url = add_query_arg(array(
-                        'c7wp_dismiss_notice' => md5( $notice['message'] ),
-                        '_wpnonce' => wp_create_nonce( 'c7wp_dismiss_notice' ),
-                    ));
-                    ?>
-                    <div class="notice notice-<?php echo esc_attr( $notice['type'] ?? 'info' ); ?> is-dismissible">
-                        <?php if ( ! empty( $notice['format'] ) && 'html' === $notice['format'] ) : ?>
-                            <?php echo wp_kses_post( $notice['message'] ); ?>
-                        <?php else : ?>
-                            <p><?php echo wp_kses_post( $notice['message'] ); ?></p>
-                        <?php endif; ?>
-                        <a href="<?php echo esc_url( $dismiss_url ); ?>" class="notice-dismiss"><span class="screen-reader-text"><?php esc_html_e( 'Dismiss this notice.', 'wp-commerce7' ); ?></span></a>
-                    </div>
-                    <?php
-                });
-            }
-        }
-    }
+	if ( ! empty( $notices ) && is_array( $notices ) ) {
+		foreach ( $notices as $notice ) {
+			if ( ! empty( $notice['message'] ) && ! get_user_meta( get_current_user_id(), 'c7wp_notice_dismissed_' . md5( $notice['message'] ), true ) ) {
+				add_action(
+					'admin_notices',
+					function() use ( $notice ) {
+						$dismiss_url = add_query_arg(
+							array(
+								'c7wp_dismiss_notice' => md5( $notice['message'] ),
+								'_wpnonce'            => wp_create_nonce( 'c7wp_dismiss_notice' ),
+							)
+						);
+						?>
+					<div class="notice notice-<?php echo esc_attr( $notice['type'] ?? 'info' ); ?> is-dismissible">
+						<?php if ( ! empty( $notice['format'] ) && 'html' === $notice['format'] ) : ?>
+							<?php echo wp_kses_post( $notice['message'] ); ?>
+						<?php else : ?>
+							<p><?php echo wp_kses_post( $notice['message'] ); ?></p>
+						<?php endif; ?>
+						<a href="<?php echo esc_url( $dismiss_url ); ?>" class="notice-dismiss"><span class="screen-reader-text"><?php esc_html_e( 'Dismiss this notice.', 'wp-commerce7' ); ?></span></a>
+					</div>
+						<?php
+					}
+				);
+			}
+		}
+	}
 }
 
 
 // Clean up cron job on deactivation
-register_deactivation_hook( __FILE__, function() {
-    wp_clear_scheduled_hook( 'c7wp_fetch_remote_notices' );
-});
+register_deactivation_hook(
+	__FILE__,
+	function() {
+		wp_clear_scheduled_hook( 'c7wp_fetch_remote_notices' );
+	}
+);
 
 // Hook the cron job
 add_action( 'c7wp_fetch_remote_notices', 'c7wp_fetch_remote_notices' );
@@ -380,16 +397,16 @@ add_action( 'admin_init', 'c7wp_display_remote_notices' );
  * Handle notice dismissal
  */
 function c7wp_handle_notice_dismissal() {
-    // Check user capabilities first
-    if ( ! current_user_can( 'manage_options' ) ) {
-        return;
-    }
+	// Check user capabilities first
+	if ( ! current_user_can( 'manage_options' ) ) {
+		return;
+	}
 
-    if ( isset( $_GET['c7wp_dismiss_notice'] ) && isset( $_GET['_wpnonce'] ) && wp_verify_nonce( sanitize_text_field( wp_unslash( $_GET['_wpnonce'] ) ), 'c7wp_dismiss_notice' ) ) {
-        $notice_id = sanitize_text_field( wp_unslash( $_GET['c7wp_dismiss_notice'] ) );
-        update_user_meta( get_current_user_id(), 'c7wp_notice_dismissed_' . $notice_id, true );
-        wp_safe_redirect( remove_query_arg( array( 'c7wp_dismiss_notice', '_wpnonce' ) ) );
-        exit;
-    }
+	if ( isset( $_GET['c7wp_dismiss_notice'] ) && isset( $_GET['_wpnonce'] ) && wp_verify_nonce( sanitize_text_field( wp_unslash( $_GET['_wpnonce'] ) ), 'c7wp_dismiss_notice' ) ) {
+		$notice_id = sanitize_text_field( wp_unslash( $_GET['c7wp_dismiss_notice'] ) );
+		update_user_meta( get_current_user_id(), 'c7wp_notice_dismissed_' . $notice_id, true );
+		wp_safe_redirect( remove_query_arg( array( 'c7wp_dismiss_notice', '_wpnonce' ) ) );
+		exit;
+	}
 }
 add_action( 'admin_init', 'c7wp_handle_notice_dismissal' );

@@ -87,7 +87,10 @@
 
             // Force update button text and URL whenever clubs change
             useEffect(() => {
-                const buttonBlock = wp.data.select('core/block-editor').getBlock(clientId).innerBlocks[0];
+                const block = wp.data.select('core/block-editor').getBlock(clientId);
+                if (!block || !block.innerBlocks) return;
+                
+                const buttonBlock = block.innerBlocks[0];
                 if (buttonBlock && clubs.length > 0) {
                     const firstClub = clubs[0];
                     const clubRoute = window.c7wp_settings?.c7wp_frontend_routes?.club || 'club';
@@ -104,7 +107,8 @@
             // Watch for button changes and revert if modified
             useEffect(() => {
                 const block = wp.data.select('core/block-editor').getBlock(clientId);
-                if (!block) return;
+                if (!block || !block.innerBlocks) return;
+                
                 // Filter to only core/button blocks
                 const buttonBlocks = block.innerBlocks.filter(b => b.name === 'core/button');
                 // If more than one button, remove extras
@@ -117,7 +121,11 @@
                         false // do not update selection
                     );
                 }
-                const buttonBlock = wp.data.select('core/block-editor').getBlock(clientId).innerBlocks[0];
+                
+                const updatedBlock = wp.data.select('core/block-editor').getBlock(clientId);
+                if (!updatedBlock || !updatedBlock.innerBlocks) return;
+                
+                const buttonBlock = updatedBlock.innerBlocks[0];
                 if (buttonBlock) {
                     const unsubscribe = wp.data.subscribe(() => {
                         const currentButton = wp.data.select('core/block-editor').getBlock(buttonBlock.clientId);

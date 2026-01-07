@@ -2,7 +2,7 @@
 
     const { registerBlockType } = blocks;
     const { InspectorControls } = blockEditor;
-    const { TextControl, PanelBody } = components;
+    const { TextControl, PanelBody, SelectControl } = components;
     const { createElement } = element;
     const { __ } = i18n;
 
@@ -23,12 +23,29 @@
                 source: 'attribute',
                 selector: '.c7-buy-product',
                 attribute: 'data-product-slug',
+            },
+            justifyContent: {
+                type: 'string',
+                default: 'center',
             }
         },
         edit: function (props) {
 
             function updateData(value) {
                 props.setAttributes({ data: value });
+            }
+
+            function updateJustifyContent(value) {
+                props.setAttributes({ justifyContent: value });
+            }
+
+            function getAlignmentClass(justifyContent) {
+                const alignmentMap = {
+                    'flex-start': 'c7wp-justify-left',
+                    'center': 'c7wp-justify-center',
+                    'flex-end': 'c7wp-justify-right'
+                };
+                return alignmentMap[justifyContent] || 'c7wp-justify-center';
             }
 
             // set slugProvided to true if a slug is provided and not blank.
@@ -51,10 +68,20 @@
                             label: 'Product Slug',
                             value: props.attributes.data,
                             onChange: updateData,
+                        }),
+                        createElement(SelectControl, {
+                            label: 'Form Alignment',
+                            value: props.attributes.justifyContent,
+                            options: [
+                                { label: 'Left', value: 'flex-start' },
+                                { label: 'Center', value: 'center' },
+                                { label: 'Right', value: 'flex-end' }
+                            ],
+                            onChange: updateJustifyContent,
                         })
                     ),
                 ),
-                createElement('div', { className: props.className },
+                createElement('div', { className: props.className + ' ' + getAlignmentClass(props.attributes.justifyContent) },
                     createElement('div', {
                         className: 'c7-buy-product',
                         'data-sku': props.attributes.data,
@@ -148,10 +175,44 @@
                 ),
             ];
         },
+        deprecated: [
+            {
+                attributes: {
+                    data: {
+                        type: 'string',
+                        source: 'attribute',
+                        selector: '.c7-buy-product',
+                        attribute: 'data-product-slug',
+                    }
+                },
+                save: function (props) {
+                    return (
+                        createElement('div', {
+                            className: props.className
+                        },
+                            createElement('div', {
+                                className: 'c7-buy-product',
+                                'data-product-slug': props.attributes.data,
+                            }
+                            )
+                        )
+                    );
+                }
+            }
+        ],
         save: function (props) {
+            function getAlignmentClass(justifyContent) {
+                const alignmentMap = {
+                    'flex-start': 'c7wp-justify-left',
+                    'center': 'c7wp-justify-center',
+                    'flex-end': 'c7wp-justify-right'
+                };
+                return alignmentMap[justifyContent] || 'c7wp-justify-center';
+            }
+
             return (
                 createElement('div', {
-                    className: props.className
+                    className: props.className + ' ' + getAlignmentClass(props.attributes.justifyContent)
                 },
                     createElement('div', {
                         className: 'c7-buy-product',

@@ -373,8 +373,8 @@ class C7WP {
 			'commerce7',
 			'c7wp_settings',
 			array(
-					'sanitize_callback' => array( $this, 'c7wp_settings_callback' ),
-					'default' => array(),
+				'sanitize_callback' => array( $this, 'c7wp_settings_callback' ),
+				'default'           => array(),
 			)
 		);
 
@@ -568,10 +568,18 @@ class C7WP {
 		</select>
 		<p><small>
 			<?php
-				echo wp_kses( __( 'If set to <strong>yes</strong>, this plugin will add a floating login  cart box to the front end of your website. If set to <strong>no</strong>, you will need to add the <code>[c7wp type=\'login\']</code> and <code>[c7wp type=\'cart\']</code> shortcodes (or Commerce7\'s HTML) to your header manually. We recommend setting this to no and placing your cart manually.', 'wp-commerce7' ),
-				array( 'strong' => array(), 'code' => array() ) );
-		 ?>
-		 </small></p>
+				echo wp_kses(
+					__(
+						'If set to <strong>yes</strong>, this plugin will add a floating login  cart box to the front end of your website. If set to <strong>no</strong>, you will need to add the <code>[c7wp type=\'login\']</code> and <code>[c7wp type=\'cart\']</code> shortcodes (or Commerce7\'s HTML) to your header manually. We recommend setting this to no and placing your cart manually.',
+						'wp-commerce7'
+					),
+					array(
+						'strong' => array(),
+						'code'   => array(),
+					)
+				);
+			?>
+		</small></p>
 		<?php
 	}
 
@@ -624,11 +632,20 @@ class C7WP {
 		</select>
 		<p><small>
 			<?php
-				echo wp_kses( '<strong>V2:</strong> The standard front-end widgets version used by most wineries. Most users should select this option.
-				<br>
-				<strong>V2 (Compatibility Mode):</strong> Use this if you are having issues with the standard V2 widgets, such as widgets not displaying correctly or displaying multiple times. This will load the V2 widgets in a way that is compatible with more themes.
-				<br>
-				<strong>V1:</strong> Only a select few legacy sites are still using the old beta/V1 widgets.', array( 'strong' => array(), 'br' => array() ) );
+				echo wp_kses(
+					__(
+						'<strong>V2:</strong> The standard front-end widgets version used by most wineries.
+						<br>
+						<strong>V2 (Compatibility Mode):</strong> This will load the V2 widgets in a way that is compatible with more themes and plugins, with safer javascript invocation. Safe for all websites, and the recommended option for everyone.
+						<br>
+						<strong>V1:</strong> Only a select few legacy sites are still using the old beta/V1 widgets.',
+						'wp-commerce7',
+					),
+					array(
+						'strong' => array(),
+						'br'     => array(),
+					)
+				);
 			?>
 		</small></p>
 		<?php
@@ -641,10 +658,24 @@ class C7WP {
 		?>
 		<select name='c7wp_settings[c7wp_enable_custom_routes]' <?php echo esc_attr( $disabled ); ?> >
 			<option value='no' 
-				<?php if ( isset( $options['c7wp_enable_custom_routes'] ) ) { selected( $options['c7wp_enable_custom_routes'], 'no' ); } ?>
+				<?php
+				if ( isset( $options['c7wp_enable_custom_routes'] ) ) {
+					selected(
+						$options['c7wp_enable_custom_routes'],
+						'no'
+					);
+				}
+				?>
 				><?php esc_html_e( 'No', 'wp-commerce7' ); ?></option>
 			<option value='yes' 
-				<?php if ( isset( $options['c7wp_enable_custom_routes'] ) ) { selected( $options['c7wp_enable_custom_routes'], 'yes' ); } ?>
+				<?php
+				if ( isset( $options['c7wp_enable_custom_routes'] ) ) {
+					selected(
+						$options['c7wp_enable_custom_routes'],
+						'yes'
+					);
+				}
+				?>
 				><?php esc_html_e( 'Yes', 'wp-commerce7' ); ?></option>
 		</select>
 		<p><small>
@@ -699,12 +730,12 @@ class C7WP {
 		<?php
 			// Define the allowed HTML tags and attributes
 			$allowed_html = array(
-					'a' => array(
-							'href' => array(),
-							'target' => array(),
-					),
-					'strong' => array(),
-					'br' => array(),
+				'a' => array(
+					'href'   => array(),
+					'target' => array(),
+				),
+				'strong' => array(),
+				'br'     => array(),
 			);
 
 			// Define the URLs
@@ -713,12 +744,12 @@ class C7WP {
 
 			/* translators: %1$s: URL to the routing settings in Commerce7 %2$s: URL to the permalinks settings in WordPress */
 			$string = __(
-					'These routes <strong>must</strong> match your <a href="%1$s" target="_blank">routing settings in Commerce7</a>.
-					<br>
-					Make sure you edit the slugs of any existing pages if you are changing these values.
-					<br>
-					You <strong>must</strong> <a href="%2$s">resave your permalinks in WordPress</a> after changing these settings.',
-					'wp-commerce7',
+				'These routes <strong>must</strong> match your <a href="%1$s" target="_blank">routing settings in Commerce7</a>.
+				<br>
+				Make sure you edit the slugs of any existing pages if you are changing these values.
+				<br>
+				You <strong>must</strong> <a href="%2$s">resave your permalinks in WordPress</a> after changing these settings.',
+				'wp-commerce7',
 			);
 
 			// Replace the placeholders with actual URLs
@@ -918,9 +949,13 @@ class C7WP {
 			// Localize settings for specific blocks
 			if ( 'clubselector' === $block_type ) {
 				$options = $this->settings;
-				wp_localize_script( 'c7wp-' . $block_type . '-frontend', 'c7wp_settings', array(
-					'c7wp_frontend_routes' => isset( $options['c7wp_frontend_routes'] ) ? $options['c7wp_frontend_routes'] : array( 'club' => 'club' ),
-				) );
+				wp_localize_script(
+					'c7wp-' . $block_type . '-frontend',
+					'c7wp_settings',
+					array(
+						'c7wp_frontend_routes' => isset( $options['c7wp_frontend_routes'] ) ? $options['c7wp_frontend_routes'] : array( 'club' => 'club' ),
+					)
+				);
 			}
 		}
 	}
@@ -973,9 +1008,13 @@ class C7WP {
 
 					// Localize settings
 					$options = get_option( 'c7wp_settings' );
-					wp_localize_script( $frontend_script_handle, 'c7wp_settings', array(
-						'c7wp_frontend_routes' => isset( $options['c7wp_frontend_routes'] ) ? $options['c7wp_frontend_routes'] : array( 'club' => 'club' ),
-					) );
+					wp_localize_script(
+						$frontend_script_handle,
+						'c7wp_settings',
+						array(
+							'c7wp_frontend_routes' => isset( $options['c7wp_frontend_routes'] ) ? $options['c7wp_frontend_routes'] : array( 'club' => 'club' ),
+						)
+					);
 
 					wp_enqueue_script( $frontend_script_handle );
 				}
@@ -1287,7 +1326,7 @@ class C7WP {
 			$post_states['c7wp'] = esc_html__( 'Commerce7 Dynamic Route', 'wp-commerce7' );
 		}
 
-		$static_pages = array (
+		$static_pages = array(
 			'privacy',
 			'terms',
 		);

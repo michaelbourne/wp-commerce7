@@ -2,7 +2,7 @@
 
     const { registerBlockType } = blocks;
     const { InspectorControls } = blockEditor;
-    const { PanelBody, RadioControl } = components;
+    const { PanelBody, RadioControl, SelectControl } = components;
     const { createElement } = element;
     const { __ } = i18n;
 
@@ -23,8 +23,10 @@
                 source: 'attribute',
                 selector: '.c7-subscribe',
                 attribute: 'data-has-name-field',
-                default: 'false'
-            }
+                default: 'false'            },
+            justifyContent: {
+                type: 'string',
+                default: 'center',            }
         },
 		edit: function( props ) {
 
@@ -32,6 +34,21 @@
                 return props.setAttributes( {
                     nameFields: value,
                 } );
+            }
+
+            const updateJustifyContent = function( value ) {
+                return props.setAttributes( {
+                    justifyContent: value,
+                } );
+            }
+
+            function getAlignmentClass(justifyContent) {
+                const alignmentMap = {
+                    'flex-start': 'c7wp-justify-left',
+                    'center': 'c7wp-justify-center',
+                    'flex-end': 'c7wp-justify-right'
+                };
+                return alignmentMap[justifyContent] || 'c7wp-justify-center';
             }
 
             const showNameField = props.attributes.nameFields === 'true';
@@ -51,11 +68,21 @@
                                 value: 'true'
                             }],
                             onChange: updateData,
+                        }),
+                        createElement(SelectControl, {
+                            label: 'Form Alignment',
+                            value: props.attributes.justifyContent,
+                            options: [
+                                { label: 'Left', value: 'flex-start' },
+                                { label: 'Center', value: 'center' },
+                                { label: 'Right', value: 'flex-end' }
+                            ],
+                            onChange: updateJustifyContent,
                         })
                     ),
                 ),
                 createElement( 'div', {
-                    className: props.className
+                    className: props.className + ' ' + getAlignmentClass(props.attributes.justifyContent)
                     },
                     createElement( 'div', { 
                         className: 'c7-subscribe',
@@ -104,10 +131,44 @@
                 )
             ];
 		},
+		deprecated: [
+			{
+				attributes: {
+					nameFields: {
+						type: 'string',
+						source: 'attribute',
+						selector: '.c7-subscribe',
+						attribute: 'data-has-name-field',
+						default: 'false'
+					}
+				},
+				save: function( props ) {
+					return (
+						createElement( 'div', { 
+							className: props.className
+						},
+							createElement( 'div', { 
+								className: 'c7-subscribe',
+								'data-has-name-field': props.attributes.nameFields,
+							})
+						)
+					);
+				}
+			}
+		],
 		save: function( props ) {
+            function getAlignmentClass(justifyContent) {
+                const alignmentMap = {
+                    'flex-start': 'c7wp-justify-left',
+                    'center': 'c7wp-justify-center',
+                    'flex-end': 'c7wp-justify-right'
+                };
+                return alignmentMap[justifyContent] || 'c7wp-justify-center';
+            }
+
             return (
                 createElement( 'div', { 
-                    className: props.className
+                    className: props.className + ' ' + getAlignmentClass(props.attributes.justifyContent)
                     },
                     createElement( 'div', { 
                         className: 'c7-subscribe',
