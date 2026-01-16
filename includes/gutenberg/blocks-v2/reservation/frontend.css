@@ -24,9 +24,23 @@
 	}
 }
 @media screen and (max-width: 768px) {
-	.c7wp-justify-center,
-	.c7wp-justify-right,
+	.c7wp-justify-center {
+		.c7-reservation__search {
+			.c7-form__group {
+				align-content: center;
+			}
+		}
+	}
+
 	.c7wp-justify-left {
+		.c7-reservation__search {
+			.c7-form__group {
+				align-content: flex-start;
+			}
+		}
+	}
+
+	.c7wp-justify-right {
 		.c7-reservation__search {
 			.c7-form__group {
 				align-content: flex-end;
