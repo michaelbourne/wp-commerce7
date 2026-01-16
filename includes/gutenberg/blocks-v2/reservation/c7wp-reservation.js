@@ -68,7 +68,7 @@
                         }),
                         createElement(SelectControl, {
                             label: 'Form Alignment',
-                            value: props.attributes.justifyContent,
+                            value: props.attributes.justifyContent || 'center',
                             options: [
                                 { label: 'Left', value: 'flex-start' },
                                 { label: 'Center', value: 'center' },
@@ -78,8 +78,8 @@
                         })
                     ),
                 ),
-                createElement('div', { 
-                    className: props.className + ' ' + getAlignmentClass(props.attributes.justifyContent)
+                createElement('div', {
+                    className: [props.className, getAlignmentClass(props.attributes.justifyContent)].filter(Boolean).join(' ')
                 },
                     createElement('div', {
                         className: 'c7-reservation-availability',
@@ -198,7 +198,7 @@
 
             return (
                 createElement('div', {
-                    className: props.className + ' ' + getAlignmentClass(props.attributes.justifyContent)
+                    className: [props.className, getAlignmentClass(props.attributes.justifyContent)].filter(Boolean).join(' ')
                 },
                     createElement('div', {
                         className: 'c7-reservation-availability',

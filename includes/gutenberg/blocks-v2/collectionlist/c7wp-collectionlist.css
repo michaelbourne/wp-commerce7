@@ -1,3 +1,20 @@
 .wp-block-c7wp-collectionlist {
 
 }
+
+.wp-block-c7wp-collectionlist::before {
+    content: '';
+    width: 50px;
+    height: 50px;
+    max-width: 100%;
+    max-height: 100%;
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background-image: url('../../../../assets/c7bg.svg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center right;
+    opacity: 0.08;
+    pointer-events: none;
+}
