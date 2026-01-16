@@ -72,10 +72,13 @@ Removing this plugin will render your widgets and/or blocks inactive, but will n
 
 == Changelog ==
 
-= 1.6.1 - January 7, 2026 =
+= 1.6.2 - January 16, 2026 =
+* Fix: Custom form alignment on mobile
+
+= 1.6.1 - January 16, 2026 =
 * Added: alignment controls form blocks
 
-= 1.6 - Decemner 15, 2025 =
+= 1.6 - December 15, 2025 =
 * Large plugin changes, please backup site before updating
 * Improved: Elementor blocks, adding static previews to some block types for inline styles and visual verifications
 * Improved: Themeco Cornerstone blocks, adding static previews to some block types for inline styles and visual verifications
@@ -242,6 +245,9 @@ Removing this plugin will render your widgets and/or blocks inactive, but will n
 
 
 == Upgrade Notice ==
+
+= 1.6.2 =
+Large plugin update, create a backup before proceeding, and test all widgets on all pages afterwards.
 
 = 1.5.1 =
 You may need to resave existing Club Selector blocks if you've used them already.
