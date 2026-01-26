@@ -5,7 +5,7 @@
  * Created Date: Wednesday September 2nd 2020
  * Author: Michael Bourne
  * -----
- * Last Modified: Friday, December 12th 2025, 1:10:02 pm
+ * Last Modified: Sunday, January 25th 2026, 7:21:53 pm
  * Modified By: Michael Bourne
  * -----
  * Copyright (c) 2020 URSA6
@@ -65,7 +65,23 @@ foreach ( $elements as $element ) {
 	$block_json_path = C7WP_ROOT . '/includes/gutenberg/' . $dir . '/' . $element . '/block.json';
 	if ( file_exists( $block_json_path ) ) {
 		// Register block using block.json metadata
-		register_block_type_from_metadata( $block_json_path );
+		$block_type = register_block_type( $block_json_path );
+
+		// Add dependencies to the auto-registered script
+		if ( $block_type && ! empty( $block_type->editor_script_handles ) ) {
+			foreach ( $block_type->editor_script_handles as $handle ) {
+				$script = wp_scripts()->query( $handle, 'registered' );
+				if ( $script ) {
+					// Add missing dependencies
+					$script->deps = array_merge(
+						$script->deps,
+						array( 'wp-blocks', 'wp-element', 'wp-block-editor', 'wp-components', 'wp-i18n' )
+					);
+					// Remove duplicates
+					$script->deps = array_unique( $script->deps );
+				}
+			}
+		}
 	} else {
 		// Fallback to old registration method
 		// Add block script.
