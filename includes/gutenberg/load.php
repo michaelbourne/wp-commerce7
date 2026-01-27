@@ -5,7 +5,7 @@
  * Created Date: Wednesday September 2nd 2020
  * Author: Michael Bourne
  * -----
- * Last Modified: Sunday, January 25th 2026, 7:21:53 pm
+ * Last Modified: Tuesday, January 27th 2026, 2:30:11 pm
  * Modified By: Michael Bourne
  * -----
  * Copyright (c) 2020 URSA6
@@ -64,24 +64,31 @@ foreach ( $elements as $element ) {
 	// Check if block.json exists (new format)
 	$block_json_path = C7WP_ROOT . '/includes/gutenberg/' . $dir . '/' . $element . '/block.json';
 	if ( file_exists( $block_json_path ) ) {
-		// Register block using block.json metadata
-		$block_type = register_block_type( $block_json_path );
-
-		// Add dependencies to the auto-registered script
-		if ( $block_type && ! empty( $block_type->editor_script_handles ) ) {
-			foreach ( $block_type->editor_script_handles as $handle ) {
-				$script = wp_scripts()->query( $handle, 'registered' );
-				if ( $script ) {
-					// Add missing dependencies
-					$script->deps = array_merge(
-						$script->deps,
-						array( 'wp-blocks', 'wp-element', 'wp-block-editor', 'wp-components', 'wp-i18n' )
-					);
-					// Remove duplicates
-					$script->deps = array_unique( $script->deps );
-				}
-			}
+		// Register editor script with dependencies before registering block
+		$editor_script_path = C7WP_ROOT . '/includes/gutenberg/' . $dir . '/' . $element . '/' . $block_slug . '.js';
+		if ( file_exists( $editor_script_path ) ) {
+			wp_register_script(
+				$block_slug,
+				plugins_url( $dir . '/' . $element . '/' . $block_slug . '.js', __FILE__ ),
+				array( 'wp-blocks', 'wp-element', 'wp-block-editor', 'wp-components', 'wp-i18n' ),
+				C7WP_VERSION,
+				true
+			);
 		}
+
+		// Register editor style before registering block
+		$editor_style_path = C7WP_ROOT . '/includes/gutenberg/' . $dir . '/' . $element . '/' . $block_slug . '.css';
+		if ( file_exists( $editor_style_path ) ) {
+			wp_register_style(
+				$block_slug,
+				plugins_url( $dir . '/' . $element . '/' . $block_slug . '.css', __FILE__ ),
+				array(),
+				C7WP_VERSION
+			);
+		}
+
+		// Register block using metadata - it will reference our registered handles
+		register_block_type_from_metadata( $block_json_path );
 	} else {
 		// Fallback to old registration method
 		// Add block script.

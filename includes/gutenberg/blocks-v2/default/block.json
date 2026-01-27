@@ -6,8 +6,8 @@
 	"description": "Placeholder for dynamic Commerce7 content on base routes. Required on product, club, collection, reservation, cart, and checkout pages.",
 	"keywords": ["commerce7", "default", "content"],
 	"textdomain": "wp-commerce7",
-	"editorScript": "file:./c7wp-default.js",
-	"editorStyle": "file:./c7wp-default.css",
+	"editorScript": "c7wp-default",
+	"editorStyle": "c7wp-default",
 	"style": "",
 	"supports": {
 		"html": false,

@@ -6,8 +6,8 @@
 	"description": "Display a Commerce7 collection with customizable layout options.",
 	"keywords": ["commerce7", "collection", "products", "grid"],
 	"textdomain": "wp-commerce7",
-	"editorScript": "file:./c7wp-personalization.js",
-	"editorStyle": "file:./c7wp-personalization.css",
+	"editorScript": "c7wp-personalization",
+	"editorStyle": "c7wp-personalization",
 	"style": "",
 	"supports": {
 		"html": false,
