@@ -4,7 +4,7 @@ Donate link: https://www.paypal.me/yycpro
 Tags: commerce7
 Requires at least: 6.0
 Tested up to: 6.9
-Stable tag: 1.6.1
+Stable tag: 1.6.3
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.en.html
 
@@ -71,6 +71,9 @@ Removing this plugin will render your widgets and/or blocks inactive, but will n
 
 
 == Changelog ==
+
+= 1.6.3 - January 27, 2025 =
+* Fix: Block registration in some themes wasn't working.
 
 = 1.6.2 - January 16, 2026 =
 * Fix: Custom form alignment on mobile
