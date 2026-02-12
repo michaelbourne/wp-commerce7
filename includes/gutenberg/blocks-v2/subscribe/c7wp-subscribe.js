@@ -1,7 +1,7 @@
 (function (blocks, blockEditor, element, i18n, components) {
 
     const { registerBlockType } = blocks;
-    const { InspectorControls } = blockEditor;
+    const { InspectorControls, useBlockProps } = blockEditor;
     const { PanelBody, RadioControl, SelectControl } = components;
     const { createElement } = element;
     const { __ } = i18n;
@@ -11,6 +11,7 @@
     );
 
     registerBlockType('c7wp/subscribe', {
+        apiVersion: 3,
         title: __('Subscribe Form'), // The title of block in editor.
         description: __('Displays a Commerce7 email subscription form with optional name field.'),
         icon: iconEl,
@@ -55,6 +56,10 @@
 
             const showNameField = props.attributes.nameFields === 'true';
 
+            const blockProps = useBlockProps({
+                className: getAlignmentClass(props.attributes.justifyContent)
+            });
+
             return [
                 createElement(InspectorControls, null,
                     createElement(PanelBody, { title: 'Settings' },
@@ -83,9 +88,7 @@
                         })
                     ),
                 ),
-                createElement('div', {
-                    className: [props.className, getAlignmentClass(props.attributes.justifyContent)].filter(Boolean).join(' ')
-                },
+                createElement('div', blockProps,
                     createElement('div', {
                         className: 'c7-subscribe',
                     },
@@ -168,10 +171,12 @@
                 return alignmentMap[justifyContent] || 'c7wp-justify-center';
             }
 
+            const blockProps = useBlockProps.save({
+                className: getAlignmentClass(props.attributes.justifyContent)
+            });
+
             return (
-                createElement('div', {
-                    className: [props.className, getAlignmentClass(props.attributes.justifyContent)].filter(Boolean).join(' ')
-                },
+                createElement('div', blockProps,
                     createElement('div', {
                         className: 'c7-subscribe',
                         'data-has-name-field': props.attributes.nameFields,

@@ -9,4 +9,8 @@
  * @since     1.0.0
  */
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 echo do_shortcode( '[c7wp type="' . $type . '" data="' . $data . '"]' );

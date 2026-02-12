@@ -11,6 +11,7 @@
     );
 
     registerBlockType( 'c7wp/personalization', {
+        apiVersion: 3,
         title: __( 'Personalization Block', 'wp-commerce7' ),
         description: __( 'Displays a Commerce7 personalization block. These are created in the Developer section inside Commerce7 and can be edited in the Website tab.', 'wp-commerce7' ),
         icon: iconEl,

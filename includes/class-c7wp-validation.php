@@ -74,7 +74,7 @@ class C7WP_Validation {
 		);
 
 		if ( ! is_array( $clubs ) || empty( $clubs ) ) {
-			$result['valid']     = false;
+			$result['valid']      = false;
 			$result['messages'][] = __( 'At least one club is required.', 'wp-commerce7' );
 			return $result;
 		}
@@ -85,19 +85,22 @@ class C7WP_Validation {
 
 			// Validate slug
 			if ( empty( $club['slug'] ) ) {
-				$result['valid']     = false;
+				$result['valid'] = false;
+				/* translators: %d: Club number. */
 				$result['messages'][] = sprintf( __( 'Club #%d has no slug.', 'wp-commerce7' ), $club_num );
 			} else {
 				$slug_validation = self::validate_slug( $club['slug'] );
 				if ( ! $slug_validation['valid'] ) {
-					$result['valid']     = false;
+					$result['valid'] = false;
+					/* translators: 1: Club number. 2: Validation error message. */
 					$result['messages'][] = sprintf( __( 'Club #%1$d: %2$s', 'wp-commerce7' ), $club_num, $slug_validation['message'] );
 				}
 
 				// Check for duplicate slugs
 				$slug_lower = strtolower( $club['slug'] );
 				if ( in_array( $slug_lower, $slugs, true ) ) {
-					$result['valid']     = false;
+					$result['valid'] = false;
+					/* translators: %d: Club number. */
 					$result['messages'][] = sprintf( __( 'Club #%d has a duplicate slug.', 'wp-commerce7' ), $club_num );
 				}
 				$slugs[] = $slug_lower;
@@ -105,19 +108,23 @@ class C7WP_Validation {
 
 			// Validate name
 			if ( empty( $club['name'] ) ) {
-				$result['valid']     = false;
+				$result['valid'] = false;
+				/* translators: %d: Club number. */
 				$result['messages'][] = sprintf( __( 'Club #%d has no name.', 'wp-commerce7' ), $club_num );
 			} elseif ( strlen( $club['name'] ) > 100 ) {
-				$result['valid']     = false;
+				$result['valid'] = false;
+				/* translators: %d: Club number. */
 				$result['messages'][] = sprintf( __( 'Club #%d name must be 100 characters or less.', 'wp-commerce7' ), $club_num );
 			}
 
 			// Validate button text
 			if ( empty( $club['buttonText'] ) ) {
-				$result['valid']     = false;
+				$result['valid'] = false;
+				/* translators: %d: Club number. */
 				$result['messages'][] = sprintf( __( 'Club #%d has no button text.', 'wp-commerce7' ), $club_num );
 			} elseif ( strlen( $club['buttonText'] ) > 50 ) {
-				$result['valid']     = false;
+				$result['valid'] = false;
+				/* translators: %d: Club number. */
 				$result['messages'][] = sprintf( __( 'Club #%d button text must be 50 characters or less.', 'wp-commerce7' ), $club_num );
 			}
 		}
@@ -188,7 +195,8 @@ class C7WP_Validation {
 
 		$valid_types = array( 'tasting', 'tour', 'event', 'dining', 'custom' );
 		if ( ! in_array( $type, $valid_types, true ) ) {
-			$result['valid']   = false;
+			$result['valid'] = false;
+			/* translators: %s: List of valid reservation types. */
 			$result['message'] = sprintf( __( 'Invalid reservation type. Must be one of: %s', 'wp-commerce7' ), implode( ', ', $valid_types ) );
 			return $result;
 		}
@@ -210,7 +218,8 @@ class C7WP_Validation {
 
 		$valid_types = array( 'grid', 'list', 'carousel' );
 		if ( ! in_array( $display_type, $valid_types, true ) ) {
-			$result['valid']   = false;
+			$result['valid'] = false;
+			/* translators: %s: List of valid display types. */
 			$result['message'] = sprintf( __( 'Invalid display type. Must be one of: %s', 'wp-commerce7' ), implode( ', ', $valid_types ) );
 			return $result;
 		}
@@ -282,11 +291,12 @@ class C7WP_Validation {
 			'message'   => '',
 		);
 
-		$sanitized = sanitize_text_field( $text );
+		$sanitized           = sanitize_text_field( $text );
 		$result['sanitized'] = $sanitized;
 
 		if ( strlen( $sanitized ) > $max_length ) {
-			$result['valid']   = false;
+			$result['valid'] = false;
+			/* translators: %d: Maximum character length. */
 			$result['message'] = sprintf( __( 'Text must be %d characters or less.', 'wp-commerce7' ), $max_length );
 		}
 

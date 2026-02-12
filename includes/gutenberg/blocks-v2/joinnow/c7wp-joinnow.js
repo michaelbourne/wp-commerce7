@@ -11,6 +11,7 @@
     );
 
     registerBlockType('c7wp/joinnow', {
+        apiVersion: 3,
         title: __('Join Club Button'), // The title of block in editor.
         description: __('Displays a Commerce7 club sign-up button that reads either "Join Now" or "Edit Membership" based on the customers status in the club. You can change the default values for both states using the fields below.'),
         icon: iconEl,

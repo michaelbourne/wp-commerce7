@@ -9,6 +9,10 @@
  * @since     1.0.0
  */
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 $ctype = ( isset( $settings->ctype ) && '' != $settings->ctype ) ? esc_attr( $settings->ctype ) : 'default';
 $data  = ( isset( $settings->cdata ) ) ? esc_attr( $settings->cdata ) : '';
 

@@ -17,6 +17,10 @@
  * @since     1.0.8
  */
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 // Check if Gutenberg is active.
 if ( ! function_exists( 'register_block_type' ) ) {
 	return;

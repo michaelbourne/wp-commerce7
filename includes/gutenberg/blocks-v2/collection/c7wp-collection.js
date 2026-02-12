@@ -11,6 +11,7 @@
     );
 
     registerBlockType( 'c7wp/collection', {
+        apiVersion: 3,
         title: __( 'Collection Grid', 'wp-commerce7' ),
         description: __( 'Displays a single Commerce7 Collection.', 'wp-commerce7' ),
         icon: iconEl,

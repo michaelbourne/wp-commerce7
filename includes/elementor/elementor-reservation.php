@@ -5,7 +5,7 @@
  * Created Date: Wednesday September 2nd 2020
  * Author: Michael Bourne
  * -----
- * Last Modified: Thursday, January 9th 2025, 1:51:07 pm
+ * Last Modified: Wednesday, February 11th 2026, 8:26:26 pm
  * Modified By: Michael Bourne
  * -----
  * Copyright (c) 2020 URSA6
@@ -81,7 +81,7 @@ class C7WP_Elementor_Reservation extends \Elementor\Widget_Base {
 	 * @return array Widget categories.
 	 */
 	public function get_categories() {
-		return [ 'commerce7' ];
+		return array( 'commerce7' );
 	}
 
 	/**
@@ -93,7 +93,7 @@ class C7WP_Elementor_Reservation extends \Elementor\Widget_Base {
 	 * @return array Widget keywords.
 	 */
 	public function get_keywords() {
-		return [ 'commerce7', 'reserve', 'reservation' ];
+		return array( 'commerce7', 'reserve', 'reservation' );
 	}
 
 	/**
@@ -108,32 +108,31 @@ class C7WP_Elementor_Reservation extends \Elementor\Widget_Base {
 
 		$this->start_controls_section(
 			'content_section',
-			[
+			array(
 				'label' => __( 'Settings', 'wp-commerce7' ),
 				'tab'   => \Elementor\Controls_Manager::TAB_CONTENT,
-			]
+			)
 		);
 
 		$this->add_control(
 			'preview_notice',
-			[
+			array(
 				'type'            => \Elementor\Controls_Manager::RAW_HTML,
 				'raw'             => '<div style="background: #fff3cd; border: 1px solid #ffeaa7; padding: 10px; border-radius: 4px; margin-bottom: 15px;"><strong>Preview Notice:</strong> The preview shown in your editor is for example purposes only, it does not reflect the experience slug you provide nor is it interactive.</div>',
 				'content_classes' => 'elementor-panel-alert elementor-panel-alert-warning',
-			]
+			)
 		);
 
 		$this->add_control(
 			'data',
-			[
-				'label' 	  => __( 'Experience Slug', 'wp-commerce7' ),
-				'type'  	  => \Elementor\Controls_Manager::TEXT,
+			array(
+				'label'       => __( 'Experience Slug', 'wp-commerce7' ),
+				'type'        => \Elementor\Controls_Manager::TEXT,
 				'placeholder' => __( 'estate-tour', 'wp-commerce7' ),
-			]
+			)
 		);
 
 		$this->end_controls_section();
-
 	}
 
 	/**
@@ -152,7 +151,7 @@ class C7WP_Elementor_Reservation extends \Elementor\Widget_Base {
 
 		// Show preview in Elementor editor, shortcode on frontend
 		if ( \Elementor\Plugin::$instance->editor->is_edit_mode() || \Elementor\Plugin::$instance->preview->is_preview_mode() ) {
-			$slugProvided = !empty( $data );
+			$slugProvided = ! empty( $data );
 			?>
 			<div class="c7-reservation-availability-placeholder" data-reservation-type-slug="<?php echo esc_attr( $data ); ?>">
 				<?php if ( $slugProvided ) : ?>
@@ -165,7 +164,7 @@ class C7WP_Elementor_Reservation extends \Elementor\Widget_Base {
 										<input type="text" placeholder="MMM DD YYYY" value="" tabindex="-1" disabled>
 										<button type="button" class="c7-date-picker-toggle" tabindex="-1" disabled>
 											<span role="img">
-												<img class="emoji" src="https://s.w.org/images/core/emoji/14.0.0/svg/1f4c5.svg">
+												<span class="dashicons dashicons-calendar-alt" aria-hidden="true"></span>
 											</span>
 										</button>
 									</div>
@@ -222,7 +221,6 @@ class C7WP_Elementor_Reservation extends \Elementor\Widget_Base {
 			// Frontend - show actual shortcode
 			echo do_shortcode( '[c7wp type="reservation" data="' . $data . '"]' );
 		}
-
 	}
 
 	/**
@@ -249,7 +247,7 @@ class C7WP_Elementor_Reservation extends \Elementor\Widget_Base {
 									<input type="text" placeholder="MMM DD YYYY" value="" tabindex="-1" disabled>
 									<button type="button" class="c7-date-picker-toggle" tabindex="-1" disabled>
 										<span role="img">
-											<img class="emoji" src="https://s.w.org/images/core/emoji/14.0.0/svg/1f4c5.svg">
+											<span class="dashicons dashicons-calendar-alt" aria-hidden="true"></span>
 										</span>
 									</button>
 								</div>
@@ -303,6 +301,6 @@ class C7WP_Elementor_Reservation extends \Elementor\Widget_Base {
 		</div>
 		<?php
 	}
-	public function render_plain_content( $instance = [] ) {}
+	public function render_plain_content( $instance = array() ) {}
 
 }

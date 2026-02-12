@@ -9,6 +9,7 @@
     );
 
     blocks.registerBlockType( 'c7wp/default', {
+        apiVersion: 3,
         title: __( 'Default Content', 'wp-commerce7' ),
         description: __( 'Placeholder for dynamic Commerce7 content on base routes. Required on product, club, collection, reservation, cart, and checkout pages.', 'wp-commerce7' ),
         icon: iconEl,

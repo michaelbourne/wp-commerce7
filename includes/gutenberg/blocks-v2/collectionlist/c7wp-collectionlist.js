@@ -1,6 +1,7 @@
-( function( blocks, editor, element ) {
+( function( blocks, blockEditor, element ) {
 
     var el = element.createElement;
+    var useBlockProps = blockEditor.useBlockProps;
 
     const { __ } = wp.i18n;
     const iconEl = el('svg', { preserveAspectRatio: 'xMinYMin meet', viewBox: '0 0 28 28' },
@@ -8,6 +9,7 @@
     );
 
 	blocks.registerBlockType( 'c7wp/collectionlist', {
+        apiVersion: 3,
         title: __( 'Collection List' ), // The title of block in editor.
         description: __( 'Outputs a list of links to all Collections with a Web Status of Available' ),
 		icon: iconEl,
@@ -16,11 +18,12 @@
         example: {},
 		attributes: {},
 		edit: function( props ) {
+            var blockProps = useBlockProps({
+                className: 'components-placeholder'
+            });
 
             return (
-                el( 'div', {
-                    className: 'components-placeholder ' + props.className
-                    },
+                el( 'div', blockProps,
                     el( 'div', { 
                         id: 'c7-collection-list'
                         },
@@ -34,10 +37,10 @@
             );
 		},
 		save: function( props ) {
+            var blockProps = useBlockProps.save();
+
             return (
-                el( 'div', { 
-                    className: props.className
-                    },
+                el( 'div', blockProps,
                     el( 'div', { 
                         id: 'c7-collection-list'
                         }
@@ -46,4 +49,4 @@
             );
 		},
 	} );
-} )( window.wp.blocks, window.wp.editor, window.wp.element );
+} )( window.wp.blocks, window.wp.blockEditor, window.wp.element );

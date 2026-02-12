@@ -1,7 +1,7 @@
 (function (blocks, blockEditor, element, i18n, components) {
 
     const { registerBlockType } = blocks;
-    const { InspectorControls } = blockEditor;
+    const { InspectorControls, useBlockProps } = blockEditor;
     const { TextControl, PanelBody } = components;
     const { createElement } = element;
     const { __ } = i18n;
@@ -11,6 +11,7 @@
     );
 
 	registerBlockType( 'c7wp/loginform', {
+        apiVersion: 3,
         title: __( 'Login Form' ), // The title of block in editor.
         description: __( 'Displays a Commerce7 login form with an optional redirect path.' ),
 		icon: iconEl,
@@ -32,6 +33,8 @@
                 props.setAttributes( { data: value } );
             }
 
+            const blockProps = useBlockProps();
+
             return [
                 createElement(InspectorControls, null,
                     createElement(PanelBody, { title: 'Settings' },
@@ -43,9 +46,7 @@
                         })
                     ),
                 ),
-                createElement( 'div', {
-                    className: props.className
-                    },
+                createElement( 'div', blockProps,
                     createElement( 'div', { 
                         id: 'c7-login-form',
                         'data-redirect-to': props.attributes.data,
@@ -86,10 +87,10 @@
             ];
 		},
 		save: function( props ) {
+            const blockProps = useBlockProps.save();
+
             return (
-                createElement( 'div', { 
-                    className: props.className
-                    },
+                createElement( 'div', blockProps,
                     createElement( 'div', { 
                         id: 'c7-login-form',
                         'data-redirect-to': props.attributes.data,

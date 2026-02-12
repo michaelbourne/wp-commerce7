@@ -1,7 +1,7 @@
 (function (blocks, blockEditor, element, i18n, components) {
 
     const { registerBlockType } = blocks;
-    const { InspectorControls } = blockEditor;
+    const { InspectorControls, useBlockProps } = blockEditor;
     const { TextControl, PanelBody, SelectControl } = components;
     const { createElement } = element;
     const { __ } = i18n;
@@ -11,6 +11,7 @@
     );
 
     registerBlockType('c7wp/buyslug', {
+        apiVersion: 3,
         title: __('Buy Button'), // The title of block in editor.
         description: __('Displays a Commerce7 Add To Cart button with price, quantity and variation fields if applicable.'),
         icon: iconEl,
@@ -51,6 +52,10 @@
             // set slugProvided to true if a slug is provided and not blank.
             const slugProvided = props.attributes.data && props.attributes.data.length > 0;
 
+            const blockProps = useBlockProps({
+                className: getAlignmentClass(props.attributes.justifyContent)
+            });
+
             return [
                 createElement(InspectorControls, null,
                     createElement('div', {
@@ -81,7 +86,7 @@
                         })
                     ),
                 ),
-                createElement('div', { className: [props.className, getAlignmentClass(props.attributes.justifyContent)].filter(Boolean).join(' ') },
+                createElement('div', blockProps,
                     createElement('div', {
                         className: 'c7-buy-product',
                         'data-sku': props.attributes.data,
@@ -210,10 +215,12 @@
                 return alignmentMap[justifyContent] || 'c7wp-justify-center';
             }
 
+            const blockProps = useBlockProps.save({
+                className: getAlignmentClass(props.attributes.justifyContent)
+            });
+
             return (
-                createElement('div', {
-                    className: [props.className, getAlignmentClass(props.attributes.justifyContent)].filter(Boolean).join(' ')
-                },
+                createElement('div', blockProps,
                     createElement('div', {
                         className: 'c7-buy-product',
                         'data-product-slug': props.attributes.data,

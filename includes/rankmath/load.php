@@ -5,7 +5,7 @@
  * Created Date: Wednesday October 12th 2022
  * Author: Michael Bourne
  * -----
- * Last Modified: Friday, October 17th 2025, 6:55:09 pm
+ * Last Modified: Wednesday, February 11th 2026, 8:26:49 pm
  * Modified By: Michael Bourne
  * -----
  * Copyright (c) 2022 URSA6
@@ -17,23 +17,30 @@
  * @since     1.3.3
  */
 
-add_action( 'rank_math/frontend/canonical', function( $canonical ) {
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
-    $options = get_option( 'c7wp_settings' );
+add_action(
+	'rank_math/frontend/canonical',
+	function( $canonical ) {
 
-    // If the user has not set custom routes, use the defaults.
-    if ( ! isset( $options['c7wp_frontend_routes'] ) || ! is_array( $options['c7wp_frontend_routes'] ) ) {
-        $product_route    = 'product';
-        $collection_route = 'collection';
-    } else {
-        $product_route    = $options['c7wp_frontend_routes']['product'];
-        $collection_route = $options['c7wp_frontend_routes']['collection'];
-    }
+		$options = get_option( 'c7wp_settings' );
 
-    // If the current page is a product or collection page, remove action to disable canonical URL.
-	if ( is_page( [ $product_route, $collection_route ] ) ) {
-		return false;
-	}
+		// If the user has not set custom routes, use the defaults.
+		if ( ! isset( $options['c7wp_frontend_routes'] ) || ! is_array( $options['c7wp_frontend_routes'] ) ) {
+			$product_route    = 'product';
+			$collection_route = 'collection';
+		} else {
+			$product_route    = $options['c7wp_frontend_routes']['product'];
+			$collection_route = $options['c7wp_frontend_routes']['collection'];
+		}
 
-}, 1 );
+		// If the current page is a product or collection page, remove action to disable canonical URL.
+		if ( is_page( array( $product_route, $collection_route ) ) ) {
+			return false;
+		}
+	},
+	1
+);
 

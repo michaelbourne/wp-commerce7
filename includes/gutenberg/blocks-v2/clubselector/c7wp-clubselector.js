@@ -24,6 +24,7 @@
     ];
 
     registerBlockType('c7wp/clubselector', {
+        apiVersion: 3,
         title: __('Club Selector'), // The title of block in editor.
         description: __('Displays a club selector with either radio buttons or dropdown, and a dynamic button.'),
         icon: iconEl,
