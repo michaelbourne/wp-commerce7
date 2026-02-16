@@ -33,29 +33,27 @@
 		position: fixed;
 	}
 
-	&.c7dark > div > a {
-		color: #fff;
+	&.c7dark {
+	  --c7-header-text-color: #fff;
+		--c7-cart-count-text-color: #fff;
+  }
+
+	&.c7dark .c7-user-nav__account > a,
+	&.c7dark .c7-user-nav__account > a:hover,
+	&.c7dark .c7-user-nav__account > a:focus,
+	&.c7dark .c7-user-nav__cart > button {
+		color: var(--c7-header-text-color);
 	}
 
-	&.c7light > div > a {
-		color: #333;
-	}
-}
-.c7-dark {
-	--c7-header-text-color: #fff;
-}
-#c7-login,
-#c7-account {
+
+	#c7-login,
+  #c7-account {
     padding: 0 1rem 0 0;
+  }
 }
-.c7-checkout__content__title {
-	a {
-		font-size: 0.95rem;
-	}
-}
-.c7-cart__count {
-	display: none;
-}
+
+
+
 @media screen and (min-width: 46rem) {
 	.c7-form__group {
 		div div {
