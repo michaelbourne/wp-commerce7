@@ -570,12 +570,13 @@ class C7WP {
 			<?php
 				echo wp_kses(
 					__(
-						'If set to <strong>yes</strong>, this plugin will add a floating login  cart box to the front end of your website. If set to <strong>no</strong>, you will need to add the <code>[c7wp type=\'login\']</code> and <code>[c7wp type=\'cart\']</code> shortcodes (or Commerce7\'s HTML) to your header manually. We recommend setting this to no and placing your cart manually.',
+						'If set to <strong>yes</strong>, this plugin will add a floating login  cart box to the front end of your website.<br>If set to <strong>no</strong>, you will need to add the <code>[c7wp type=\'login\']</code> and <code>[c7wp type=\'cart\']</code> shortcodes (or Commerce7\'s HTML) to your header manually.<br>We recommend setting this to <strong>no</strong> and placing your cart manually.',
 						'wp-commerce7'
 					),
 					array(
 						'strong' => array(),
 						'code'   => array(),
+						'br'     => array(),
 					)
 				);
 			?>
@@ -636,7 +637,7 @@ class C7WP {
 					__(
 						'<strong>V2:</strong> The standard front-end widgets version used by most wineries.
 						<br>
-						<strong>V2 (Compatibility Mode):</strong> This will load the V2 widgets in a way that is compatible with more themes and plugins, with safer javascript invocation. Safe for all websites, and the recommended option for everyone.
+						<strong>V2 (Compatibility Mode):</strong> This will load the V2 widgets in a way that is compatible with more themes and plugins, with safer javascript invocation. Safe for all websites, and <strong>the recommended option for everyone</strong>.
 						<br>
 						<strong>V1:</strong> Only a select few legacy sites are still using the old beta/V1 widgets.',
 						'wp-commerce7',
