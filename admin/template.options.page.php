@@ -97,7 +97,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 					if ( empty( $callout ) ) {
 						$response = wp_remote_get( 'https://api.github.com/gists/' . $gist, $args );
 
-						if ( is_array( $response ) && ! is_wp_error( $response ) && '200' === wp_remote_retrieve_response_code( $response ) ) {
+						if ( ! is_wp_error( $response ) && 200 === (int) wp_remote_retrieve_response_code( $response ) ) {
 							$headers = $response['headers']; // array of http header lines
 							$body    = json_decode( $response['body'], true ); // use the content
 
