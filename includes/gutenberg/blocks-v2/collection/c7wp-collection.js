@@ -1,7 +1,7 @@
 (function (blocks, blockEditor, element, i18n, components) {
 
     const { registerBlockType } = blocks;
-    const { InspectorControls, useBlockProps } = blockEditor; // ADD useBlockProps here
+    const { InspectorControls, useBlockProps } = blockEditor;
     const { TextControl, PanelBody } = components;
     const { createElement } = element;
     const { __ } = i18n;
