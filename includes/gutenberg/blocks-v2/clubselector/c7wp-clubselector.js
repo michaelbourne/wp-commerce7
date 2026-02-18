@@ -203,7 +203,9 @@
 
             // Show placeholder if no clubs
             if (!clubs.length) {
-                return createElement('div', { ...blockProps, className: 'components-placeholder' },
+                const placeholderProps = useBlockProps({ className: 'components-placeholder' });
+
+                return createElement('div', placeholderProps,
                     createElement('div', { className: 'components-placeholder__label' },
                         __('Club Selector')
                     ),
