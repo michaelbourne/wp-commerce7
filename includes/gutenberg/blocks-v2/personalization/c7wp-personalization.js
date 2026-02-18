@@ -1,7 +1,7 @@
 (function (blocks, blockEditor, element, i18n, components) {
 
     const { registerBlockType } = blocks;
-    const { InspectorControls, useBlockProps } = blockEditor; // ADD useBlockProps here
+    const { InspectorControls, useBlockProps } = blockEditor;
     const { TextControl, PanelBody } = components;
     const { createElement } = element;
     const { __ } = i18n;
@@ -31,7 +31,7 @@
             customClassName: false,
         },
         edit: function( props ) {
-            const blockProps = useBlockProps(); // Move inside edit function
+            const blockProps = useBlockProps();
 
             function updateData(value) {
                 props.setAttributes({ data: value });
@@ -60,19 +60,19 @@
                         })
                     ),
                 ),
-                slugProvided && createElement( 'div', blockProps, // Use blockProps
+                slugProvided && createElement( 'div', blockProps,
                     createElement( 'div', { 
                         className: 'c7-personalization',
                         'data-block-code': props.attributes.data,
                         },
-                        createElement( 'div', null, // Add style wrapper
+                        createElement( 'div', null,
                             createElement( 'h2', null, "Commerce7 Personalization" ),
                             createElement( 'p', null, "Personalization block code: " + props.attributes.data )
                         ),
                     )
                 ),
                 !slugProvided && createElement('div', { 
-                    ...blockProps, // Spread blockProps
+                    ...blockProps,
                     className: blockProps.className + ' c7-message c7-message--alert-error',
                     role: 'presentation'
                 },
@@ -99,9 +99,9 @@
             ];
         },
         save: function( props ) {
-            const blockProps = useBlockProps.save(); // Move inside save function
+            const blockProps = useBlockProps.save();
             return (
-                createElement( 'div', blockProps, // Use blockProps
+                createElement( 'div', blockProps,
                     createElement( 'div', { 
                         className: 'c7-personalization',
                         'data-block-code': props.attributes.data,
