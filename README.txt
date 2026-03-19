@@ -4,7 +4,7 @@ Donate link: https://www.paypal.me/yycpro
 Tags: commerce7
 Requires at least: 6.0
 Tested up to: 6.9
-Stable tag: 1.6.3
+Stable tag: 1.7.0
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.en.html
 
@@ -71,6 +71,13 @@ Removing this plugin will render your widgets and/or blocks inactive, but will n
 
 
 == Changelog ==
+
+= 1.7.0 - March 19. 2026 =
+* Improved: WordPress plugin checker formatting fixes.
+* Improved: All blovks migrated to API v3 for proper iframe editor loading.
+* Improved: Block styles and scripts loaded seperately to support FSE.
+* Fix: dark mode on cart box.
+
 
 = 1.6.3 - January 27, 2025 =
 * Fix: Block registration in some themes wasn't working.
