@@ -22,7 +22,7 @@ A free plugin for Commerce7 customers who wish to integrate their javascript wid
 *   Full integration with popular pagebuilders like Cornerstone, Elementor, Beaver Builder, and WPBakery
 *   Full integration with Gutenberg
 
-This plugin relies on a third party service for it's functionality provided by [Commerce7](https://commerce7.com/). As an ecommerce solution, an SSL certificate is required on your website. Your privacy policy should be ammended to include the use of third party software for order processing. 
+This plugin relies on a third party service for it's functionality provided by [Commerce7](https://commerce7.com/). As an ecommerce solution, an SSL certificate is required on your website. Your privacy policy should be ammended to include the use of third party software for order processing. The plugin settings page may fetch promotional callout HTML from c7wp.com. No user data is transmitted.
 
 Read the [Commerce7 for WordPress](https://c7wp.com) website to get started.
 

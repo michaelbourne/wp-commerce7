@@ -75,10 +75,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 				 */
 			if ( apply_filters( 'c7wp_show_sidebar', true ) ) :
 
-				$gists = array(
-					'95be9529b9ba6f9cc96336e085a4b122',
-					'902913bb4b5623f945c9ebe30dfbc0b6',
-					'fb980c8d769a96f169250a79ca278f74',
+				$callout_urls = array(
+					'https://c7wp.com/c7wp-callout-1.html',
+					'https://c7wp.com/c7wp-callout-2.html',
+					'https://c7wp.com/c7wp-callout-3.html',
 				);
 
 				$allowed_html      = wp_kses_allowed_html( 'post' );
@@ -87,35 +87,28 @@ if ( ! defined( 'ABSPATH' ) ) {
 					'data',
 				);
 
-				$args = array(
-					'headers' => array( 'Content-Type' => 'application/json; charset=utf-8' ),
-				);
-
-				foreach ( $gists as $gist ) {
-					$callout = get_transient( 'c7wp_' . $gist );
+				foreach ( $callout_urls as $callout_url ) {
+					$cache_key = 'c7wp_callout_' . md5( $callout_url );
+					$callout   = get_transient( $cache_key );
 
 					if ( empty( $callout ) ) {
-						$response = wp_remote_get( 'https://api.github.com/gists/' . $gist, $args );
+						$response = wp_remote_get( $callout_url );
 
 						if ( ! is_wp_error( $response ) && 200 === (int) wp_remote_retrieve_response_code( $response ) ) {
-							$headers = $response['headers']; // array of http header lines
-							$body    = json_decode( $response['body'], true ); // use the content
+							$callout = wp_remote_retrieve_body( $response );
 
-							if ( isset( $body['files']['index.html']['content'] ) ) {
-								$callout = stripslashes( $body['files']['index.html']['content'] );
-								set_transient( 'c7wp_' . $gist, $callout, WEEK_IN_SECONDS );
+							if ( ! empty( $callout ) ) {
+								set_transient( $cache_key, $callout, WEEK_IN_SECONDS );
 							} else {
-								// Log error if WP_DEBUG is enabled
 								if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
-									error_log( 'Commerce7: Invalid response structure from GitHub API for gist ' . $gist );
+									error_log( 'Commerce7: Empty callout response from ' . $callout_url );
 								}
 								continue;
 							}
 						} else {
-							// Log error if WP_DEBUG is enabled
 							if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
 								$error_message = is_wp_error( $response ) ? $response->get_error_message() : 'HTTP ' . wp_remote_retrieve_response_code( $response );
-								error_log( 'Commerce7: Failed to fetch gist ' . $gist . ': ' . $error_message );
+								error_log( 'Commerce7: Failed to fetch callout from ' . $callout_url . ': ' . $error_message );
 							}
 							continue;
 						}

@@ -31,7 +31,7 @@ delete_transient( 'c7wp_remote_notices' );
 delete_transient( 'c7wp-admin-notice-pages' );
 delete_transient( 'c7wp-admin-notice-pages-missing' );
 
-// Remove GitHub Gist transients (these have dynamic names)
+// Remove callout transients (these have dynamic names)
 global $wpdb;
 $wpdb->query( "DELETE FROM {$wpdb->options} WHERE option_name LIKE '_transient_c7wp_%'" );
 $wpdb->query( "DELETE FROM {$wpdb->options} WHERE option_name LIKE '_transient_timeout_c7wp_%'" );
