@@ -38,7 +38,60 @@ function c7wp_add_health_checks( $tests ) {
 		'test'  => 'c7wp_test_permalinks',
 	);
 
+	$options = get_option( 'c7wp_settings' );
+	if ( isset( $options['c7wp_enable_product_reviews'] ) && 'yes' === $options['c7wp_enable_product_reviews'] ) {
+		$tests['direct']['c7wp_product_reviews'] = array(
+			'label' => __( 'Commerce7 Product Reviews embed', 'wp-commerce7' ),
+			'test'  => 'c7wp_test_product_reviews',
+		);
+	}
+
 	return $tests;
+}
+
+/**
+ * Test Product Reviews embed prerequisites when the feature is enabled.
+ */
+function c7wp_test_product_reviews() {
+	$options   = get_option( 'c7wp_settings' );
+	$tenant_id = isset( $options['c7wp_tenant'] ) ? $options['c7wp_tenant'] : '';
+
+	$result = array(
+		'label'       => __( 'Commerce7 Product Reviews embed is configured', 'wp-commerce7' ),
+		'status'      => 'good',
+		'badge'       => array(
+			'label' => __( 'Commerce7', 'wp-commerce7' ),
+			'color' => 'blue',
+		),
+		'description' => sprintf(
+			'<p>%s</p>',
+			__( 'Product Reviews embed is enabled with a Tenant ID. Install and configure the Product Reviews app in Commerce7 admin, then confirm stars and reviews appear on product and collection pages.', 'wp-commerce7' )
+		),
+		'test'        => 'c7wp_product_reviews',
+	);
+
+	if ( empty( $tenant_id ) ) {
+		$result['status']      = 'critical';
+		$result['label']       = __( 'Product Reviews embed requires a Tenant ID', 'wp-commerce7' );
+		$result['description'] = sprintf(
+			'<p>%s</p>',
+			__( 'Product Reviews is enabled but no Tenant ID is configured. Add your Tenant ID or disable the Product Reviews embed in plugin settings.', 'wp-commerce7' )
+		);
+		$result['actions'] = sprintf(
+			'<p><a href="%s">%s</a></p>',
+			esc_url( admin_url( 'admin.php?page=commerce7' ) ),
+			__( 'Configure Commerce7 Settings', 'wp-commerce7' )
+		);
+	} else {
+		$result['status']      = 'recommended';
+		$result['label']       = __( 'Commerce7 Product Reviews app setup', 'wp-commerce7' );
+		$result['description'] = sprintf(
+			'<p>%s</p>',
+			__( 'Confirm the Product Reviews Commerce7 app is installed for this tenant, settings are saved in the app iframe, and product/collection page slugs match your Custom Front-end Routes.', 'wp-commerce7' )
+		);
+	}
+
+	return $result;
 }
 
 /**
@@ -293,6 +346,10 @@ function c7wp_add_debug_info( $info ) {
 			'custom_routes' => array(
 				'label' => __( 'Custom Routes Enabled', 'wp-commerce7' ),
 				'value' => isset( $options['c7wp_enable_custom_routes'] ) ? $options['c7wp_enable_custom_routes'] : 'no',
+			),
+			'product_reviews' => array(
+				'label' => __( 'Product Reviews Embed', 'wp-commerce7' ),
+				'value' => isset( $options['c7wp_enable_product_reviews'] ) ? $options['c7wp_enable_product_reviews'] : 'no',
 			),
 		),
 	);
