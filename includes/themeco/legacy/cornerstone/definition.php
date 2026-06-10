@@ -13,7 +13,7 @@ class C7WP_CsElement {
 
 	public function ui() {
 		return array(
-			'title' => __( 'Commerce7', 'wp-commerce7' ),
+			'title' => __( 'Commerce7 (Legacy)', 'wp-commerce7' ),
 			'icon_group' => 'commerce7',
 			'icon_id' => 'Layer_1',
 		);
