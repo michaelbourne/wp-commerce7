@@ -56,3 +56,16 @@
 }
  
 .c7icon-c7sm:before { content: '\e800'; } /* '' */
+
+/* WPBakery icon override */
+.vc_element-icon.c7icon-c7sm:before {
+  font-size: 1.75em;
+  margin: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: grid;
+  place-items: center;
+}

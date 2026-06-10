@@ -1,0 +1,16 @@
+{
+	"apiVersion": 3,
+	"name": "c7wp/login",
+	"title": "Login/Logout Link",
+	"category": "commerce7",
+	"description": "Add a Commerce7 login and logout link.",
+	"keywords": ["commerce7", "login"],
+	"textdomain": "wp-commerce7",
+	"editorScript": "c7wp-login",
+	"editorStyle": "c7wp-login",
+	"supports": {
+		"html": false,
+		"customClassName": false
+	},
+	"attributes": {}
+}

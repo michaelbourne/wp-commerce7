@@ -1,0 +1,33 @@
+{
+	"apiVersion": 3,
+	"name": "c7wp/joinnow",
+	"title": "Club Join Button",
+	"category": "commerce7",
+	"description": "Add a Commerce7 club join or edit membership button.",
+	"keywords": ["commerce7", "club", "join"],
+	"textdomain": "wp-commerce7",
+	"editorScript": "c7wp-joinnow",
+	"editorStyle": "c7wp-joinnow",
+	"supports": {
+		"html": false,
+		"customClassName": false
+	},
+	"attributes": {
+		"clubSlug": {
+			"type": "string",
+			"default": "6-bottle-club"
+		},
+		"joinText": {
+			"type": "string",
+			"default": "Join Now"
+		},
+		"editText": {
+			"type": "string",
+			"default": "Edit Membership"
+		},
+		"alignment": {
+			"type": "string",
+			"default": "left"
+		}
+	}
+}

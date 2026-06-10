@@ -12,12 +12,12 @@
 class C7WP_flModule extends FLBuilderModule { // phpcs:ignore
     public function __construct() {
         parent::__construct(array(
-            'name'            => __( 'Commerce7 (legacy)', 'wp-commerce7' ),
-            'description'     => __( 'Add Commerce7 content to your layouts. Legacy element for backwards compatibility.', 'wp-commerce7' ),
+            'name'            => __( 'Commerce7 (Legacy)', 'wp-commerce7' ),
+            'description'     => __( 'Legacy combined Commerce7 element. Use individual Commerce7 modules instead.', 'wp-commerce7' ),
             'category'        => __( 'Commerce7', 'wp-commerce7' ),
             'dir'             => C7WP_ROOT . '/includes/beaverbuilder/',
             'url'             => C7WP_URI . 'includes/beaverbuilder/',
-            'icon'            => C7WP_URI . 'includes/beaverbuilder/c7.svg',
+            'icon'            => C7WP_URI . 'includes/beaverbuilder/default/icon.svg',
             'partial_refresh' => true,
         ));
     }

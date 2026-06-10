@@ -1,0 +1,16 @@
+{
+	"apiVersion": 3,
+	"name": "c7wp/collectionlist",
+	"title": "Collection List",
+	"category": "commerce7",
+	"description": "Display a Commerce7 collection list.",
+	"keywords": ["commerce7", "collection", "list"],
+	"textdomain": "wp-commerce7",
+	"editorScript": "c7wp-collectionlist",
+	"editorStyle": "c7wp-collectionlist",
+	"supports": {
+		"html": false,
+		"customClassName": false
+	},
+	"attributes": {}
+}

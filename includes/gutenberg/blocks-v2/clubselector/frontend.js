@@ -18,7 +18,9 @@ const initClubSelector = () => {
     // Iterate through each club selector element
     clubSelectors.forEach((selector) => {
         // Get the button element - check for both Gutenberg and Elementor buttons
-        const button = selector.querySelector('.wp-block-button__link') || selector.querySelector('.elementor-button-link');
+        const button = selector.querySelector('.wp-block-button__link')
+            || selector.querySelector('.elementor-button-link')
+            || selector.querySelector('.club-selector-button');
         
         // Handle radio button selection
         const radios = selector.querySelectorAll('.choice');

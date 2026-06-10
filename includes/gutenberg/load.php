@@ -29,38 +29,10 @@ if ( ! function_exists( 'register_block_type' ) ) {
 // Load validation helper
 require_once C7WP_ROOT . '/includes/class-c7wp-validation.php';
 
-if ( in_array( $this->widgetsver, array( 'v2', 'v2-compat' ), true ) ) { // phpcs:ignore WordPress.PHP.StrictInArray.MissingTrueStrict
-	$elements = array(
-		'default',
-		'personalization',
-		'buyslug',
-		'subscribe',
-		'collection',
-		'reservation',
-		'form',
-		'joinnow',
-		'loginform',
-		'clubselector',
-		'collectionlist',
-	);
-	$dir      = 'blocks-v2';
-} else {
-	$elements = array(
-		'default',
-		'personalization',
-		'buy',
-		'buyslug',
-		'subscribe',
-		'collection',
-		'reservation',
-		'form',
-		'joinnow',
-		'quickshop',
-		'loginform',
-		'createaccount',
-	);
-	$dir      = 'blocks';
-}
+$elements = C7WP_Widgets::get_slugs_for_version( $this->widgetsver, 'gutenberg' );
+$dir      = in_array( $this->widgetsver, array( 'v2', 'v2-compat' ), true ) ? 'blocks-v2' : 'blocks';
+
+C7WP_Widgets::register_clubselector_assets( $this );
 
 $ct_builder    = filter_input( INPUT_GET, 'ct_builder', FILTER_SANITIZE_FULL_SPECIAL_CHARS );
 $is_ct_builder = ! empty( $ct_builder );
@@ -114,13 +86,10 @@ foreach ( $elements as $element ) {
 			);
 
 			if ( 'clubselector' === $element ) {
-				$options = get_option( 'c7wp_settings' );
 				wp_localize_script(
 					$frontend_script_handle,
 					'c7wp_settings',
-					array(
-						'c7wp_frontend_routes' => isset( $options['c7wp_frontend_routes'] ) ? $options['c7wp_frontend_routes'] : array( 'club' => 'club' ),
-					)
+					C7WP::getInstance()->get_public_js_settings()
 				);
 			}
 
@@ -158,13 +127,10 @@ foreach ( $elements as $element ) {
 			);
 
 			if ( 'clubselector' === $element ) {
-				$options = get_option( 'c7wp_settings' );
 				wp_localize_script(
 					$frontend_script_handle,
 					'c7wp_settings',
-					array(
-						'c7wp_frontend_routes' => isset( $options['c7wp_frontend_routes'] ) ? $options['c7wp_frontend_routes'] : array( 'club' => 'club' ),
-					)
+					C7WP::getInstance()->get_public_js_settings()
 				);
 			}
 		}

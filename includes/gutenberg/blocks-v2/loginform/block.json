@@ -1,0 +1,21 @@
+{
+	"apiVersion": 3,
+	"name": "c7wp/loginform",
+	"title": "Login Form",
+	"category": "commerce7",
+	"description": "Add a Commerce7 login form.",
+	"keywords": ["commerce7", "login", "form"],
+	"textdomain": "wp-commerce7",
+	"editorScript": "c7wp-loginform",
+	"editorStyle": "c7wp-loginform",
+	"supports": {
+		"html": false,
+		"customClassName": false
+	},
+	"attributes": {
+		"data": {
+			"type": "string",
+			"default": "/profile"
+		}
+	}
+}

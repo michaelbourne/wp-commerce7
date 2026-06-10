@@ -1,0 +1,16 @@
+/**
+ * WPBakery icon overrides for Commerce7 icon font.
+ */
+
+.vc_element-icon.c7icon-c7sm {
+	background: none !important;
+	background-image: none !important;
+	font-size: 32px;
+	height: 32px;
+	line-height: 32px;
+	width: 32px;
+}
+
+.vc_element-icon.c7icon-c7sm:before {
+	font-family: "c7wpicons";
+}

@@ -1,0 +1,29 @@
+{
+	"apiVersion": 3,
+	"name": "c7wp/clubselector",
+	"title": "Club Selector",
+	"category": "commerce7",
+	"description": "Add a Commerce7 club selector with radio or select display.",
+	"keywords": ["commerce7", "club", "selector"],
+	"textdomain": "wp-commerce7",
+	"editorScript": "c7wp-clubselector",
+	"editorStyle": "c7wp-clubselector",
+	"supports": {
+		"html": false,
+		"customClassName": false
+	},
+	"attributes": {
+		"displayType": {
+			"type": "string",
+			"default": "radio"
+		},
+		"clubs": {
+			"type": "array",
+			"default": []
+		},
+		"radioGroupName": {
+			"type": "string",
+			"default": ""
+		}
+	}
+}

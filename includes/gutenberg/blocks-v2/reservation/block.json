@@ -1,0 +1,25 @@
+{
+	"apiVersion": 3,
+	"name": "c7wp/reservation",
+	"title": "Reservation Widget",
+	"category": "commerce7",
+	"description": "Add a Commerce7 reservation availability widget.",
+	"keywords": ["commerce7", "reservation", "booking"],
+	"textdomain": "wp-commerce7",
+	"editorScript": "c7wp-reservation",
+	"editorStyle": "c7wp-reservation",
+	"supports": {
+		"html": false,
+		"customClassName": false
+	},
+	"attributes": {
+		"data": {
+			"type": "string",
+			"default": ""
+		},
+		"justifyContent": {
+			"type": "string",
+			"default": "center"
+		}
+	}
+}

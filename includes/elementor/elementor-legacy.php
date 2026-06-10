@@ -77,6 +77,15 @@ class C7WP_Elementor extends \Elementor\Widget_Base {
 	}
 
 	/**
+	 * Hide deprecated legacy widget from the Elementor panel.
+	 *
+	 * @return bool
+	 */
+	public function show_in_panel() {
+		return false;
+	}
+
+	/**
 	 * Register widget controls.
 	 *
 	 * Adds different input fields to allow the user to change and customize the widget settings.

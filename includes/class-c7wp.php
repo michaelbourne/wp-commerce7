@@ -136,6 +136,15 @@ class C7WP {
 	}
 
 	/**
+	 * Get active Commerce7 widget version.
+	 *
+	 * @return string
+	 */
+	public function get_widgetsver() {
+		return $this->widgetsver;
+	}
+
+	/**
 	 * Refresh cached settings
 	 */
 	public function refresh_settings() {
@@ -224,18 +233,40 @@ class C7WP {
 	}
 
 	/**
+	 * Register WPBakery elements on vc_before_init.
+	 */
+	public function load_wpbakery_elements() {
+		if ( ! function_exists( 'vc_map' ) ) {
+			return;
+		}
+
+		require_once C7WP_ROOT . '/includes/wpbakery/load.php';
+	}
+
+	/**
+	 * Register Beaver Builder modules after FL Builder loads.
+	 */
+	public function load_beaverbuilder_elements() {
+		if ( ! class_exists( 'FLBuilder' ) ) {
+			return;
+		}
+
+		require_once C7WP_ROOT . '/includes/beaverbuilder/load.php';
+	}
+
+	/**
 	 * Load elements after plugins loaded
 	 */
 	public function load_elements() {
 
 		// WP Bakery Support
 		if ( defined( 'WPB_VC_VERSION' ) ) {
-			require_once C7WP_ROOT . '/includes/wpbakery/load.php';
+			add_action( 'vc_before_init', array( $this, 'load_wpbakery_elements' ) );
 		}
 
 		// Beaver Builder Support
 		if ( defined( 'FL_BUILDER_VERSION' ) ) {
-			require_once C7WP_ROOT . '/includes/beaverbuilder/load.php';
+			add_action( 'fl_builder_loaded', array( $this, 'load_beaverbuilder_elements' ) );
 		}
 
 		// Gutenberg support
@@ -285,7 +316,7 @@ class C7WP {
 				array(
 					'slug'  => 'commerce7',
 					'title' => __( 'Commerce7', 'wp-commerce7' ),
-					'icon'  => 'dashicons-cart',
+					'icon'  => null,
 				),
 			)
 		);
@@ -295,8 +326,9 @@ class C7WP {
 	 * Cornerstone element
 	 */
 	public function load_cs_elements() {
-		// Cornerstone Support for older versions
-		if ( class_exists( 'Cornerstone_Plugin' ) || function_exists( 'cornerstone_boot' ) ) {
+		if ( function_exists( 'cs_register_element' ) ) {
+			require_once C7WP_ROOT . '/includes/themeco/pro/load.php';
+		} elseif ( class_exists( 'Cornerstone_Plugin' ) || function_exists( 'cornerstone_boot' ) || function_exists( 'cornerstone_register_element' ) ) {
 			require_once C7WP_ROOT . '/includes/themeco/legacy/load.php';
 		}
 	}
@@ -320,7 +352,6 @@ class C7WP {
 	public function c7wp_elementor_registered() {
 		if ( class_exists( '\Elementor\Plugin' ) ) {
 			require_once C7WP_ROOT . '/includes/elementor/load.php';
-			\Elementor\Plugin::instance()->widgets_manager->register( new \C7WP_Elementor() );
 		}
 	}
 
@@ -441,6 +472,17 @@ class C7WP {
 		);
 
 		add_settings_field(
+			'c7wp_enable_product_reviews',
+			__( 'Enable Product Reviews App for Commerce7', 'wp-commerce7' ),
+			array(
+				$this,
+				'c7wp_enable_product_reviews_render',
+			),
+			'commerce7',
+			'c7wp_commerce7_section'
+		);
+
+		add_settings_field(
 			'c7wp_enable_custom_routes',
 			__( 'Override front end routes?', 'wp-commerce7' ),
 			array(
@@ -526,8 +568,9 @@ class C7WP {
 			'c7wp_display_cart'          => array( 'yes', 'no' ),
 			'c7wp_display_cart_location' => array( 'tl', 'tr', 'br', 'bl' ),
 			'c7wp_display_cart_color'    => array( 'light', 'dark' ),
-			'c7wp_widget_version'        => array( 'v2', 'v2-compat', 'beta' ),
-			'c7wp_enable_custom_routes'  => array( 'yes', 'no' ),
+			'c7wp_widget_version'           => array( 'v2', 'v2-compat', 'beta' ),
+			'c7wp_enable_product_reviews'   => array( 'yes', 'no' ),
+			'c7wp_enable_custom_routes'     => array( 'yes', 'no' ),
 		);
 
 		if ( isset( $select_fields[ $key ] ) ) {
@@ -540,14 +583,79 @@ class C7WP {
 				'c7wp_display_cart'          => 'no',
 				'c7wp_display_cart_location' => 'tr',
 				'c7wp_display_cart_color'    => 'light',
-				'c7wp_widget_version'        => 'v2',
-				'c7wp_enable_custom_routes'  => 'no',
+				'c7wp_widget_version'           => 'v2',
+				'c7wp_enable_product_reviews'   => 'no',
+				'c7wp_enable_custom_routes'     => 'no',
 			);
 			return isset( $defaults[ $key ] ) ? $defaults[ $key ] : '';
 		}
 
 		// Default sanitization for other fields
 		return sanitize_text_field( $value );
+	}
+
+	/**
+	 * Default Commerce7 front-end route segments.
+	 *
+	 * @return array<string, string>
+	 */
+	private function get_default_frontend_routes() {
+		return array(
+			'profile'     => 'profile',
+			'collection'  => 'collection',
+			'product'     => 'product',
+			'club'        => 'club',
+			'checkout'    => 'checkout',
+			'cart'        => 'cart',
+			'reservation' => 'reservation',
+		);
+	}
+
+	/**
+	 * Settings exposed to storefront JavaScript (Product Reviews embed, club selector, etc.).
+	 *
+	 * @return array<string, mixed>
+	 */
+	public function get_public_js_settings() {
+		$options = $this->settings;
+
+		$settings = array(
+			'tenant'                 => isset( $options['c7wp_tenant'] ) ? $options['c7wp_tenant'] : '',
+			'c7wp_frontend_routes'   => ( isset( $options['c7wp_frontend_routes'] ) && is_array( $options['c7wp_frontend_routes'] ) )
+				? $options['c7wp_frontend_routes']
+				: $this->get_default_frontend_routes(),
+		);
+
+		/**
+		 * Filter storefront `window.c7wp_settings` passed to Commerce7 integrations.
+		 *
+		 * @param array<string, mixed> $settings Public JS settings.
+		 */
+		return apply_filters( 'c7wp_public_js_settings', $settings );
+	}
+
+	/**
+	 * Whether the Product Reviews embed script should load on the current request.
+	 *
+	 * @return bool
+	 */
+	private function should_enqueue_product_reviews() {
+		$options = $this->settings;
+
+		if ( 'yes' !== ( $options['c7wp_enable_product_reviews'] ?? 'no' ) ) {
+			return false;
+		}
+
+		if ( empty( $options['c7wp_tenant'] ) ) {
+			return false;
+		}
+
+		/**
+		 * Filter whether the Product Reviews embed script is enqueued.
+		 *
+		 * @param bool $enqueue Whether to enqueue the embed script.
+		 */
+		return (bool) apply_filters( 'c7wp_enqueue_product_reviews', true );
 	}
 
 	public function c7wp_tenant_render() {
@@ -570,7 +678,7 @@ class C7WP {
 			<?php
 				echo wp_kses(
 					__(
-						'If set to <strong>yes</strong>, this plugin will add a floating login  cart box to the front end of your website.<br>If set to <strong>no</strong>, you will need to add the <code>[c7wp type=\'login\']</code> and <code>[c7wp type=\'cart\']</code> shortcodes (or Commerce7\'s HTML) to your header manually.<br>We recommend setting this to <strong>no</strong> and placing your cart manually.',
+						'If set to <strong>yes</strong>, this plugin will add a floating login+cart box to the front end of your website.<br>If set to <strong>no</strong>, you will need to add the <code>[c7wp type=\'login\']</code> and <code>[c7wp type=\'cart\']</code> shortcodes (or Commerce7\'s HTML) to your header manually.<br>We recommend setting this to <strong>no</strong> and placing your cart manually.',
 						'wp-commerce7'
 					),
 					array(
@@ -627,17 +735,17 @@ class C7WP {
 		$options = $this->settings;
 		?>
 		<select name='c7wp_settings[c7wp_widget_version]' class='c7widgetversion'>
-			<option value='v2' <?php selected( $options['c7wp_widget_version'], 'v2' ); ?>><?php esc_html_e( 'V2', 'wp-commerce7' ); ?></option>
 			<option value='v2-compat' <?php selected( $options['c7wp_widget_version'], 'v2-compat' ); ?>><?php esc_html_e( 'V2 (Compatibility Mode)', 'wp-commerce7' ); ?></option>
+			<option value='v2' <?php selected( $options['c7wp_widget_version'], 'v2' ); ?>><?php esc_html_e( 'V2', 'wp-commerce7' ); ?></option>
 			<option value='beta' <?php selected( $options['c7wp_widget_version'], 'beta' ); ?>><?php esc_html_e( 'V1', 'wp-commerce7' ); ?></option>
 		</select>
 		<p><small>
 			<?php
 				echo wp_kses(
 					__(
-						'<strong>V2:</strong> The standard front-end widgets version used by most wineries.
+						'<strong>V2 (Compatibility Mode):</strong> This will load the V2 widgets in a way that is compatible with more themes and plugins. Safe for all websites, and <strong>the recommended option for everyone</strong>.
 						<br>
-						<strong>V2 (Compatibility Mode):</strong> This will load the V2 widgets in a way that is compatible with more themes and plugins, with safer javascript invocation. Safe for all websites, and <strong>the recommended option for everyone</strong>.
+						<strong>V2:</strong> The standard front-end widgets version used by most wineries.
 						<br>
 						<strong>V1:</strong> Only a select few legacy sites are still using the old beta/V1 widgets.',
 						'wp-commerce7',
@@ -645,6 +753,39 @@ class C7WP {
 					array(
 						'strong' => array(),
 						'br'     => array(),
+					)
+				);
+			?>
+		</small></p>
+		<?php
+	}
+
+	/**
+	 * Render Product Reviews embed setting field.
+	 */
+	public function c7wp_enable_product_reviews_render() {
+
+		$options = $this->settings;
+		$value   = isset( $options['c7wp_enable_product_reviews'] ) ? $options['c7wp_enable_product_reviews'] : 'no';
+		?>
+		<select name='c7wp_settings[c7wp_enable_product_reviews]' class='c7productreviews'>
+			<option value='no' <?php selected( $value, 'no' ); ?>><?php esc_html_e( 'No', 'wp-commerce7' ); ?></option>
+			<option value='yes' <?php selected( $value, 'yes' ); ?>><?php esc_html_e( 'Yes', 'wp-commerce7' ); ?></option>
+		</select>
+		<p><small>
+			<?php
+				echo wp_kses(
+					__(
+						'Loads the Commerce7 Product Reviews embed on your storefront when set to <strong>yes</strong>. Install and configure the Product Reviews app in your Commerce7 admin <strong>first</strong> (PDP/PLP selectors and moderation).',
+						'wp-commerce7'
+					),
+					array(
+						'strong' => array(),
+						'a'      => array(
+							'href'   => array(),
+							'target' => array(),
+							'rel'    => array(),
+						),
 					)
 				);
 			?>
@@ -812,6 +953,16 @@ class C7WP {
 		 */
 		if ( ! is_admin() && empty( $_GET['ct_builder'] ) ) {
 			wp_enqueue_script( 'c7js' );
+			wp_localize_script( 'c7js', 'c7wp_settings', $this->get_public_js_settings() );
+
+			if ( $this->should_enqueue_product_reviews() ) {
+				$reviews_src = apply_filters(
+					'c7wp_product_reviews_embed_src',
+					'https://c7-product-reviews.ursa6.com/embed/invoke-wp-plugin.js'
+				);
+				wp_register_script( 'c7wp-product-reviews', $reviews_src, array( 'c7js' ), null, true ); // phpcs:ignore
+				wp_enqueue_script( 'c7wp-product-reviews' );
+			}
 		}
 
 		// Enqueue block-specific assets only when needed
@@ -887,9 +1038,15 @@ class C7WP {
 			$this->enqueue_blocks_assets( $blocks );
 		}
 
-		// Check for shortcodes
-		if ( has_shortcode( $post_content, 'c7wp' ) ) {
+		if ( C7WP_Widgets::content_has_c7_widgets( $post_content ) ) {
 			$this->enqueue_shortcode_assets();
+		}
+
+		$widget_slugs = C7WP_Widgets::get_slugs_in_content( $post_content );
+		foreach ( $widget_slugs as $slug ) {
+			if ( 'clubselector' === $slug ) {
+				C7WP_Widgets::enqueue_clubselector_assets();
+			}
 		}
 	}
 
@@ -949,13 +1106,10 @@ class C7WP {
 
 			// Localize settings for specific blocks
 			if ( 'clubselector' === $block_type ) {
-				$options = $this->settings;
 				wp_localize_script(
 					'c7wp-' . $block_type . '-frontend',
 					'c7wp_settings',
-					array(
-						'c7wp_frontend_routes' => isset( $options['c7wp_frontend_routes'] ) ? $options['c7wp_frontend_routes'] : array( 'club' => 'club' ),
-					)
+					$this->get_public_js_settings()
 				);
 			}
 		}
@@ -989,48 +1143,9 @@ class C7WP {
 	 * @return void
 	 */
 	public function elementor_frontend_assets_fallback() {
-		// Only run if Gutenberg is not available (Classic Editor scenario)
-		if ( ! function_exists( 'register_block_type' ) ) {
-			// Check if we're on v2 widgets and clubselector frontend assets exist
-			if ( in_array( $this->widgetsver, array( 'v2', 'v2-compat' ), true ) ) {
-				$frontend_js_path  = 'blocks-v2/clubselector/frontend.js';
-				$frontend_css_path = 'blocks-v2/clubselector/frontend.css';
-
-				// Register and enqueue frontend script if it exists
-				if ( file_exists( C7WP_ROOT . '/includes/gutenberg/' . $frontend_js_path ) && empty( $_GET['ct_builder'] ) ) {
-					$frontend_script_handle = 'c7wp-clubselector-frontend';
-					wp_register_script(
-						$frontend_script_handle,
-						plugins_url( $frontend_js_path, C7WP_ROOT . '/includes/gutenberg/load.php' ),
-						array(),
-						C7WP_VERSION,
-						true
-					);
-
-					// Localize settings
-					$options = get_option( 'c7wp_settings' );
-					wp_localize_script(
-						$frontend_script_handle,
-						'c7wp_settings',
-						array(
-							'c7wp_frontend_routes' => isset( $options['c7wp_frontend_routes'] ) ? $options['c7wp_frontend_routes'] : array( 'club' => 'club' ),
-						)
-					);
-
-					wp_enqueue_script( $frontend_script_handle );
-				}
-
-				// Register and enqueue frontend styles if they exist
-				if ( file_exists( C7WP_ROOT . '/includes/gutenberg/' . $frontend_css_path ) ) {
-					wp_register_style(
-						'c7wp-clubselector-frontend',
-						plugins_url( $frontend_css_path, C7WP_ROOT . '/includes/gutenberg/load.php' ),
-						array(),
-						C7WP_VERSION
-					);
-					wp_enqueue_style( 'c7wp-clubselector-frontend' );
-				}
-			}
+		if ( ! function_exists( 'register_block_type' ) && empty( $_GET['ct_builder'] ) ) { // phpcs:ignore
+			C7WP_Widgets::register_clubselector_assets( $this );
+			C7WP_Widgets::enqueue_clubselector_assets();
 		}
 	}
 
@@ -1049,6 +1164,10 @@ class C7WP {
 		if ( 'c7js' === $handle ) {
 			$options = $this->settings;
 			$tag     = '<script data-cfasync="false" type="text/javascript" src="' . esc_url( $src ) . '" id="c7-javascript" data-tenant="' . esc_attr( $options['c7wp_tenant'] ) . '"></script>'; // phpcs:ignore
+		}
+
+		if ( 'c7wp-product-reviews' === $handle ) {
+			$tag = '<script data-cfasync="false" type="text/javascript" id="c7-product-reviews" src="' . esc_url( $src ) . '"></script>'; // phpcs:ignore
 		}
 
 		return $tag;

@@ -1,0 +1,31 @@
+{
+	"apiVersion": 3,
+	"name": "c7wp/clubselector-v2",
+	"title": "Club Selector v2",
+	"category": "commerce7",
+	"description": "Club selector with Commerce7 join buttons that go directly to checkout (no redirect).",
+	"keywords": ["commerce7", "club", "selector", "join"],
+	"textdomain": "wp-commerce7",
+	"editorScript": "c7wp-clubselector-v2",
+	"editorStyle": "c7wp-clubselector-v2",
+	"style": "file:./frontend.css",
+	"render": "file:./render.php",
+	"supports": {
+		"html": false,
+		"customClassName": false
+	},
+	"attributes": {
+		"displayType": {
+			"type": "string",
+			"default": "radio"
+		},
+		"clubs": {
+			"type": "array",
+			"default": []
+		},
+		"radioGroupName": {
+			"type": "string",
+			"default": ""
+		}
+	}
+}

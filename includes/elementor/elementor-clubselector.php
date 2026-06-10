@@ -21,6 +21,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	return;
 }
 
+require_once C7WP_ROOT . '/includes/widgets/clubselector-render.php';
+
 /**
  * Widget class
  */
@@ -452,100 +454,15 @@ class C7WP_Elementor_Clubselector extends \Elementor\Widget_Base {
 	protected function render() {
 		$settings = $this->get_settings_for_display();
 
-		// Validate settings
-		$clubs            = $settings['clubs'];
-		$display_type     = $settings['display_type'];
-		$radio_group_name = ! empty( $settings['radio_group_name'] ) ? $settings['radio_group_name'] : 'club-selector';
-
-		// Filter out empty clubs and validate
-		$valid_clubs = array();
-		foreach ( $clubs as $club ) {
-			if ( ! empty( $club['club_slug'] ) && ! empty( $club['club_name'] ) && ! empty( $club['button_text'] ) ) {
-				$valid_clubs[] = $club;
-			}
-		}
-
-		// Check for duplicate slugs
-		$slugs = array_map(
-			function( $club ) {
-				return strtolower( $club['club_slug'] );
-			},
-			$valid_clubs
+		c7wp_render_clubselector(
+			array(
+				'clubs'             => c7wp_normalize_clubselector_clubs( $settings['clubs'] ),
+				'display_type'      => $settings['display_type'],
+				'radio_group_name'  => ! empty( $settings['radio_group_name'] ) ? $settings['radio_group_name'] : 'club-selector',
+				'widget_id'         => $this->get_id(),
+				'button_link_class' => 'elementor-button-link elementor-button',
+			)
 		);
-		$unique_slugs = array_unique( $slugs );
-
-		if ( empty( $valid_clubs ) || count( $slugs ) !== count( $unique_slugs ) ) {
-			echo '<div class="elementor-alert elementor-alert-warning">';
-			echo '<span class="elementor-alert-title">' . esc_html__( 'Club Selector Error', 'wp-commerce7' ) . '</span>';
-			echo '<span class="elementor-alert-description">';
-			if ( empty( $valid_clubs ) ) {
-				echo esc_html__( 'Please add at least one valid club with slug, name, and button text.', 'wp-commerce7' );
-			} else {
-				echo esc_html__( 'Duplicate club slugs found. Please ensure each club has a unique slug.', 'wp-commerce7' );
-			}
-			echo '</span>';
-			echo '</div>';
-			return;
-		}
-
-		// Get the first club for default button
-		$first_club           = $valid_clubs[0];
-		$default_button_text  = $first_club['button_text'];
-
-		// Get club route from settings
-		$options              = get_option( 'c7wp_settings' );
-		$club_route           = isset( $options['c7wp_frontend_routes']['club'] ) ? $options['c7wp_frontend_routes']['club'] : 'club';
-		$default_button_url   = '/' . $club_route . '/' . $first_club['club_slug'] . '/';
-
-		?>
-		<div class="club-selector-wrapper" data-elementor-widget-id="<?php echo esc_attr( $this->get_id() ); ?>">
-			<?php if ( 'radio' === $display_type ) : ?>
-				<div class="club-radio-buttons">
-					<fieldset>
-						<legend class="screen-reader-text"><?php esc_html_e( 'Choose your desired club', 'wp-commerce7' ); ?></legend>
-						<div class="radios">
-							<?php foreach ( $valid_clubs as $index => $club ) : ?>
-								<div class="row">
-									<input 
-										type="radio" 
-										name="<?php echo esc_attr( $radio_group_name ); ?>" 
-										id="club-<?php echo esc_attr( $club['club_slug'] ); ?>-<?php echo esc_attr( $this->get_id() ); ?>" 
-										value="<?php echo esc_attr( $club['club_slug'] ); ?>" 
-										data-button-text="<?php echo esc_attr( $club['button_text'] ); ?>" 
-										class="choice" 
-										<?php checked( $index, 0 ); ?>
-										aria-checked="<?php echo 0 === $index ? 'true' : 'false'; ?>"
-										aria-label="<?php echo esc_attr( $club['club_name'] ); ?>"
-									>
-									<label for="club-<?php echo esc_attr( $club['club_slug'] ); ?>-<?php echo esc_attr( $this->get_id() ); ?>">
-										<?php echo esc_html( $club['club_name'] ); ?>
-									</label>
-								</div>
-							<?php endforeach; ?>
-						</div>
-					</fieldset>
-				</div>
-			<?php else : ?>
-				<select class="club-select" aria-label="<?php esc_attr_e( 'Choose your desired club', 'wp-commerce7' ); ?>">
-					<?php foreach ( $valid_clubs as $index => $club ) : ?>
-						<option 
-							value="<?php echo esc_attr( $club['club_slug'] ); ?>" 
-							data-button-text="<?php echo esc_attr( $club['button_text'] ); ?>" 
-							<?php selected( $index, 0 ); ?>
-						>
-							<?php echo esc_html( $club['club_name'] ); ?>
-						</option>
-					<?php endforeach; ?>
-				</select>
-			<?php endif; ?>
-
-			<div class="club-button">
-				<a href="<?php echo esc_url( $default_button_url ); ?>" class="elementor-button-link elementor-button">
-					<?php echo esc_html( $default_button_text ); ?>
-				</a>
-			</div>
-		</div>
-		<?php
 	}
 
 	/**

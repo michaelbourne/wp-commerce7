@@ -1,0 +1,25 @@
+{
+	"apiVersion": 3,
+	"name": "c7wp/form",
+	"title": "General Form",
+	"category": "commerce7",
+	"description": "Add a Commerce7 custom form.",
+	"keywords": ["commerce7", "form", "custom"],
+	"textdomain": "wp-commerce7",
+	"editorScript": "c7wp-form",
+	"editorStyle": "c7wp-form",
+	"supports": {
+		"html": false,
+		"customClassName": false
+	},
+	"attributes": {
+		"data": {
+			"type": "string",
+			"default": ""
+		},
+		"justifyContent": {
+			"type": "string",
+			"default": "center"
+		}
+	}
+}

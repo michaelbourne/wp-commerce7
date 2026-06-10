@@ -1,0 +1,16 @@
+{
+	"apiVersion": 3,
+	"name": "c7wp/cart",
+	"title": "Cart",
+	"category": "commerce7",
+	"description": "Add a Commerce7 cart icon or flyout.",
+	"keywords": ["commerce7", "cart"],
+	"textdomain": "wp-commerce7",
+	"editorScript": "c7wp-cart",
+	"editorStyle": "c7wp-cart",
+	"supports": {
+		"html": false,
+		"customClassName": false
+	},
+	"attributes": {}
+}

@@ -45,6 +45,14 @@ FLBuilder::register_module( 'C7WP_Joinnow', array(
 						'type'  => 'text',
 						'label' => __( 'Club Slug', 'wp-commerce7' ),
 					),
+					'join_text' => array(
+						'type'  => 'text',
+						'label' => __( 'Join Club Text', 'wp-commerce7' ),
+					),
+					'edit_text' => array(
+						'type'  => 'text',
+						'label' => __( 'Edit Membership Text', 'wp-commerce7' ),
+					),
 				),
 			),
 		),

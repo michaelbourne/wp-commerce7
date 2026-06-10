@@ -1,0 +1,57 @@
+.club-selector-v2-wrapper {
+	margin: 1em 0;
+}
+
+.club-radio-buttons-v2 {
+	margin-bottom: 1em;
+}
+
+.club-radio-buttons-v2 fieldset {
+	border: none;
+	margin: 0;
+	padding: 0;
+}
+
+.club-radio-buttons-v2 .radios {
+	display: flex;
+	flex-direction: column;
+	gap: 0.5em;
+}
+
+.club-radio-buttons-v2 .row {
+	display: flex;
+	align-items: center;
+	gap: 0.5em;
+}
+
+.club-radio-buttons-v2 input[type="radio"] {
+	margin: 0;
+	cursor: pointer;
+}
+
+.club-radio-buttons-v2 label {
+	margin: 0;
+	cursor: pointer;
+}
+
+.club-select-v2 {
+	width: 100%;
+	max-width: 100%;
+	padding: 0.5em;
+	margin-bottom: 1em;
+}
+
+.club-join-buttons-v2 {
+	margin-top: 1em;
+}
+
+.club-join-button-wrap[hidden] {
+	display: none !important;
+}
+
+.c7-clubselector-v2-error {
+	padding: 0.75em 1em;
+	border-left: 4px solid #d63638;
+	background: #fcf0f1;
+	color: #1e1e1e;
+}

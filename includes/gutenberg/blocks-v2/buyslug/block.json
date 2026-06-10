@@ -1,0 +1,25 @@
+{
+	"apiVersion": 3,
+	"name": "c7wp/buyslug",
+	"title": "Buy Button",
+	"category": "commerce7",
+	"description": "Add a Commerce7 buy button for a product slug.",
+	"keywords": ["commerce7", "buy", "button", "cart"],
+	"textdomain": "wp-commerce7",
+	"editorScript": "c7wp-buyslug",
+	"editorStyle": "c7wp-buyslug",
+	"supports": {
+		"html": false,
+		"customClassName": false
+	},
+	"attributes": {
+		"data": {
+			"type": "string",
+			"default": ""
+		},
+		"justifyContent": {
+			"type": "string",
+			"default": "center"
+		}
+	}
+}

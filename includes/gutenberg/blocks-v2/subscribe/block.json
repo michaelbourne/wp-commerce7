@@ -1,0 +1,25 @@
+{
+	"apiVersion": 3,
+	"name": "c7wp/subscribe",
+	"title": "Subscribe Form",
+	"category": "commerce7",
+	"description": "Add a Commerce7 email subscribe form.",
+	"keywords": ["commerce7", "subscribe", "newsletter"],
+	"textdomain": "wp-commerce7",
+	"editorScript": "c7wp-subscribe",
+	"editorStyle": "c7wp-subscribe",
+	"supports": {
+		"html": false,
+		"customClassName": false
+	},
+	"attributes": {
+		"nameFields": {
+			"type": "string",
+			"default": "false"
+		},
+		"justifyContent": {
+			"type": "string",
+			"default": "center"
+		}
+	}
+}

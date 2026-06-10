@@ -4,7 +4,7 @@ Donate link: https://www.paypal.me/yycpro
 Tags: commerce7
 Requires at least: 6.0
 Tested up to: 7.0
-Stable tag: 1.7.1
+Stable tag: 1.7.3
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.en.html
 
@@ -21,6 +21,7 @@ A free plugin for Commerce7 customers who wish to integrate their javascript wid
 *   Embed Commerce7 widgets into any page through the use of shortcodes or pagebuilder elements
 *   Full integration with popular pagebuilders like Cornerstone, Elementor, Beaver Builder, and WPBakery
 *   Full integration with Gutenberg
+*   Optional Commerce7 Product Reviews embed (stars, reviews, and schema on product and collection pages)
 
 This plugin relies on a third party service for it's functionality provided by [Commerce7](https://commerce7.com/). As an ecommerce solution, an SSL certificate is required on your website. Your privacy policy should be ammended to include the use of third party software for order processing. The plugin settings page may fetch promotional callout HTML from c7wp.com. No user data is transmitted.
 
@@ -49,6 +50,10 @@ You bet! This plugin is 100% free, however it relies on a 3rd party service from
 
 Both! Simply choose which version you'd like to use in the plugin settings. Reasave your permalinks after switching!
 
+= How do I enable Product Reviews? =
+
+Install the Commerce7 Product Reviews app for your tenant and configure PDP/PLP options in the app settings. In Commerce7 for WordPress, set **Enable Product Reviews embed** to **Yes**, ensure your Tenant ID is set, and match **Custom Front-end Routes** to your product and collection page slugs. Resave permalinks after changing routes.
+
 = I'm having trouble with __________, what should I do? =
 
 First, make sure you aren't using a subfolder install for WordPress, Commerce7 can only work on root domains and subdomains.
@@ -71,6 +76,14 @@ Removing this plugin will render your widgets and/or blocks inactive, but will n
 
 
 == Changelog ==
+
+= 1.7.3 - June 10, 2026 =
+* Improve: WP Bakery integration, with seperate blocks and new registration for updated WPB versions.
+
+= 1.7.2 =
+* Added: Optional Commerce7 Product Reviews embed (loads invoke-wp-plugin.js when enabled).
+* Added: `window.c7wp_settings` on the storefront with tenant ID and front-end routes for integrations.
+* Added: Site Health check when Product Reviews embed is enabled.
 
 = 1.7.1 =
 * WP 7.0 tested and bumped
@@ -258,6 +271,9 @@ Removing this plugin will render your widgets and/or blocks inactive, but will n
 
 
 == Upgrade Notice ==
+
+= 1.7.1 =
+Please backup before upgrading, and test all pages/blocks after update. We've rebuilt our blocks to be compatible with WP7 and Full Site Editing. It should be a smooth upgrade, but play it safe and backup first.
 
 = 1.6.2 =
 Large plugin update, create a backup before proceeding, and test all widgets on all pages afterwards.

@@ -11,13 +11,13 @@
  * @wordpress-plugin
  * Plugin Name: Commerce7 for WordPress
  * Description: Integrate Commerce7 functionality into your WordPress site easily
- * Version: 1.7.1
+ * Version: 1.7.3
  * Author: URSA6 & 5forests
  * Author URI: https://5forests.com
  * Plugin URI: https://c7wp.com
  * Requires at least: 6.0
  * Tested up to: 7.0
- * Stable tag: 1.7.1
+ * Stable tag: 1.7.3
  * Requires PHP: 8.0
  * License: GPL3
  * License URI: https://www.gnu.org/licenses/gpl-3.0.en.html
@@ -27,7 +27,7 @@
  * Created Date: Friday September 27th 2019
  * Author: Michael Bourne
  * -----
- * Last Modified: Monday, April 27th 2026, 10:51:00 am
+ * Last Modified: Tuesday, June 9th 2026, 7:07:36 pm
  * Modified By: Michael Bourne
  * -----
  * Copyright (c) 2019-2026 URSA6
@@ -47,7 +47,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 defined( 'C7WP_ROOT' ) || define( 'C7WP_ROOT', __DIR__ );
 defined( 'C7WP_URI' ) || define( 'C7WP_URI', plugin_dir_url( __FILE__ ) );
-defined( 'C7WP_VERSION' ) || define( 'C7WP_VERSION', '1.7.1' );
+defined( 'C7WP_VERSION' ) || define( 'C7WP_VERSION', '1.7.3' );
 if ( ! defined( 'C7WP_NOTICES_URL' ) ) {
 	define( 'C7WP_NOTICES_URL', 'https://c7wp.com/notices.json' );
 }
@@ -109,8 +109,9 @@ function c7wp_activate_plugin() {
 		'c7wp_display_cart'          => 'no',
 		'c7wp_display_cart_location' => 'tr',
 		'c7wp_display_cart_color'    => 'light',
-		'c7wp_widget_version'        => 'v2',
-		'c7wp_enable_custom_routes'  => 'no',
+		'c7wp_widget_version'            => 'v2',
+		'c7wp_enable_product_reviews'  => 'no',
+		'c7wp_enable_custom_routes'    => 'no',
 		'c7wp_frontend_routes'       => array(
 			'profile'     => 'profile',
 			'collection'  => 'collection',
@@ -189,13 +190,14 @@ function c7wp_upgrade_function( $upgrader_object, $options ) {
 				}
 
 				$c7options = array(
-					'c7wp_tenant'                => '',
-					'c7wp_display_cart'          => 'no',
-					'c7wp_display_cart_location' => 'tr',
-					'c7wp_display_cart_color'    => 'light',
-					'c7wp_widget_version'        => 'v2',
-					'c7wp_enable_custom_routes'  => 'no',
-					'c7wp_frontend_routes'       => array(
+					'c7wp_tenant'                   => '',
+					'c7wp_display_cart'             => 'no',
+					'c7wp_display_cart_location'    => 'tr',
+					'c7wp_display_cart_color'       => 'light',
+					'c7wp_widget_version'           => 'v2',
+					'c7wp_enable_product_reviews'   => 'no',
+					'c7wp_enable_custom_routes'     => 'no',
+					'c7wp_frontend_routes'          => array(
 						'profile'     => 'profile',
 						'collection'  => 'collection',
 						'product'     => 'product',
@@ -281,6 +283,7 @@ register_deactivation_hook( __FILE__, 'c7wp_deactivate_plugin' );
 
 
 // load plugin
+require_once 'includes/class-c7wp-widgets.php';
 require_once 'includes/class-c7wp.php';
 
 function commerce7_wp_manager() {
