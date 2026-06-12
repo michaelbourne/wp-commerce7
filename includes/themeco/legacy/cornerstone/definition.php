@@ -9,6 +9,10 @@
  * @since     1.0.0
  */
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 class C7WP_CsElement {
 
 	public function ui() {

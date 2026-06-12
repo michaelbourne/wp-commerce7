@@ -9,6 +9,10 @@
  * @since     1.0.0
  */
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 class C7WP_flModule extends FLBuilderModule { // phpcs:ignore
     public function __construct() {
         parent::__construct(array(
