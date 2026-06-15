@@ -1163,7 +1163,10 @@ class C7WP {
 	public function add_data_to_c7_script( $tag, $handle, $src ) {
 		if ( 'c7js' === $handle ) {
 			$options = $this->settings;
-			$tag     = '<script data-cfasync="false" type="text/javascript" src="' . esc_url( $src ) . '" id="c7-javascript" data-tenant="' . esc_attr( $options['c7wp_tenant'] ) . '"></script>'; // phpcs:ignore
+
+			if ( isset( $options['c7wp_tenant'] ) ) {
+				$tag = '<script data-cfasync="false" type="text/javascript" src="' . esc_url( $src ) . '" id="c7-javascript" data-tenant="' . esc_attr( $options['c7wp_tenant'] ) . '"></script>'; // phpcs:ignore
+			}
 		}
 
 		if ( 'c7wp-product-reviews' === $handle ) {
