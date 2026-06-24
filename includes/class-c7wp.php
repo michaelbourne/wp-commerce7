@@ -73,6 +73,8 @@ class C7WP {
 
 		// Pagebuilder support
 		add_action( 'init', array( $this, 'load_elements' ) );
+		add_action( 'fl_builder_loaded', array( $this, 'load_beaverbuilder_elements' ) );
+		add_action( 'init', array( $this, 'load_beaverbuilder_elements' ), 11 );
 		add_action( 'after_setup_theme', array( $this, 'load_cs_elements' ) );
 		add_action( 'elementor/widgets/register', array( $this, 'c7wp_elementor_registered' ) );
 		add_action( 'elementor/elements/categories_registered', array( $this, 'c7wp_add_elementor_widget_categories' ) );
@@ -247,10 +249,13 @@ class C7WP {
 	 * Register Beaver Builder modules after FL Builder loads.
 	 */
 	public function load_beaverbuilder_elements() {
-		if ( ! class_exists( 'FLBuilder' ) ) {
+		static $loaded = false;
+
+		if ( $loaded || ! defined( 'FL_BUILDER_VERSION' ) || ! class_exists( 'FLBuilder' ) ) {
 			return;
 		}
 
+		$loaded = true;
 		require_once C7WP_ROOT . '/includes/beaverbuilder/load.php';
 	}
 
@@ -262,11 +267,6 @@ class C7WP {
 		// WP Bakery Support
 		if ( defined( 'WPB_VC_VERSION' ) ) {
 			add_action( 'vc_before_init', array( $this, 'load_wpbakery_elements' ) );
-		}
-
-		// Beaver Builder Support
-		if ( defined( 'FL_BUILDER_VERSION' ) ) {
-			add_action( 'fl_builder_loaded', array( $this, 'load_beaverbuilder_elements' ) );
 		}
 
 		// Gutenberg support
@@ -946,12 +946,13 @@ class C7WP {
 		/**
 		 * Enqueues the 'c7js' script if the following conditions are met:
 		 * - The current request is not an admin request.
-		 * - The 'ct_builder' query parameter is not present in the URL.
+		 * - The 'ct_builder' query parameter is not present in the URL. (Oxygen Builder)
+		 * - The 'et_fb' query parameter is not present in the URL (Divi Builder).
 		 *
 		 * This ensures that the C7 script is only enqueued on the front-end and not when
 		 * using certain page builders like Oxygen.
 		 */
-		if ( ! is_admin() && empty( $_GET['ct_builder'] ) ) {
+		if ( ! is_admin() && empty( $_GET['ct_builder'] ) && empty( $_GET['et_fb'] ) ) {
 			wp_enqueue_script( 'c7js' );
 			wp_localize_script( 'c7js', 'c7wp_settings', $this->get_public_js_settings() );
 
@@ -1046,6 +1047,9 @@ class C7WP {
 		foreach ( $widget_slugs as $slug ) {
 			if ( 'clubselector' === $slug ) {
 				C7WP_Widgets::enqueue_clubselector_assets();
+			}
+			if ( 'clubselector-v2' === $slug ) {
+				C7WP_Widgets::enqueue_clubselector_v2_assets();
 			}
 		}
 	}
@@ -1143,8 +1147,9 @@ class C7WP {
 	 * @return void
 	 */
 	public function elementor_frontend_assets_fallback() {
-		if ( ! function_exists( 'register_block_type' ) && empty( $_GET['ct_builder'] ) ) { // phpcs:ignore
+		if ( ! function_exists( 'register_block_type' ) && empty( $_GET['ct_builder'] ) && empty( $_GET['et_fb'] ) ) { // phpcs:ignore
 			C7WP_Widgets::register_clubselector_assets( $this );
+			C7WP_Widgets::register_clubselector_v2_assets( $this );
 			C7WP_Widgets::enqueue_clubselector_assets();
 		}
 	}

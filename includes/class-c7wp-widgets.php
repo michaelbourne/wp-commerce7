@@ -221,7 +221,6 @@ class C7WP_Widgets {
 				'beta'           => false,
 				'custom_render'  => true,
 				'shortcode_base' => 'c7wp_clubselector_v2',
-				'builders'       => array( 'gutenberg' ),
 				'fields'         => array(),
 			),
 			'loginform'        => array(
@@ -273,6 +272,19 @@ class C7WP_Widgets {
 				),
 			),
 		);
+	}
+
+	/**
+	 * Build a PHP class suffix from a hyphenated widget slug.
+	 *
+	 * @param string $slug Widget slug.
+	 * @return string
+	 */
+	public static function get_builder_class_suffix( $slug ) {
+		$parts = explode( '-', $slug );
+		$parts = array_map( 'ucfirst', $parts );
+
+		return implode( '_', $parts );
 	}
 
 	/**
@@ -464,6 +476,49 @@ class C7WP_Widgets {
 		}
 		if ( wp_style_is( 'c7wp-clubselector-frontend', 'registered' ) ) {
 			wp_enqueue_style( 'c7wp-clubselector-frontend' );
+		}
+	}
+
+	/**
+	 * Register and enqueue club selector v2 frontend assets.
+	 *
+	 * @param C7WP|null $instance Plugin instance for settings.
+	 */
+	public static function register_clubselector_v2_assets( $instance = null ) {
+		$frontend_js_path  = 'blocks-v2/clubselector-v2/frontend.js';
+		$frontend_css_path = 'blocks-v2/clubselector-v2/frontend.css';
+		$handle            = 'c7wp-clubselector-v2-frontend';
+
+		if ( file_exists( C7WP_ROOT . '/includes/gutenberg/' . $frontend_js_path ) ) {
+			wp_register_script(
+				$handle,
+				plugins_url( $frontend_js_path, C7WP_ROOT . '/includes/gutenberg/load.php' ),
+				array(),
+				C7WP_VERSION,
+				true
+			);
+		}
+
+		if ( file_exists( C7WP_ROOT . '/includes/gutenberg/' . $frontend_css_path ) ) {
+			wp_register_style(
+				$handle,
+				plugins_url( $frontend_css_path, C7WP_ROOT . '/includes/gutenberg/load.php' ),
+				array(),
+				C7WP_VERSION
+			);
+		}
+	}
+
+	/**
+	 * Enqueue club selector v2 frontend assets.
+	 */
+	public static function enqueue_clubselector_v2_assets() {
+		self::register_clubselector_v2_assets();
+		if ( wp_script_is( 'c7wp-clubselector-v2-frontend', 'registered' ) ) {
+			wp_enqueue_script( 'c7wp-clubselector-v2-frontend' );
+		}
+		if ( wp_style_is( 'c7wp-clubselector-v2-frontend', 'registered' ) ) {
+			wp_enqueue_style( 'c7wp-clubselector-v2-frontend' );
 		}
 	}
 }

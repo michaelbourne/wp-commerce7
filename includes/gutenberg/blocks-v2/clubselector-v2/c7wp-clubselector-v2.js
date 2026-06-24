@@ -88,7 +88,7 @@
 		apiVersion: 3,
 		title: __( 'Club Selector v2', 'wp-commerce7' ),
 		description: __(
-			'Club selector with Commerce7 join buttons that go directly to checkout (no redirect).',
+			'Improved Club Selector with Commerce7 join buttons.',
 			'wp-commerce7'
 		),
 		icon: iconEl,
@@ -115,7 +115,9 @@
 		edit: function ( props ) {
 			const { attributes, setAttributes, clientId } = props;
 			const { displayType, clubs } = attributes;
-			const blockProps = useBlockProps();
+			const blockProps = useBlockProps( {
+				className: ! clubs.length ? 'components-placeholder' : undefined,
+			} );
 			const radioGroupName = attributes.radioGroupName || 'club-selector-v2-' + clientId.slice( 0, 8 );
 			const validationIssues = getValidationIssues( clubs );
 
@@ -153,15 +155,14 @@
 			};
 
 			if ( ! clubs.length ) {
-				const placeholderProps = useBlockProps( { className: 'components-placeholder' } );
 				return createElement(
 					'div',
-					placeholderProps,
+					blockProps,
 					createElement( 'div', { className: 'components-placeholder__label' }, __( 'Club Selector v2', 'wp-commerce7' ) ),
 					createElement(
 						'div',
 						{ className: 'components-placeholder__instructions' },
-						__( 'Add clubs and use Commerce7 join buttons (no redirect).', 'wp-commerce7' )
+						__( 'Improved Club Selector with Commerce7 join buttons.', 'wp-commerce7' )
 					),
 					createElement(
 						Button,

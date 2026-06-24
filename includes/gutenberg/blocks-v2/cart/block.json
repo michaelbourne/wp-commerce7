@@ -1,9 +1,9 @@
 {
 	"apiVersion": 3,
 	"name": "c7wp/cart",
-	"title": "Cart",
+	"title": "Cart Widget",
 	"category": "commerce7",
-	"description": "Add a Commerce7 cart icon or flyout.",
+	"description": "Add a Commerce7 cart widget.",
 	"keywords": ["commerce7", "cart"],
 	"textdomain": "wp-commerce7",
 	"editorScript": "c7wp-cart",

@@ -1,9 +1,9 @@
 {
 	"apiVersion": 3,
 	"name": "c7wp/login",
-	"title": "Login/Logout Link",
+	"title": "Login/Account Widget",
 	"category": "commerce7",
-	"description": "Add a Commerce7 login and logout link.",
+	"description": "Add a Commerce7 account widget.",
 	"keywords": ["commerce7", "login"],
 	"textdomain": "wp-commerce7",
 	"editorScript": "c7wp-login",

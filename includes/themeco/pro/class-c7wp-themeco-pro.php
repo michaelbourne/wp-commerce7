@@ -25,12 +25,18 @@ class C7WP_Themeco_Pro {
 		}
 
 		require_once C7WP_ROOT . '/includes/widgets/clubselector-render.php';
+		require_once C7WP_ROOT . '/includes/widgets/clubselector-v2-render.php';
 
 		$slugs = C7WP_Widgets::get_slugs_for_version( $widgetsver );
 
 		foreach ( $slugs as $slug ) {
 			if ( 'clubselector' === $slug ) {
 				self::register_clubselector_element();
+				continue;
+			}
+
+			if ( 'clubselector-v2' === $slug ) {
+				self::register_clubselector_v2_element();
 				continue;
 			}
 
@@ -204,6 +210,92 @@ class C7WP_Themeco_Pro {
 			'c7wp-clubselector',
 			array(
 				'title'   => __( 'Club Selector', 'wp-commerce7' ),
+				'values'  => $values,
+				'builder' => $builder,
+				'render'  => $render,
+			)
+		);
+	}
+
+	/**
+	 * Register club selector v2 element.
+	 */
+	private static function register_clubselector_v2_element() {
+		$values = cs_compose_values(
+			array(
+				'display_type'     => cs_value( 'radio', 'markup', true ),
+				'radio_group_name' => cs_value( 'club-selector-v2', 'markup', false ),
+				'clubs_json'       => cs_value( '', 'markup', true ),
+			)
+		);
+
+		$builder = static function () {
+			return cs_compose_controls(
+				array(
+					'control_nav' => array(
+						'c7wp-clubselector-v2'       => __( 'Club Selector v2', 'wp-commerce7' ),
+						'c7wp-clubselector-v2:setup' => __( 'Setup', 'wp-commerce7' ),
+					),
+					'controls'    => array(
+						array(
+							'type'     => 'group',
+							'label'    => __( 'Setup', 'wp-commerce7' ),
+							'group'    => 'c7wp-clubselector-v2:setup',
+							'controls' => array(
+								array(
+									'key'     => 'display_type',
+									'type'    => 'choose',
+									'label'   => __( 'Display Type', 'wp-commerce7' ),
+									'options' => array(
+										'choices' => array(
+											array( 'value' => 'radio', 'label' => __( 'Radio', 'wp-commerce7' ) ),
+											array( 'value' => 'select', 'label' => __( 'Select', 'wp-commerce7' ) ),
+										),
+									),
+								),
+								array(
+									'key'   => 'radio_group_name',
+									'type'  => 'text',
+									'label' => __( 'Radio Group Name', 'wp-commerce7' ),
+								),
+								array(
+									'key'   => 'clubs_json',
+									'type'  => 'textarea',
+									'label' => __( 'Clubs JSON', 'wp-commerce7' ),
+								),
+							),
+						),
+					),
+				)
+			);
+		};
+
+		$render = static function ( $data ) {
+			$clubs = array();
+			if ( ! empty( $data['clubs_json'] ) ) {
+				$decoded = json_decode( $data['clubs_json'], true );
+				if ( is_array( $decoded ) ) {
+					$clubs = c7wp_normalize_clubselector_v2_clubs( $decoded );
+				}
+			}
+
+			C7WP_Widgets::enqueue_clubselector_v2_assets();
+
+			return c7wp_render_clubselector_v2(
+				array(
+					'clubs'            => $clubs,
+					'display_type'     => ! empty( $data['display_type'] ) ? $data['display_type'] : 'radio',
+					'radio_group_name' => ! empty( $data['radio_group_name'] ) ? $data['radio_group_name'] : 'club-selector-v2',
+					'widget_id'        => 'cs-' . wp_unique_id(),
+					'echo'             => false,
+				)
+			);
+		};
+
+		cs_register_element(
+			'c7wp-clubselector-v2',
+			array(
+				'title'   => __( 'Club Selector v2', 'wp-commerce7' ),
 				'values'  => $values,
 				'builder' => $builder,
 				'render'  => $render,

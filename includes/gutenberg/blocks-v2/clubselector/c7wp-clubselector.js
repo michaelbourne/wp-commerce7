@@ -57,7 +57,9 @@
         edit: function (props) {
             const { attributes, setAttributes, clientId } = props;
             const { displayType, clubs } = attributes;
-            const blockProps = useBlockProps();
+            const blockProps = useBlockProps( {
+                className: ! clubs.length ? 'components-placeholder' : undefined,
+            } );
             const radioGroupName = attributes.radioGroupName || 'club-selector';
 
             // Check for validation issues
@@ -203,9 +205,7 @@
 
             // Show placeholder if no clubs
             if (!clubs.length) {
-                const placeholderProps = useBlockProps({ className: 'components-placeholder' });
-
-                return createElement('div', placeholderProps,
+                return createElement('div', blockProps,
                     createElement('div', { className: 'components-placeholder__label' },
                         __('Club Selector')
                     ),

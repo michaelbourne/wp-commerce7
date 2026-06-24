@@ -4,7 +4,7 @@ Donate link: https://www.paypal.me/yycpro
 Tags: commerce7
 Requires at least: 6.0
 Tested up to: 7.0
-Stable tag: 1.7.3
+Stable tag: 1.8.0
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.en.html
 
@@ -77,13 +77,21 @@ Removing this plugin will render your widgets and/or blocks inactive, but will n
 
 == Changelog ==
 
-= 1.7.3 - June 10, 2026 =
-* Improve: WP Bakery integration, with seperate blocks and new registration for updated WPB versions.
-
-= 1.7.2 =
+= 1.8.0 - June 23, 2026 =
 * Added: Optional Commerce7 Product Reviews embed (loads invoke-wp-plugin.js when enabled).
 * Added: `window.c7wp_settings` on the storefront with tenant ID and front-end routes for integrations.
 * Added: Site Health check when Product Reviews embed is enabled.
+* Added: Club Selector v2 block with Commerce7 join buttons (no redirect) for all builders.
+* Added: WPBakery individual Commerce7 elements (Cart, Login, Club Selector, and all V2 widgets) with updated registration for current WPBakery versions.
+* Added: Beaver Builder Cart, Login/Logout Link, Club Selector, and Login Form modules for the V2 frontend.
+* Added: Themeco Pro / modern Cornerstone integration with per-element registration.
+* Improved: Central widget manifest (`C7WP_Widgets`) for consistent registration across Gutenberg, Elementor, Beaver Builder, WPBakery, and Themeco.
+* Improved: Shared Club Selector render library so all page builders output the same markup.
+* Improved: Eleven additional Gutenberg blocks migrated to block.json (API v3).
+* Improved: Smarter conditional loading of block and club selector assets on the front end.
+* Fix: Gutenberg Club Selector and Club Selector v2 editor crash when adding the first club.
+* Fix: WPBakery and Beaver Builder load-order issues on current builder versions.
+* Fix: Consistent `c7wp_settings` localization (tenant ID and routes) across builders and Elementor fallback.
 
 = 1.7.1 =
 * WP 7.0 tested and bumped
@@ -271,6 +279,9 @@ Removing this plugin will render your widgets and/or blocks inactive, but will n
 
 
 == Upgrade Notice ==
+
+= 1.8.0 =
+New Gutenberg blocks (Cart, Login, Club Selector v2), Product Reviews embed, and expanded page builder support. Backup before upgrading and test widgets on key pages. Resave permalinks if you change front-end routes or enable Product Reviews. Back up before updating and test everything afterwards!
 
 = 1.7.1 =
 Please backup before upgrading, and test all pages/blocks after update. We've rebuilt our blocks to be compatible with WP7 and Full Site Editing. It should be a smooth upgrade, but play it safe and backup first.

@@ -33,6 +33,7 @@ $elements = C7WP_Widgets::get_slugs_for_version( $this->widgetsver, 'gutenberg' 
 $dir      = in_array( $this->widgetsver, array( 'v2', 'v2-compat' ), true ) ? 'blocks-v2' : 'blocks';
 
 C7WP_Widgets::register_clubselector_assets( $this );
+C7WP_Widgets::register_clubselector_v2_assets( $this );
 
 $ct_builder    = filter_input( INPUT_GET, 'ct_builder', FILTER_SANITIZE_FULL_SPECIAL_CHARS );
 $is_ct_builder = ! empty( $ct_builder );
