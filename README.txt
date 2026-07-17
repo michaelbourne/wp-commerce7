@@ -4,7 +4,7 @@ Donate link: https://www.paypal.me/yycpro
 Tags: commerce7
 Requires at least: 6.0
 Tested up to: 7.0
-Stable tag: 1.8.0
+Stable tag: 1.8.1
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.en.html
 
@@ -76,6 +76,9 @@ Removing this plugin will render your widgets and/or blocks inactive, but will n
 
 
 == Changelog ==
+
+= 1.8.1 - July 3, 2026 =
+* Fix: Collection pagination support improvements.
 
 = 1.8.0 - June 23, 2026 =
 * Added: Optional Commerce7 Product Reviews embed (loads invoke-wp-plugin.js when enabled).
