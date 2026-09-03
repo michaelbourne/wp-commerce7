@@ -63,8 +63,8 @@ function c7wp_render_clubselector( $args ) {
 		return $html;
 	}
 
-	$options    = get_option( 'c7wp_settings', array() );
-	$club_route = isset( $options['c7wp_frontend_routes']['club'] ) ? $options['c7wp_frontend_routes']['club'] : 'club';
+	$options    = c7wp_get_settings();
+	$club_route = $options['c7wp_frontend_routes']['club'];
 	$first_club = $valid_clubs[0];
 	$button_url = '/' . trailingslashit( ltrim( $club_route, '/' ) ) . trailingslashit( $first_club['club_slug'] );
 

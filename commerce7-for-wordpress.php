@@ -52,6 +52,73 @@ if ( ! defined( 'C7WP_NOTICES_URL' ) ) {
 	define( 'C7WP_NOTICES_URL', 'https://c7wp.com/notices.json' );
 }
 
+/**
+ * Default Commerce7 front-end route segments.
+ *
+ * @return array<string, string>
+ */
+function c7wp_get_default_frontend_routes() {
+	return array(
+		'profile'     => 'profile',
+		'collection'  => 'collection',
+		'product'     => 'product',
+		'club'        => 'club',
+		'checkout'    => 'checkout',
+		'cart'        => 'cart',
+		'reservation' => 'reservation',
+	);
+}
+
+/**
+ * Default Commerce7 plugin settings.
+ *
+ * @return array<string, mixed>
+ */
+function c7wp_get_default_settings() {
+	return array(
+		'c7wp_tenant'                 => '',
+		'c7wp_display_cart'           => 'no',
+		'c7wp_display_cart_location'  => 'tr',
+		'c7wp_display_cart_color'     => 'light',
+		'c7wp_widget_version'         => 'v2',
+		'c7wp_enable_product_reviews' => 'no',
+		'c7wp_enable_custom_routes'   => 'no',
+		'c7wp_frontend_routes'        => c7wp_get_default_frontend_routes(),
+	);
+}
+
+/**
+ * Merge stored settings onto defaults, including nested route keys.
+ *
+ * @param mixed $settings Raw option value.
+ * @return array<string, mixed>
+ */
+function c7wp_normalize_settings( $settings ) {
+	if ( ! is_array( $settings ) ) {
+		$settings = array();
+	}
+
+	$defaults   = c7wp_get_default_settings();
+	$normalized = array_merge( $defaults, $settings );
+
+	$routes = ( isset( $settings['c7wp_frontend_routes'] ) && is_array( $settings['c7wp_frontend_routes'] ) )
+		? $settings['c7wp_frontend_routes']
+		: array();
+
+	$normalized['c7wp_frontend_routes'] = array_merge( $defaults['c7wp_frontend_routes'], $routes );
+
+	return $normalized;
+}
+
+/**
+ * Get plugin settings with defaults applied for missing keys.
+ *
+ * @return array<string, mixed>
+ */
+function c7wp_get_settings() {
+	return c7wp_normalize_settings( get_option( 'c7wp_settings', array() ) );
+}
+
 
 /**
  * On plugin activation
@@ -104,26 +171,7 @@ function c7wp_activate_plugin() {
 		set_transient( 'c7wp-admin-notice-pages', $fail, 5 );
 	}
 
-	$c7options = array(
-		'c7wp_tenant'                => '',
-		'c7wp_display_cart'          => 'no',
-		'c7wp_display_cart_location' => 'tr',
-		'c7wp_display_cart_color'    => 'light',
-		'c7wp_widget_version'            => 'v2',
-		'c7wp_enable_product_reviews'  => 'no',
-		'c7wp_enable_custom_routes'    => 'no',
-		'c7wp_frontend_routes'       => array(
-			'profile'     => 'profile',
-			'collection'  => 'collection',
-			'product'     => 'product',
-			'club'        => 'club',
-			'checkout'    => 'checkout',
-			'cart'        => 'cart',
-			'reservation' => 'reservation',
-		),
-	);
-
-	update_option( 'c7wp_settings', $c7options, true );
+	update_option( 'c7wp_settings', c7wp_get_default_settings(), true );
 
 	// set a default permalink structure if the installation has not yet done this
 	require_once ABSPATH . 'wp-admin/includes/upgrade.php';
@@ -148,81 +196,69 @@ add_action( 'upgrader_process_complete', 'c7wp_upgrade_function', 10, 2 );
  * @return void
  */
 function c7wp_upgrade_function( $upgrader_object, $options ) {
+	if ( ! is_array( $options ) ) {
+		return;
+	}
+
+	$action = $options['action'] ?? '';
+	$type   = $options['type'] ?? '';
+
+	$updated_plugins = array();
+	if ( ! empty( $options['plugins'] ) && is_array( $options['plugins'] ) ) {
+		$updated_plugins = $options['plugins'];
+	} elseif ( ! empty( $options['plugin'] ) && is_string( $options['plugin'] ) ) {
+		$updated_plugins = array( $options['plugin'] );
+	}
+
+	// Single plugin updates often pass only `plugin` in hook_extra, with no action/type.
+	if ( empty( $updated_plugins ) ) {
+		return;
+	}
+
+	if ( 'install' === $action ) {
+		return;
+	}
+
+	if ( '' !== $type && 'plugin' !== $type ) {
+		return;
+	}
+
+	if ( '' !== $action && 'update' !== $action ) {
+		return;
+	}
+
 	$current_plugin_path_name = plugin_basename( __FILE__ );
+	if ( ! in_array( $current_plugin_path_name, $updated_plugins, true ) ) {
+		return;
+	}
 
-	// If a plugin is being updated.
-	if ( 'update' === $options['action'] && 'plugin' === $options['type'] && isset( $options['plugins'] ) ) {
-		foreach ( $options['plugins'] as $each_plugin ) {
-			// If the plugin being updated is this plugin.
-            if ( $each_plugin == $current_plugin_path_name ) { // phpcs:ignore
+	$stored             = get_option( 'c7wp_settings', array() );
+	$normalized_options = c7wp_normalize_settings( $stored );
 
-				$options = get_option( 'c7wp_settings' );
+	$old_routes = ( is_array( $stored ) && isset( $stored['c7wp_frontend_routes'] ) && is_array( $stored['c7wp_frontend_routes'] ) )
+		? $stored['c7wp_frontend_routes']
+		: array();
+	$new_routes = $normalized_options['c7wp_frontend_routes'];
 
-				if ( isset( $options['c7wp_widget_version'] ) && 'v2' === $options['c7wp_widget_version']
-				  && isset( $options['c7wp_enable_custom_routes'] ) && 'yes' === $options['c7wp_enable_custom_routes']
-				  && isset( $options['c7wp_frontend_routes'] ) && is_array( $options['c7wp_frontend_routes'] ) ) {
-					$pages = $options['c7wp_frontend_routes'];
-				} else {
-					$pages = array(
-						'profile'     => 'profile',
-						'collection'  => 'collection',
-						'product'     => 'product',
-						'club'        => 'club',
-						'checkout'    => 'checkout',
-						'cart'        => 'cart',
-						'reservation' => 'reservation',
-					);
-				}
+	update_option( 'c7wp_settings', $normalized_options, true );
 
-				$fail = array();
-				// Loop through required paged for C7.
-				foreach ( $pages as $page => $slug ) {
-					// if the page is missing, add it to the notice
-					if ( ! get_page_by_path( $slug, 'ARRAY_N', 'page' ) ) {
-						$fail[] = wp_strip_all_tags( ucfirst( $page ) );
-						continue;
-					}
-				}
+	$pages = ( 'yes' === $normalized_options['c7wp_enable_custom_routes'] )
+		? $new_routes
+		: c7wp_get_default_frontend_routes();
 
-				// If we have missing pages, let's set a transient to display a notice.
-				if ( ! empty( $fail ) ) {
-					set_transient( 'c7wp-admin-notice-pages-missing', $fail, 0 );
-				}
-
-				$c7options = array(
-					'c7wp_tenant'                   => '',
-					'c7wp_display_cart'             => 'no',
-					'c7wp_display_cart_location'    => 'tr',
-					'c7wp_display_cart_color'       => 'light',
-					'c7wp_widget_version'           => 'v2',
-					'c7wp_enable_product_reviews'   => 'no',
-					'c7wp_enable_custom_routes'     => 'no',
-					'c7wp_frontend_routes'          => array(
-						'profile'     => 'profile',
-						'collection'  => 'collection',
-						'product'     => 'product',
-						'club'        => 'club',
-						'checkout'    => 'checkout',
-						'cart'        => 'cart',
-						'reservation' => 'reservation',
-					),
-				);
-
-				// Merge client set options with default options to fix any unset array keys.
-				$normalized_options = array_merge( $c7options, $options );
-				update_option( 'c7wp_settings', $normalized_options, true );
-
-				// Only flush rewrite rules if route settings have changed
-				$old_routes = isset( $options['c7wp_frontend_routes'] ) ? $options['c7wp_frontend_routes'] : array();
-				$new_routes = $normalized_options['c7wp_frontend_routes'];
-
-				if ( $old_routes !== $new_routes ) {
-					if ( function_exists( 'flush_rewrite_rules' ) ) {
-						flush_rewrite_rules();
-					}
-				}
-			}
+	$fail = array();
+	foreach ( $pages as $page => $slug ) {
+		if ( ! get_page_by_path( $slug, 'ARRAY_N', 'page' ) ) {
+			$fail[] = wp_strip_all_tags( ucfirst( $page ) );
 		}
+	}
+
+	if ( ! empty( $fail ) ) {
+		set_transient( 'c7wp-admin-notice-pages-missing', $fail, 0 );
+	}
+
+	if ( $old_routes !== $new_routes && function_exists( 'flush_rewrite_rules' ) ) {
+		flush_rewrite_rules();
 	}
 }
 
@@ -269,6 +305,59 @@ function c7wp_admin_notice_pages() {
 	}
 }
 add_action( 'admin_notices', 'c7wp_admin_notice_pages' );
+
+/**
+ * Admin notice for sites still using V1/beta storefront widgets.
+ *
+ * @return void
+ */
+function c7wp_admin_notice_v1_eol() {
+	if ( ! current_user_can( 'manage_options' ) || is_network_admin() ) {
+		return;
+	}
+
+	$options = c7wp_get_settings();
+	if ( 'beta' !== ( $options['c7wp_widget_version'] ?? 'v2' ) ) {
+		return;
+	}
+
+	$notice_id = 'c7wp_v1_widgets_eol_2026';
+	if ( get_user_meta( get_current_user_id(), 'c7wp_notice_dismissed_' . $notice_id, true ) ) {
+		return;
+	}
+
+	$dismiss_url  = add_query_arg(
+		array(
+			'c7wp_dismiss_notice' => $notice_id,
+			'_wpnonce'            => wp_create_nonce( 'c7wp_dismiss_notice' ),
+		)
+	);
+	$settings_url = admin_url( 'admin.php?page=commerce7' );
+	?>
+	<div class="notice notice-warning is-dismissible">
+		<p>
+			<?php
+			echo wp_kses(
+				sprintf(
+					/* translators: 1: settings screen URL, 2: end-of-life year */
+					__( 'This site is still using Commerce7 <strong>V1 (legacy)</strong> storefront widgets. V1 is scheduled to reach end of life at the end of %2$s. Please contact your developer to plan an upgrade to V2 so your storefront continues to work. <a href="%1$s">Review widget version settings</a>.', 'wp-commerce7' ),
+					esc_url( $settings_url ),
+					'2026'
+				),
+				array(
+					'strong' => array(),
+					'a'      => array(
+						'href' => array(),
+					),
+				)
+			);
+			?>
+		</p>
+		<a href="<?php echo esc_url( $dismiss_url ); ?>" class="notice-dismiss"><span class="screen-reader-text"><?php esc_html_e( 'Dismiss this notice.', 'wp-commerce7' ); ?></span></a>
+	</div>
+	<?php
+}
+add_action( 'admin_notices', 'c7wp_admin_notice_v1_eol' );
 
 
 /**

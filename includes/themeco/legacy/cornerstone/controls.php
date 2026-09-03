@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-$options = get_option( 'c7wp_settings' );
+$options = c7wp_get_settings();
 if ( isset( $options['c7wp_widget_version'] ) && 'v2' == $options['c7wp_widget_version'] ) {
 	return array(
 

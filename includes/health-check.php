@@ -38,7 +38,7 @@ function c7wp_add_health_checks( $tests ) {
 		'test'  => 'c7wp_test_permalinks',
 	);
 
-	$options = get_option( 'c7wp_settings' );
+	$options = c7wp_get_settings();
 	if ( isset( $options['c7wp_enable_product_reviews'] ) && 'yes' === $options['c7wp_enable_product_reviews'] ) {
 		$tests['direct']['c7wp_product_reviews'] = array(
 			'label' => __( 'Commerce7 Product Reviews embed', 'wp-commerce7' ),
@@ -53,7 +53,7 @@ function c7wp_add_health_checks( $tests ) {
  * Test Product Reviews embed prerequisites when the feature is enabled.
  */
 function c7wp_test_product_reviews() {
-	$options   = get_option( 'c7wp_settings' );
+	$options   = c7wp_get_settings();
 	$tenant_id = isset( $options['c7wp_tenant'] ) ? $options['c7wp_tenant'] : '';
 
 	$result = array(
@@ -98,7 +98,7 @@ function c7wp_test_product_reviews() {
  * Test if tenant ID is configured
  */
 function c7wp_test_tenant_configured() {
-	$options = get_option( 'c7wp_settings' );
+	$options = c7wp_get_settings();
 	$tenant_id = isset( $options['c7wp_tenant'] ) ? $options['c7wp_tenant'] : '';
 
 	$result = array(
@@ -136,9 +136,9 @@ function c7wp_test_tenant_configured() {
  * Test if required pages exist
  */
 function c7wp_test_required_pages() {
-	$options = get_option( 'c7wp_settings' );
+	$options = c7wp_get_settings();
 
-	if ( isset( $options['c7wp_frontend_routes'] ) && 'yes' === $options['c7wp_enable_custom_routes'] ) {
+	if ( 'yes' === ( $options['c7wp_enable_custom_routes'] ?? 'no' ) ) {
 		$required_pages = array_values( $options['c7wp_frontend_routes'] );
 	} else {
 		$required_pages = array( 'profile', 'collection', 'product', 'club', 'checkout', 'cart', 'reservation' );
@@ -187,9 +187,9 @@ function c7wp_test_required_pages() {
  * Test if pages have proper content
  */
 function c7wp_test_page_content() {
-	$options = get_option( 'c7wp_settings' );
+	$options = c7wp_get_settings();
 
-	if ( isset( $options['c7wp_frontend_routes'] ) && 'yes' === $options['c7wp_enable_custom_routes'] ) {
+	if ( 'yes' === ( $options['c7wp_enable_custom_routes'] ?? 'no' ) ) {
 		$required_pages = array_values( $options['c7wp_frontend_routes'] );
 	} else {
 		$required_pages = array( 'profile', 'collection', 'product', 'club', 'checkout', 'cart', 'reservation' );
@@ -279,7 +279,7 @@ function c7wp_test_permalinks() {
  * Test Commerce7 API connectivity
  */
 function c7wp_test_api_connectivity() {
-	$options = get_option( 'c7wp_settings' );
+	$options = c7wp_get_settings();
 	$tenant_id = isset( $options['c7wp_tenant'] ) ? $options['c7wp_tenant'] : '';
 
 	if ( empty( $tenant_id ) ) {
@@ -322,7 +322,7 @@ function c7wp_test_api_connectivity() {
  */
 add_filter( 'debug_information', 'c7wp_add_debug_info' );
 function c7wp_add_debug_info( $info ) {
-	$options = get_option( 'c7wp_settings' );
+	$options = c7wp_get_settings();
 
 	$info['commerce7'] = array(
 		'label'  => __( 'Commerce7 for WordPress', 'wp-commerce7' ),

@@ -101,12 +101,7 @@ class C7WP {
 		$this->seoplugin = false;
 
 		// Cache settings to avoid multiple database calls
-		$this->settings = get_option( 'c7wp_settings', array() );
-		if ( isset( $this->settings['c7wp_widget_version'] ) && ! empty( $this->settings['c7wp_widget_version'] ) ) {
-			$this->widgetsver = esc_attr( $this->settings['c7wp_widget_version'] );
-		} else {
-			$this->widgetsver = 'v2';
-		}
+		$this->apply_settings( c7wp_get_settings() );
 
 		// load health check integration
 		require_once C7WP_ROOT . '/includes/health-check.php';
@@ -147,10 +142,21 @@ class C7WP {
 	}
 
 	/**
+	 * Apply normalized settings and derived widget version.
+	 *
+	 * @param mixed $settings Raw or normalized settings.
+	 * @return void
+	 */
+	private function apply_settings( $settings ) {
+		$this->settings   = c7wp_normalize_settings( $settings );
+		$this->widgetsver = esc_attr( $this->settings['c7wp_widget_version'] );
+	}
+
+	/**
 	 * Refresh cached settings
 	 */
 	public function refresh_settings() {
-		$this->settings = get_option( 'c7wp_settings', array() );
+		$this->apply_settings( c7wp_get_settings() );
 	}
 
 	/**
@@ -165,20 +171,11 @@ class C7WP {
 	 */
 	public function admin_init() {
 
-		if ( ! isset( $this->settings['c7wp_frontend_routes'] ) || ! is_array( $this->settings['c7wp_frontend_routes'] ) ) {
-			$this->settings['c7wp_frontend_routes'] = array(
-				'profile'     => 'profile',
-				'collection'  => 'collection',
-				'product'     => 'product',
-				'club'        => 'club',
-				'checkout'    => 'checkout',
-				'cart'        => 'cart',
-				'privacy'     => 'privacy',
-				'terms'       => 'terms',
-				'reservation' => 'reservation',
-			);
-			update_option( 'c7wp_settings', $this->settings, true );
-			$this->refresh_settings();
+		$stored     = get_option( 'c7wp_settings', array() );
+		$normalized = c7wp_normalize_settings( $stored );
+		if ( $stored !== $normalized ) {
+			update_option( 'c7wp_settings', $normalized, true );
+			$this->apply_settings( $normalized );
 		}
 
 		$this->settings_init();
@@ -507,23 +504,37 @@ class C7WP {
 
 	public function c7wp_settings_callback( $input ) {
 
+		if ( ! is_array( $input ) ) {
+			$input = array();
+		}
+
 		$output = array();
 
 		foreach ( $input as $key => $value ) {
-			if ( isset( $input[ $key ] ) && ! empty( $value ) ) {
-				if ( is_array( $value ) ) {
-					foreach ( $value as $subkey => $subvalue ) {
-						$output[ $key ][ $subkey ] = $this->sanitize_setting_field( $key, $subkey, $subvalue );
-					}
-				} else {
-					$output[ $key ] = $this->sanitize_setting_field( $key, null, $value );
+			if ( is_array( $value ) ) {
+				foreach ( $value as $subkey => $subvalue ) {
+					$output[ $key ][ $subkey ] = $this->sanitize_setting_field( $key, $subkey, $subvalue );
 				}
+			} else {
+				$output[ $key ] = $this->sanitize_setting_field( $key, null, $value );
 			}
 		}
 
-		$this->settings = $output;
+		$existing = get_option( 'c7wp_settings', array() );
+		if ( ! is_array( $existing ) ) {
+			$existing = array();
+		}
 
-		return apply_filters( 'c7wp_settings_post_validation', $output, $input );
+		// Disabled fields are not posted; keep previously saved nested route slugs.
+		if ( isset( $output['c7wp_frontend_routes'] ) && isset( $existing['c7wp_frontend_routes'] ) && is_array( $existing['c7wp_frontend_routes'] ) ) {
+			$output['c7wp_frontend_routes'] = array_merge( $existing['c7wp_frontend_routes'], $output['c7wp_frontend_routes'] );
+		}
+
+		$normalized = c7wp_normalize_settings( array_merge( $existing, $output ) );
+
+		$this->apply_settings( $normalized );
+
+		return apply_filters( 'c7wp_settings_post_validation', $normalized, $input );
 	}
 
 	/**
@@ -548,16 +559,7 @@ class C7WP {
 			// Ensure it's not empty and doesn't conflict with WordPress reserved terms
 			$reserved_terms = array( 'admin', 'api', 'wp-admin', 'wp-content', 'wp-includes' );
 			if ( empty( $sanitized ) || in_array( $sanitized, $reserved_terms, true ) ) {
-				// Return default value if invalid
-				$defaults = array(
-					'profile'     => 'profile',
-					'collection'  => 'collection',
-					'product'     => 'product',
-					'club'        => 'club',
-					'checkout'    => 'checkout',
-					'cart'        => 'cart',
-					'reservation' => 'reservation',
-				);
+				$defaults = c7wp_get_default_frontend_routes();
 				return isset( $defaults[ $subkey ] ) ? $defaults[ $subkey ] : sanitize_title( $value );
 			}
 			return $sanitized;
@@ -600,15 +602,7 @@ class C7WP {
 	 * @return array<string, string>
 	 */
 	private function get_default_frontend_routes() {
-		return array(
-			'profile'     => 'profile',
-			'collection'  => 'collection',
-			'product'     => 'product',
-			'club'        => 'club',
-			'checkout'    => 'checkout',
-			'cart'        => 'cart',
-			'reservation' => 'reservation',
-		);
+		return c7wp_get_default_frontend_routes();
 	}
 
 	/**
@@ -620,10 +614,13 @@ class C7WP {
 		$options = $this->settings;
 
 		$settings = array(
-			'tenant'                 => isset( $options['c7wp_tenant'] ) ? $options['c7wp_tenant'] : '',
-			'c7wp_frontend_routes'   => ( isset( $options['c7wp_frontend_routes'] ) && is_array( $options['c7wp_frontend_routes'] ) )
-				? $options['c7wp_frontend_routes']
-				: $this->get_default_frontend_routes(),
+			'tenant'               => $options['c7wp_tenant'] ?? '',
+			'c7wp_frontend_routes' => array_merge(
+				c7wp_get_default_frontend_routes(),
+				( isset( $options['c7wp_frontend_routes'] ) && is_array( $options['c7wp_frontend_routes'] ) )
+					? $options['c7wp_frontend_routes']
+					: array()
+			),
 		);
 
 		/**
@@ -662,7 +659,7 @@ class C7WP {
 
 		$options = $this->settings;
 		?>
-		<input type='text' name='c7wp_settings[c7wp_tenant]' value='<?php echo esc_attr( $options['c7wp_tenant'] ); ?>'>
+		<input type='text' name='c7wp_settings[c7wp_tenant]' value='<?php echo esc_attr( $options['c7wp_tenant'] ?? '' ); ?>'>
 		<?php
 	}
 
@@ -671,8 +668,8 @@ class C7WP {
 		$options = $this->settings;
 		?>
 		<select name='c7wp_settings[c7wp_display_cart]' class='c7displaycart'>
-			<option value='no' <?php selected( $options['c7wp_display_cart'], 'no' ); ?>><?php esc_html_e( 'No', 'wp-commerce7' ); ?></option>
-			<option value='yes' <?php selected( $options['c7wp_display_cart'], 'yes' ); ?>><?php esc_html_e( 'Yes', 'wp-commerce7' ); ?></option>
+			<option value='no' <?php selected( $options['c7wp_display_cart'] ?? 'no', 'no' ); ?>><?php esc_html_e( 'No', 'wp-commerce7' ); ?></option>
+			<option value='yes' <?php selected( $options['c7wp_display_cart'] ?? 'no', 'yes' ); ?>><?php esc_html_e( 'Yes', 'wp-commerce7' ); ?></option>
 		</select>
 		<p><small>
 			<?php
@@ -695,16 +692,14 @@ class C7WP {
 	public function c7wp_display_cart_location_render() {
 
 		$options  = $this->settings;
-		$disabled = ( 'no' === $options['c7wp_display_cart'] ) ? 'disabled' : '';
-		if ( ! isset( $options['c7wp_display_cart_location'] ) ) {
-			$options['c7wp_display_cart_location'] = 'tr';
-		}
+		$disabled = ( 'no' === ( $options['c7wp_display_cart'] ?? 'no' ) ) ? 'disabled' : '';
+		$location = $options['c7wp_display_cart_location'] ?? 'tr';
 		?>
 		<select name='c7wp_settings[c7wp_display_cart_location]' class='c7cartloc' <?php echo esc_attr( $disabled ); ?> >
-			<option value='tl' <?php selected( $options['c7wp_display_cart_location'], 'tl' ); ?>><?php esc_html_e( 'Top left', 'wp-commerce7' ); ?></option>
-			<option value='tr' <?php selected( $options['c7wp_display_cart_location'], 'tr' ); ?>><?php esc_html_e( 'Top right', 'wp-commerce7' ); ?></option>
-			<option value='br' <?php selected( $options['c7wp_display_cart_location'], 'br' ); ?>><?php esc_html_e( 'Bottom right', 'wp-commerce7' ); ?></option>
-			<option value='bl' <?php selected( $options['c7wp_display_cart_location'], 'bl' ); ?>><?php esc_html_e( 'Bottom left', 'wp-commerce7' ); ?></option>
+			<option value='tl' <?php selected( $location, 'tl' ); ?>><?php esc_html_e( 'Top left', 'wp-commerce7' ); ?></option>
+			<option value='tr' <?php selected( $location, 'tr' ); ?>><?php esc_html_e( 'Top right', 'wp-commerce7' ); ?></option>
+			<option value='br' <?php selected( $location, 'br' ); ?>><?php esc_html_e( 'Bottom right', 'wp-commerce7' ); ?></option>
+			<option value='bl' <?php selected( $location, 'bl' ); ?>><?php esc_html_e( 'Bottom left', 'wp-commerce7' ); ?></option>
 		</select>
 
 		<?php
@@ -713,14 +708,12 @@ class C7WP {
 	public function c7wp_display_cart_color_render() {
 
 		$options  = $this->settings;
-		$disabled = ( 'no' === $options['c7wp_display_cart'] ) ? 'disabled' : '';
-		if ( ! isset( $options['c7wp_display_cart_color'] ) ) {
-			$options['c7wp_display_cart_color'] = 'light';
-		}
+		$disabled = ( 'no' === ( $options['c7wp_display_cart'] ?? 'no' ) ) ? 'disabled' : '';
+		$color    = $options['c7wp_display_cart_color'] ?? 'light';
 		?>
 		<select name='c7wp_settings[c7wp_display_cart_color]' class='c7cartcolor' <?php echo esc_attr( $disabled ); ?> >
-			<option value='light' <?php selected( $options['c7wp_display_cart_color'], 'light' ); ?>><?php esc_html_e( 'Light website', 'wp-commerce7' ); ?></option>
-			<option value='dark' <?php selected( $options['c7wp_display_cart_color'], 'dark' ); ?>><?php esc_html_e( 'Dark website', 'wp-commerce7' ); ?></option>
+			<option value='light' <?php selected( $color, 'light' ); ?>><?php esc_html_e( 'Light website', 'wp-commerce7' ); ?></option>
+			<option value='dark' <?php selected( $color, 'dark' ); ?>><?php esc_html_e( 'Dark website', 'wp-commerce7' ); ?></option>
 		</select>
 		<p><small>
 			<?php
@@ -733,11 +726,12 @@ class C7WP {
 	public function c7wp_widget_version_render() {
 
 		$options = $this->settings;
+		$version = $options['c7wp_widget_version'] ?? 'v2';
 		?>
 		<select name='c7wp_settings[c7wp_widget_version]' class='c7widgetversion'>
-			<option value='v2-compat' <?php selected( $options['c7wp_widget_version'], 'v2-compat' ); ?>><?php esc_html_e( 'V2 (Compatibility Mode)', 'wp-commerce7' ); ?></option>
-			<option value='v2' <?php selected( $options['c7wp_widget_version'], 'v2' ); ?>><?php esc_html_e( 'V2', 'wp-commerce7' ); ?></option>
-			<option value='beta' <?php selected( $options['c7wp_widget_version'], 'beta' ); ?>><?php esc_html_e( 'V1', 'wp-commerce7' ); ?></option>
+			<option value='v2-compat' <?php selected( $version, 'v2-compat' ); ?>><?php esc_html_e( 'V2 (Compatibility Mode)', 'wp-commerce7' ); ?></option>
+			<option value='v2' <?php selected( $version, 'v2' ); ?>><?php esc_html_e( 'V2', 'wp-commerce7' ); ?></option>
+			<option value='beta' <?php selected( $version, 'beta' ); ?>><?php esc_html_e( 'V1', 'wp-commerce7' ); ?></option>
 		</select>
 		<p><small>
 			<?php
@@ -747,7 +741,7 @@ class C7WP {
 						<br>
 						<strong>V2:</strong> The standard front-end widgets version used by most wineries.
 						<br>
-						<strong>V1:</strong> Only a select few legacy sites are still using the old beta/V1 widgets.',
+						<strong>V1:</strong> Legacy beta widgets. This version reaches end of life at the end of 2026. Contact your developer to upgrade to V2.',
 						'wp-commerce7',
 					),
 					array(
@@ -796,7 +790,7 @@ class C7WP {
 	public function c7wp_enable_custom_routes_render() {
 
 		$options  = $this->settings;
-		$disabled = ( 'beta' === $options['c7wp_widget_version'] ) ? 'disabled' : '';
+		$disabled = ( 'beta' === ( $options['c7wp_widget_version'] ?? 'v2' ) ) ? 'disabled' : '';
 		?>
 		<select name='c7wp_settings[c7wp_enable_custom_routes]' <?php echo esc_attr( $disabled ); ?> >
 			<option value='no' 
@@ -831,40 +825,44 @@ class C7WP {
 	public function c7wp_frontend_routes_render() {
 
 		$options  = $this->settings;
-		$disabled = ( 'yes' === $options['c7wp_enable_custom_routes'] ) ? '' : 'disabled';
+		$routes   = array_merge(
+			c7wp_get_default_frontend_routes(),
+			( isset( $options['c7wp_frontend_routes'] ) && is_array( $options['c7wp_frontend_routes'] ) ) ? $options['c7wp_frontend_routes'] : array()
+		);
+		$disabled = ( 'yes' === ( $options['c7wp_enable_custom_routes'] ?? 'no' ) ) ? '' : 'disabled';
 		?>
 		<div class="routing-row"><input type='text' name='c7wp_settings[c7wp_frontend_routes][cart]' 
-		value='<?php echo esc_attr( $options['c7wp_frontend_routes']['cart'] ); ?>' class="routing-field" <?php echo esc_attr( $disabled ); ?>>
+		value='<?php echo esc_attr( $routes['cart'] ); ?>' class="routing-field" <?php echo esc_attr( $disabled ); ?>>
 		<span>&#47;</span>
 		<label for="c7wp_settings[c7wp_frontend_routes][cart]"><?php esc_html_e( 'Cart Page', 'wp-commerce7' ); ?></label></div>
 
 		<div class="routing-row"><input type='text' name='c7wp_settings[c7wp_frontend_routes][checkout]' 
-		value='<?php echo esc_attr( $options['c7wp_frontend_routes']['checkout'] ); ?>' class="routing-field" <?php echo esc_attr( $disabled ); ?>>
+		value='<?php echo esc_attr( $routes['checkout'] ); ?>' class="routing-field" <?php echo esc_attr( $disabled ); ?>>
 		<span>&#47;</span>
 		<label for="c7wp_settings[c7wp_frontend_routes][checkout]"><?php esc_html_e( 'Checkout Page', 'wp-commerce7' ); ?></label></div>
 
 		<div class="routing-row"><input type='text' name='c7wp_settings[c7wp_frontend_routes][club]' 
-		value='<?php echo esc_attr( $options['c7wp_frontend_routes']['club'] ); ?>' class="routing-field" <?php echo esc_attr( $disabled ); ?>>
+		value='<?php echo esc_attr( $routes['club'] ); ?>' class="routing-field" <?php echo esc_attr( $disabled ); ?>>
 		<span>&#47;</span>
 		<label for="c7wp_settings[c7wp_frontend_routes][club]"><?php esc_html_e( 'Club Pages', 'wp-commerce7' ); ?></label></div>
 
 		<div class="routing-row"><input type='text' name='c7wp_settings[c7wp_frontend_routes][collection]' 
-		value='<?php echo esc_attr( $options['c7wp_frontend_routes']['collection'] ); ?>' class="routing-field" <?php echo esc_attr( $disabled ); ?>>
+		value='<?php echo esc_attr( $routes['collection'] ); ?>' class="routing-field" <?php echo esc_attr( $disabled ); ?>>
 		<span>&#47;</span>
 		<label for="c7wp_settings[c7wp_frontend_routes][collection]"><?php esc_html_e( 'Collection Pages', 'wp-commerce7' ); ?></label></div>
 
 		<div class="routing-row"><input type='text' name='c7wp_settings[c7wp_frontend_routes][product]' 
-		value='<?php echo esc_attr( $options['c7wp_frontend_routes']['product'] ); ?>' class="routing-field" <?php echo esc_attr( $disabled ); ?>>
+		value='<?php echo esc_attr( $routes['product'] ); ?>' class="routing-field" <?php echo esc_attr( $disabled ); ?>>
 		<span>&#47;</span>
 		<label for="c7wp_settings[c7wp_frontend_routes][product]"><?php esc_html_e( 'Product Pages', 'wp-commerce7' ); ?></label></div>
 
 		<div class="routing-row"><input type='text' name='c7wp_settings[c7wp_frontend_routes][profile]' 
-		value='<?php echo esc_attr( $options['c7wp_frontend_routes']['profile'] ); ?>' class="routing-field" <?php echo esc_attr( $disabled ); ?>>
+		value='<?php echo esc_attr( $routes['profile'] ); ?>' class="routing-field" <?php echo esc_attr( $disabled ); ?>>
 		<span>&#47;</span>
 		<label for="c7wp_settings[c7wp_frontend_routes][profile]"><?php esc_html_e( 'Profile Page', 'wp-commerce7' ); ?></label></div>
 
 		<div class="routing-row"><input type='text' name='c7wp_settings[c7wp_frontend_routes][reservation]' 
-		value='<?php echo esc_attr( $options['c7wp_frontend_routes']['reservation'] ); ?>' class="routing-field" <?php echo esc_attr( $disabled ); ?>>
+		value='<?php echo esc_attr( $routes['reservation'] ); ?>' class="routing-field" <?php echo esc_attr( $disabled ); ?>>
 		<span>&#47;</span>
 		<label for="c7wp_settings[c7wp_frontend_routes][reservation]"><?php esc_html_e( 'Reservation Page', 'wp-commerce7' ); ?></label></div>
 
@@ -922,7 +920,7 @@ class C7WP {
 		/**
 		 * Load the magic cart box CSS if enabled
 		 */
-		if ( 'yes' === $options['c7wp_display_cart'] ) {
+		if ( 'yes' === ( $options['c7wp_display_cart'] ?? 'no' ) ) {
 			wp_enqueue_style( 'wp-commerce7', C7WP_URI . 'assets/public/css/commerce7-for-wordpress.css', array(), C7WP_VERSION );
 		}
 
@@ -1006,13 +1004,12 @@ class C7WP {
 		 */
 		if ( $this->seoplugin ) {
 
-			if ( ! isset( $options['c7wp_frontend_routes'] ) || ! is_array( $options['c7wp_frontend_routes'] ) ) {
-				$product_route    = 'product';
-				$collection_route = 'collection';
-			} else {
-				$product_route    = $options['c7wp_frontend_routes']['product'];
-				$collection_route = $options['c7wp_frontend_routes']['collection'];
-			}
+			$routes           = array_merge(
+				c7wp_get_default_frontend_routes(),
+				( isset( $options['c7wp_frontend_routes'] ) && is_array( $options['c7wp_frontend_routes'] ) ) ? $options['c7wp_frontend_routes'] : array()
+			);
+			$product_route    = $routes['product'];
+			$collection_route = $routes['collection'];
 
 			if ( is_page( array( $product_route, $collection_route ) ) ) {
 				wp_register_script( 'c7wp-seo', C7WP_URI .  'assets/public/js/c7wp-seo.js', array(), C7WP_VERSION, true ); // phpcs:ignore
@@ -1080,8 +1077,7 @@ class C7WP {
 	 * @param string $block_type The block type to enqueue assets for.
 	 */
 	private function enqueue_specific_block_assets( $block_type ) {
-		$options    = $this->settings;
-		$widgetsver = $options['c7wp_widget_version'];
+		$widgetsver = $this->widgetsver;
 
 		// Determine the correct directory
 		$dir = in_array( $widgetsver, array( 'v2', 'v2-compat' ), true ) ? 'blocks-v2' : 'blocks';
@@ -1170,12 +1166,12 @@ class C7WP {
 			$options = $this->settings;
 
 			if ( isset( $options['c7wp_tenant'] ) ) {
-				$tag = '<script data-cfasync="false" type="text/javascript" src="' . esc_url( $src ) . '" id="c7-javascript" data-tenant="' . esc_attr( $options['c7wp_tenant'] ) . '"></script>'; // phpcs:ignore
+				$tag = '<script data-cfasync="false" data-uc-allowed="true" type="text/javascript" src="' . esc_url( $src ) . '" id="c7-javascript" data-tenant="' . esc_attr( $options['c7wp_tenant'] ) . '"></script>'; // phpcs:ignore
 			}
 		}
 
 		if ( 'c7wp-product-reviews' === $handle ) {
-			$tag = '<script data-cfasync="false" type="text/javascript" id="c7-product-reviews" src="' . esc_url( $src ) . '"></script>'; // phpcs:ignore
+			$tag = '<script data-cfasync="false" data-uc-allowed="true" type="text/javascript" id="c7-product-reviews" src="' . esc_url( $src ) . '"></script>'; // phpcs:ignore
 		}
 
 		return $tag;
@@ -1195,8 +1191,8 @@ class C7WP {
 
 			$options = $this->settings;
 
-			if ( isset( $options['c7wp_frontend_routes'] ) && 'yes' === $options['c7wp_enable_custom_routes'] ) {
-				$routes = implode( '|', array_values( $options['c7wp_frontend_routes'] ) );
+			if ( 'yes' === ( $options['c7wp_enable_custom_routes'] ?? 'no' ) ) {
+				$routes = implode( '|', array_values( $options['c7wp_frontend_routes'] ?? c7wp_get_default_frontend_routes() ) );
 
 				add_rewrite_rule(
 					'^(' . $routes . ')/(.+)/?$',
@@ -1227,11 +1223,11 @@ class C7WP {
 	public function footer_inject() {
 
 		$options = $this->settings;
-		if ( 'yes' === $options['c7wp_display_cart'] ) {
+		if ( 'yes' === ( $options['c7wp_display_cart'] ?? 'no' ) ) {
 
-			$color = ( 'dark' === $options['c7wp_display_cart_color'] ) ? 'c7dark' : 'c7light';
+			$color = ( 'dark' === ( $options['c7wp_display_cart_color'] ?? 'light' ) ) ? 'c7dark' : 'c7light';
 
-			switch ( $options['c7wp_display_cart_location'] ) {
+			switch ( $options['c7wp_display_cart_location'] ?? 'tr' ) {
 				case 'tl':
 					$class = 'top-left ';
 					break;
@@ -1436,7 +1432,7 @@ class C7WP {
 
 		$options = $this->settings;
 		if ( isset( $options['c7wp_widget_version'] ) && 'v2' === $options['c7wp_widget_version']
-		&& isset( $options['c7wp_frontend_routes'] ) && 'yes' === $options['c7wp_enable_custom_routes'] ) {
+		&& isset( $options['c7wp_frontend_routes'] ) && 'yes' === ( $options['c7wp_enable_custom_routes'] ?? 'no' ) ) {
 			$pages = array_values( $options['c7wp_frontend_routes'] );
 		} else {
 			$pages = array(
@@ -1518,7 +1514,7 @@ class C7WP {
 	public function get_pages_needing_c7_content() {
 		$options = $this->settings;
 
-		if ( isset( $options['c7wp_frontend_routes'] ) && 'yes' === $options['c7wp_enable_custom_routes'] ) {
+		if ( isset( $options['c7wp_frontend_routes'] ) && 'yes' === ( $options['c7wp_enable_custom_routes'] ?? 'no' ) ) {
 			$required_pages = array_values( $options['c7wp_frontend_routes'] );
 		} else {
 			$required_pages = array( 'profile', 'collection', 'product', 'club', 'checkout', 'cart', 'reservation' );

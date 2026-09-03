@@ -27,10 +27,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @return string[]
  */
 function c7wp_get_frontend_route_slugs() {
-	$options = get_option( 'c7wp_settings' );
-	if ( ! isset( $options['c7wp_frontend_routes'] ) || ! is_array( $options['c7wp_frontend_routes'] ) ) {
-		return array( 'profile', 'collection', 'product', 'club', 'checkout', 'cart', 'reservation' );
-	}
+	$options = c7wp_get_settings();
 
 	return array_values( $options['c7wp_frontend_routes'] );
 }
@@ -137,14 +134,9 @@ add_filter(
 	'get_canonical_url',
 	function ( $canonical_url ) {
 
-		$options = get_option( 'c7wp_settings' );
-		if ( ! isset( $options['c7wp_frontend_routes'] ) || ! is_array( $options['c7wp_frontend_routes'] ) ) {
-			$product_route    = 'product';
-			$collection_route = 'collection';
-		} else {
-			$product_route    = $options['c7wp_frontend_routes']['product'];
-			$collection_route = $options['c7wp_frontend_routes']['collection'];
-		}
+		$options          = c7wp_get_settings();
+		$product_route    = $options['c7wp_frontend_routes']['product'];
+		$collection_route = $options['c7wp_frontend_routes']['collection'];
 
 		if ( is_page( array( $product_route, $collection_route ) ) ) {
 			return '';
