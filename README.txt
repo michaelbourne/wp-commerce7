@@ -3,8 +3,8 @@ Contributors: michaelbourne
 Donate link: https://www.paypal.me/yycpro
 Tags: commerce7
 Requires at least: 6.0
-Tested up to: 7.0
-Stable tag: 1.8.1
+Tested up to: 7.1.2
+Stable tag: 1.8.2
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.en.html
 
@@ -76,6 +76,15 @@ Removing this plugin will render your widgets and/or blocks inactive, but will n
 
 
 == Changelog ==
+
+= 1.8.2 - October 1, 2026 =
+* Added: Dismissible admin notice for sites still using V1 (legacy) storefront widgets, which reach end of life at the end of 2026.
+* Improved: Widget version setting copy now notes the V1 end-of-life date.
+* Improved: Settings and front-end routes are normalized on load, save, activation, and upgrade so missing values fall back to defaults.
+* Improved: Plugin updates flush rewrite rules only when front-end routes change, and still flag missing required pages.
+* Improved: Yoast, Rank Math, SEOPress, AIOSEO, and core canonical handling use the same normalized product and collection routes.
+* Improved: Commerce7 and Product Reviews scripts include `data-uc-allowed` so consent tools can allow them.
+* Fix: Saving settings no longer drops previously saved custom front-end route slugs when those fields are disabled.
 
 = 1.8.1 - July 3, 2026 =
 * Fix: Collection pagination support improvements.
