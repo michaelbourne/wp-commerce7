@@ -5,7 +5,7 @@
  * Created Date: Wednesday October 12th 2022
  * Author: Michael Bourne
  * -----
- * Last Modified: Wednesday, February 11th 2026, 8:26:49 pm
+ * Last Modified: Tuesday, October 13th 2026, 2:58:27 pm
  * Modified By: Michael Bourne
  * -----
  * Copyright (c) 2022 URSA6
@@ -33,7 +33,8 @@ add_action(
 		if ( is_page( array( $product_route, $collection_route ) ) ) {
 			return false;
 		}
+
+		return $canonical;
 	},
 	1
 );
-
