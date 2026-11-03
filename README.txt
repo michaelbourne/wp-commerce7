@@ -1,346 +1,156 @@
 === Commerce7 for WordPress ===
 Contributors: michaelbourne
-Donate link: https://www.paypal.me/yycpro
-Tags: commerce7
+Tags: commerce7, winery, wine, wine club, ecommerce
 Requires at least: 6.0
-Tested up to: 7.1.4
+Tested up to: 7.1
 Stable tag: 1.9.0
+Requires PHP: 8.0
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.en.html
 
-Add Commerce7 to your WordPress site easily!
+Add your Commerce7 store, wine club and reservations to WordPress with blocks or your page builder. Free, built and supported by URSA6 and 5forests.
 
 == Description ==
 
-A free plugin for Commerce7 customers who wish to integrate their javascript widgets into a WordPress site. Commerce7 is a state of the art SaaS platform for breweries and wineries to offer modern DTC ecommerce solutions. It also offers a point of sale software, clubs, CRM, and tasting room reservations. This plugin is being used by hundreds of wineries around the world to easily add Commerce7 to their website.
+Commerce7 for WordPress connects your Commerce7 account to your WordPress site. Enter your Tenant ID, and the plugin sets up the pages and links Commerce7 needs. Then add your wines, club and reservations to any page with blocks or your page builder.
 
+It has been free since 2019. It is built and supported by [5forests](https://5forests.com), a wine marketing agency and Commerce7 platinum certified partner, and [URSA6](https://ursa6.com), a Commerce7 preferred development partner, which builds hosting and apps for Commerce7 wineries.
 
-= Plugin Features =
- 
-*   Automatically create the needed pages and pass-through redirects for proper Commerce7 Integration
-*   Embed Commerce7 widgets into any page through the use of shortcodes or pagebuilder elements
-*   Full integration with popular pagebuilders like Cornerstone, Elementor, Beaver Builder, and WPBakery
-*   Full integration with Gutenberg
-*   Optional Commerce7 Product Reviews embed (stars, reviews, and schema on product and collection pages)
+= Set up for you =
 
-This plugin relies on a third party service for it's functionality provided by [Commerce7](https://commerce7.com/). As an ecommerce solution, an SSL certificate is required on your website. Your privacy policy should be ammended to include the use of third party software for order processing. The plugin settings page may fetch promotional callout HTML from c7wp.com. When AI SEO Boost for WordPress is enabled, the public page path and Tenant ID are sent to the Commerce7 SEO service at seo.c7wp.com so it can return titles and meta tags. The site token is never sent. No customer order data is transmitted.
+* Creates the Commerce7 pages on activation: Profile, Collection, Product, Club, Checkout, Cart and Reservation.
+* Handles the links Commerce7 uses for products and collections, such as /product/your-wine.
+* Custom routes, if your shop lives at /wines/ instead of /collection/.
+* Turns on pretty permalinks if your site has not set them yet.
+* Warns you in the dashboard if a required page is missing.
 
-Read the [Commerce7 for WordPress](https://c7wp.com) website to get started.
+= Add Commerce7 anywhere =
 
+Commerce7's storefront widgets come as blocks and page builder elements. Add your wines, cart, wine club sign-ups, reservations, forms and customer login to any page, with no code.
+
+= Works with your editor =
+
+* The block editor, including full site editing themes.
+* Elementor, Beaver Builder, WPBakery, and Themeco Pro and Cornerstone.
+* Shortcodes for everything else.
+
+= Small details that matter =
+
+* An optional floating cart box, light or dark, in the corner you choose.
+* Canonical tags on Commerce7 product and collection pages, alone or with Yoast SEO, Rank Math, SEOPress or All in One SEO.
+* A Site Health check for the Product Reviews embed.
+* Supports Commerce7 V2 widgets. V1 (legacy) widgets work until they retire at the end of 2026.
+
+= Paid add-ons from URSA6 =
+
+These are separate Commerce7 apps. You install them from the Commerce7 App Store and Commerce7 bills them. This plugin stays free and fully works without them.
+
+* **[AI SEO Boost for WordPress](https://ursa6.com/commerce7-apps/ai-seo-boost-for-wordpress/)** gives every wine and collection page its own search title and meta description, share cards that show the bottle photo, and Product and ItemList schema. Collection pages also get a plain list of wines and links that crawlers and AI assistants can read. Cart, checkout and profile pages can be kept out of search. From $10/month, billed through Commerce7.
+* **[Product Reviews for Commerce7](https://ursa6.com/commerce7-apps/product-reviews/)** collects reviews from logged-in Commerce7 customers and shows star ratings on product and collection pages. Choose auto, manual or hybrid moderation, and manage reviews in Commerce7 Admin. Product pages get review schema when ratings are available. Turn it on with one setting in this plugin.
+
+More URSA6 apps for Commerce7, such as Shopping Feed Pro, Loyalty Point Automations and Club Benefits Tab, are listed at [ursa6.com](https://ursa6.com/commerce7-apps/).
+
+= For developers =
+
+Filters let you control the Commerce7 stylesheet (`c7wp_enqueue_c7_css`, `c7wp_enqueue_c7_css_override`, `c7wp_enqueue_c7_css_admin`) and hide the settings page sidebar (`c7wp_show_sidebar`). The storefront exposes `window.c7wp_settings` with your Tenant ID and routes. Docs are at [c7wp.com](https://c7wp.com/documentation/).
+
+= Requirements =
+
+* A Commerce7 account. Commerce7 is a paid platform for wineries.
+* HTTPS on your site.
+* WordPress at the root of a domain or subdomain. Subfolder installs are not supported.
+
+= External services =
+
+This plugin connects to the services below.
+
+**Commerce7** runs your store, cart, checkout, club and reservations. Once you enter a Tenant ID, visitors' browsers load Commerce7's scripts and styles. Commerce7 receives standard request data and anything visitors enter in its forms. [Terms](https://www.commerce7.com/terms-of-service/), [Privacy](https://www.commerce7.com/privacy-policy/).
+
+**c7wp.com** (run by URSA6). Twice a day, WP-Cron downloads a short list of admin notices from c7wp.com/notices.json. The settings page also loads up to three info panels from c7wp.com, cached for a week. Admins see them; visitors never do. No settings or customer data are sent. You can hide the panels with the `c7wp_show_sidebar` filter. [Privacy](https://ursa6.com/privacy-policy/).
+
+**AI SEO Boost (seo.c7wp.com)**, only if you turn it on. For product and collection pages, your server sends the page path and your Tenant ID, and gets back titles and meta tags. Your site token signs the request but is never sent. No customer or order data is sent. [Terms](https://ursa6.com/terms-of-service/), [Privacy](https://ursa6.com/privacy-policy/).
+
+**Product Reviews for Commerce7** (a URSA6 app), only if you turn on the Product Reviews embed. Visitors' browsers load the reviews script on product and collection pages.
+
+Your privacy policy should mention that Commerce7 processes orders for your store.
 
 == Installation ==
 
-1.  Upload your plugin folder to the '/wp-content/plugins' directory, or install directly from the plugin repo.
-2.  Activate the plugin through the 'Plugins' menu in WordPress.
-3.  Go to settings page and enter your Tenant ID.
-4.  Read the docs and start selling!
+1. In WordPress, go to Plugins > Add New, search for "Commerce7 for WordPress", then install and activate it.
+2. Open the Commerce7 menu and enter your Commerce7 Tenant ID.
+3. Go to Settings > Permalinks and click Save.
+4. Add Commerce7 blocks or widgets to your pages.
 
+Full setup guide: [c7wp.com/documentation](https://c7wp.com/documentation/).
 
 == Frequently Asked Questions ==
 
-= What can I do with this plugin? =
+= Is it free? =
 
-You can integrate your Commerce7 ecommerce account with your WordPress website, saving the hassle of manual integration.
+Yes. The plugin is free. You need a paid Commerce7 account, and the optional add-ons above are billed through Commerce7.
 
-= Is this plugin free? =
+= Who makes it? =
 
-You bet! This plugin is 100% free, however it relies on a 3rd party service from Commerce7 that has multiple price points.
+5forests and URSA6. The Commerce7 name and logo are used with permission of Commerce7 Platform Inc. Commerce7 does not make this plugin.
 
-= Does this plugin support Commerce7 V1 or V2 widgets? =
+= Which widget version should I use? =
 
-Both! Simply choose which version you'd like to use in the plugin settings. Reasave your permalinks after switching!
+V2 (we suggest the "compatibility mode" option). Commerce7 is retiring V1 widgets at the end of 2026, and the plugin shows a notice if your site still uses them. Save your permalinks after switching.
 
-= How do I enable Product Reviews? =
+= My shop or a widget shows a blank area. What should I check? =
 
-Install the Commerce7 Product Reviews app for your tenant and configure PDP/PLP options in the app settings. In Commerce7 for WordPress, set **Enable Product Reviews embed** to **Yes**, ensure your Tenant ID is set, and match **Custom Front-end Routes** to your product and collection page slugs. Resave permalinks after changing routes.
+1. WordPress must sit at the root of a domain or subdomain, not in a subfolder.
+2. Go to Settings > Permalinks, choose "Post name" and click Save.
+3. Check that your Commerce7 pages still exist with the right slugs and still contain the Commerce7 Default Content block. If you deleted them, deactivate and reactivate the plugin to recreate them.
+4. If you use custom routes, make sure they match your page slugs, then save permalinks again.
 
-= How do I enable AI SEO Boost for WordPress? =
+= I'm seeing a "hard error" page =
 
-Install the "AI SEO Boost for WordPress" app in Commerce7 for your tenant, copy the site token it issues, and paste that token into **SEO site token**. Set **AI SEO Boost for WordPress** to **Yes**. Product and collection routes then receive a title, description, and social tags. Collection routes also receive a plain list of wine titles and links. Cart, checkout, and account routes can be marked noindex. This does not add on-site product search or server-rendered product pages.
+Make sure you have not loaded the commerce7.js file twice. This plugin loads it for you, do not manually add that file to your site. If that's not the cause, email Commerce7 for help, that error comes from their platform, not this plugin.
 
-= I'm having trouble with __________, what should I do? =
+= I'm seeing double widgets everywhere =
 
-First, make sure you aren't using a subfolder install for WordPress, Commerce7 can only work on root domains and subdomains.
-Second, resave your permalinks in WordPress by going to Settings > Permalinks, make sure pretty links (post name) is chosen, and hit save.
-Third, make sure your core C7 pages are set up with the proper slugs and the c7-content div or "default content" block. Deactivate and reactivate the plugin if you've deleted these pages.
-Fourth, email Commerce7 for support.
+Make sure you have not loaded the commerce7.js file twice. This plugin loads it for you, do not manually add that file to your site. If that is not the cause, check 3rd party services like compliance banners which sometimes fire the window.load event synthetically, and change their settings to refresh the page instead.
 
+= How do I turn on Product Reviews? =
 
-== Plugin Removal ==
+Install the Product Reviews app in Commerce7 and set it up there. In the plugin settings, turn on the Product Reviews embed and check your Tenant ID. If you use custom routes, match them to your product and collection page slugs, then save permalinks.
 
-Removing this plugin will render your widgets and/or blocks inactive, but will not remove them or the pages created. Be sure to clean out all pages of Commerce7 content if removing.
+= How do I turn on AI SEO Boost for WordPress? =
 
+Install AI SEO Boost for WordPress in the Commerce7 App Store and copy the site token it shows. In the plugin settings, paste the token into the SEO site token field and turn AI SEO Boost on. It does not add on-site search or server-rendered product pages.
+
+= Does it work with my SEO plugin? =
+
+Yes. Canonical tags on Commerce7 product and collection pages work with Yoast SEO, Rank Math, SEOPress, All in One SEO and WordPress core.
+
+= Where do I get help? =
+
+Plugin questions: the [support forum](https://wordpress.org/support/plugin/wp-commerce7/). Questions about your Commerce7 account, orders or widget output and errors: Commerce7 support. Want help building or hosting your winery site? Talk to [5forests](https://5forests.com) or [URSA6](https://ursa6.com).
+
+= What happens if I remove the plugin? =
+
+Your Commerce7 blocks and widgets stop working, but the pages and content stay. Remove Commerce7 content from your pages if you are leaving Commerce7.
 
 == Screenshots ==
 
-1. **Plugin Settings** - Easy to install and set up, in many cases all you have to do is provide your tenant ID.
-2. **Gutenberg Integration** - Native Gutenberg blocks for all your Commerce7 front-end widgets.
-3. **Beaver Builder** - Native Beaver Builder modules for easy to use, drag and drop Commerce7 front-end widgets.
-4. **Elementor Integration** - Native Elementor widgets for easy to use, drag and drop Commerce7 front-end widgets.
-
+1. Commerce7 settings in WordPress: connect your store with your Tenant ID.
+2. Commerce7 blocks in the WordPress block editor, from buy buttons to club and reservation forms.
+3. A Commerce7 wine page on WordPress, with sizes, price and Add to Cart.
+4. The Commerce7 cart drawer on a WordPress theme.
+5. Wine club sign-up pages with a radio or dropdown club selector.
+6. Settings for the widget version and the Product Reviews and AI SEO Boost add-ons.
+7. Illustrative example, paid add-on: AI SEO Boost for WordPress shows the bottle photo, name and price in shared links and search results.
+8. Illustrative example, paid add-on: Product Reviews adds star ratings to wine pages and search results.
 
 == Changelog ==
 
 = 1.9.0 - November 3, 2026 =
-* Added: Optional AI SEO Boost for Commerce7 routes. A site token signs requests to the SEO service, which returns titles, meta tags, and a plain collection wine list.
+* Added: Optional AI SEO Boost for WordPress support. A site token signs requests to the SEO service, which returns titles, meta tags and a plain collection wine list.
 
-= 1.8.2 - October 13, 2026 =
-* Added: Dismissible admin notice for sites still using V1 (legacy) storefront widgets, which reach end of life at the end of 2026.
-* Improved: Widget version setting copy now notes the V1 end-of-life date.
-* Improved: Settings and front-end routes are normalized on load, save, activation, and upgrade so missing values fall back to defaults.
-* Improved: Plugin updates flush rewrite rules only when front-end routes change, and still flag missing required pages.
-* Improved: Yoast, Rank Math, SEOPress, AIOSEO, and core canonical handling use the same normalized product and collection routes.
-* Improved: Commerce7 and Product Reviews scripts include `data-uc-allowed` so consent tools can allow them.
-* Fix: Saving settings no longer drops previously saved custom front-end route slugs when those fields are disabled.
-
-= 1.8.1 - July 3, 2026 =
-* Fix: Collection pagination support improvements.
-
-= 1.8.0 - June 23, 2026 =
-* Added: Optional Commerce7 Product Reviews embed (loads invoke-wp-plugin.js when enabled).
-* Added: `window.c7wp_settings` on the storefront with tenant ID and front-end routes for integrations.
-* Added: Site Health check when Product Reviews embed is enabled.
-* Added: Club Selector v2 block with Commerce7 join buttons (no redirect) for all builders.
-* Added: WPBakery individual Commerce7 elements (Cart, Login, Club Selector, and all V2 widgets) with updated registration for current WPBakery versions.
-* Added: Beaver Builder Cart, Login/Logout Link, Club Selector, and Login Form modules for the V2 frontend.
-* Added: Themeco Pro / modern Cornerstone integration with per-element registration.
-* Improved: Central widget manifest (`C7WP_Widgets`) for consistent registration across Gutenberg, Elementor, Beaver Builder, WPBakery, and Themeco.
-* Improved: Shared Club Selector render library so all page builders output the same markup.
-* Improved: Eleven additional Gutenberg blocks migrated to block.json (API v3).
-* Improved: Smarter conditional loading of block and club selector assets on the front end.
-* Fix: Gutenberg Club Selector and Club Selector v2 editor crash when adding the first club.
-* Fix: WPBakery and Beaver Builder load-order issues on current builder versions.
-* Fix: Consistent `c7wp_settings` localization (tenant ID and routes) across builders and Elementor fallback.
-
-= 1.7.1 =
-* WP 7.0 tested and bumped
-
-= 1.7.0 - March 19. 2026 =
-* Improved: WordPress plugin checker formatting fixes.
-* Improved: All blocks migrated to API v3 for proper iframe editor loading.
-* Improved: Block styles and scripts loaded seperately to support FSE.
-* Fix: dark mode on cart box.
-
-
-= 1.6.3 - January 27, 2025 =
-* Fix: Block registration in some themes wasn't working.
-
-= 1.6.2 - January 16, 2026 =
-* Fix: Custom form alignment on mobile
-
-= 1.6.1 - January 16, 2026 =
-* Added: alignment controls form blocks
-
-= 1.6 - December 15, 2025 =
-* Large plugin changes, please backup site before updating
-* Improved: Elementor blocks, adding static previews to some block types for inline styles and visual verifications
-* Improved: Themeco Cornerstone blocks, adding static previews to some block types for inline styles and visual verifications
-* Improved: Settings sanitization
-* Improved: C7WP notices
-* Improved: Page creation on initial plugin activation
-* Improved: Plugin settings cache speed
-* Improved: Pages post state text on dynamic routes
-* Added: WP Health Check screen
-* Fixed: RankMath canonical tag
-* Added: Uninstall handler to remove plugin data
-
-= 1.5.4 - August 11, 2025 =
-* Fix: Gutenberg block settings for old beta frontend
-* Fix: Login widget redirect path on V2 frontend
-* Fix: Club Selector block conflict with Oxygen page builder front end edit mode
-
-= 1.5.3 =
-* Fix: fatal error in Beaver Builder
-
-= 1.5.2 - June 5, 2025 =
-* Added: New "Collection List" block - Outputs a list of links to all Collections with a Web Status of "Available"
-
-= 1.5.1 - May 29, 2025 =
-* Fixed: Allow multiple club selectors per page using the new Radio Group Name field. You may have to recreate your existing selectors, or at the very least, press the "attempt recovery" button when you edit them next.
-
-= 1.5.0 - May 11, 2025 =
-* Added: Club selector block for Gutenberg.
-* Added: Admin notice management.
-* Changed: Slight UI tweaks in options page.
-* Added: Default Content widget for Elementor. The legacy widget will be deleted in the next version, please replace those on all of your pages asap.
-* Added: Default Content widget for Beaver Builder. The legacy widget will be deleted in the next version, please replace those on all of your pages asap.
-
-= 1.4.9 - April 15, 2025 =
-* Updated: Elementor custom widget markup.
-
-= 1.4.8 - January 2, 2025 =
-* Fix: Disable C7 JS in Oxygen's frontend builder to prevent conflicts.
-
-= 1.4.7 - December 13, 2024 =
-* Fix: Proper widgets loading when using compatibility mode.
-
-= 1.4.6 - October 11, 2024 =
-* Fix: undefined array offset warning
-* Added: more translatable strings and updated translation files
-* Edited: verbiage in widget descriptions and labels
-* Edited: Elementor widget appearance in editor mode.
-
-= 1.4.5 - January 20, 2024 =
-* Minor edit. Added clarifying language to default block messages.
-
-= 1.4.4 =
-* Added: V2 Compatibility Mode for some sites that have trouble rendering Commerce7 widgets.
-
-= 1.4.3 =
-* Removed: Automatically create missing Commerce7 pages on plugin update. Some installations may be handling these pages in a custom way and therefor our plugin will not recreate them. These pages will still be created on installation.
-
-= 1.4.2 =
-* Update: Commerce7 editor stylesheet loaded into after_theme_setup hook at a low priority so theme styles can better override it.
-
-= 1.4.1 =
-* Update: lower PHP version to 7.4 to allow some sites to catch up. This will be temporary, all sites need to update to PHP 8+ soon.
-
-= 1.4.0 =
-* Update: all Gutenberg blocks have been reworked for better visual representation while editing.
-* Update: Commerce7 stylesheet will now render in the editor to support expected widget markup. This can be disabled with the `c7wp_enqueue_c7_css_admin` filter set to false.
-
-= 1.3.7 =
-* Add: Login Form widget for V2
-* Add: Club button `add` and `edit` text support
-
-= 1.3.6 =
-* Minor code formatting
-
-= 1.3.5 =
-* Update cleanup, re-add Gutenberg blocks (blame SVN)
-
-= 1.3.4 =
-* Fix update error
-
-= 1.3.3 =
-* Added SEO improvements on dynamic routes
-* Updated for better PHP 8+ compatibility
-
-= 1.3.2 =
-* Fixed possible fatal error if required pages are missing
-* Bump required PHP version to 7.4
-
-= 1.3.1 =
-* Fixed `Buy Button` block not showing in Gutenberg
-
-= 1.3.0 =
-* Updated c7-base override file
-* Updated admin UI help text
-* Nulled C7 JS and CSS version info for better Cloudfront compatibility
-* Added support for custom routing in V2 frontend
-* Fixed PHP warning on X Theme and Pro Theme sites by Themeco
-
-= 1.2.7 =
-* Added two new filters for developers: `c7wp_enqueue_c7_css` defaults to true and controls the base C7 stylesheet being loaded, and `c7wp_enqueue_c7_css_override` defaults to false, controlling whther or not you load our c7-base override file with all globally scoped styles removed and Google fonts removed.
-
-= 1.2.6 =
-* Fixed block category depreciation warning in Gutenberg
-
-= 1.2.5 =
-* Added new routes for V2 frontend users
-* Changed admin screen right panel callouts
-
-= 1.2.4 =
-* Small tweak in default page content on plugin installation.
-
-= 1.2.3 =
-* Small CSS tweak for users on V2 and still using the floating cart box.
-
-= 1.2.2 =
-* Fix login widget for V2 frontend
-* Add Buy Button to V2 frontend
-* Adjust V2 widgets in pagebuilder supports
-
-= 1.2.1 =
-* Fix small error in previous v1 frontend settings.
-
-= 1.2.0 =
-* Added support for Commerce7's new V2 Front End. As per their docs, some front end widgets no longer exist. Be sure to read their designer docs and undertsand what needs to be done on your end prior to upgrading.
-
-= 1.1.3 =
-* Added 'default content' Gutenberg block for better visualization when editing dynamic C7 pages. (too many people deleted the original div by accident)
-
-= 1.1.2 =
-* Small tweaks.
-
-= 1.1.1 = 
-* Fixed Subscription widget error in Gutenberg
-* Changed default code to HTML blocks for required pages.
-* Text update to Buy Button (slug) to reference Bundles.
-
-= 1.1.0 =
-* Full Gutenberg support with custom blocks for all Commerce7 widgets
-* Massive expansion to Elementor page builder elements
-* Massive expansion to Beaver Builder page builder elements
-* Added new front end widgets: Quick Shop, Login Form, Create Account Form, Buy Button (Slug support for variable products)
-* Code structure and formatting cleanup
-* Better internationalization support
-
-= 1.0.5 =
-* Added support for the new "Join Now / Edit Membership" magic button for clubs, which should be used on landing pages you've created for your clubs.
-
-= 1.0.4 =
-* Fix activation error
-
-= 1.0.3 =
-* Added support for Commerce7 forms widgets
-
-= 1.0.2 =
-* Fixed compatibility when Woocommerce and Elementor Pro are installed
-
-= 1.0.1 =
-* Added support for the new reservations system. If you are upgrading to this version, please create a new Page in WordPress and give it the slug: reservation, or deactivate and activate this plugin after upgrade.
-
-= 1.0.0 =
-* Initial Public Version
-
+The full history is in changelog.txt in the plugin folder.
 
 == Upgrade Notice ==
 
 = 1.9.0 =
-New AI SEO Boost app for Commerce7 launched! Install the app in Commerce7 and enable in plugin settings to increase your AI Search visibility and SEO baseline. Every site should use this new feature.
-
-= 1.8.0 =
-New Gutenberg blocks (Cart, Login, Club Selector v2), Product Reviews embed, and expanded page builder support. Backup before upgrading and test widgets on key pages. Resave permalinks if you change front-end routes or enable Product Reviews. Back up before updating and test everything afterwards!
-
-= 1.7.1 =
-Please backup before upgrading, and test all pages/blocks after update. We've rebuilt our blocks to be compatible with WP7 and Full Site Editing. It should be a smooth upgrade, but play it safe and backup first.
-
-= 1.6.2 =
-Large plugin update, create a backup before proceeding, and test all widgets on all pages afterwards.
-
-= 1.5.1 =
-You may need to resave existing Club Selector blocks if you've used them already.
-
-= 1.5.0 =
-Check out the new Club Selector block for Gutenberg!
-
-= 1.4.0 =
-Gutenberg blocks have been reworked. You should test this update on a staging site first to ensure no errors occur. 
-
-= 1.3.0 =
-Added support for custom routing on V2 frontend. Highly recommended to re-save plugin options and re-save WordPress permalinks after update.
-
-= 1.2.7 =
-New developer filters added to allow better CSS styles on the front end. See changelog.
-
-= 1.2.0 =
-Added support for Commerce7 V2 frontend. Please read their docs before choosing to change front end versions. Re-save permalinks after update.
-
-= 1.1.0=
-Large update, clear cache after update to prevent display issues
-
-= 1.0.5 =
-Add support for new club join/edit magic button
-
-= 1.0.4 =
-Fix activation error
-
-= 1.0.3 =
-Added support for Commerce7 Forms
-
-= 1.0.2 =
-Fixed Elementor and Woocommerce conflict
-
-= 1.0.1 =
-Reservations support
+Adds optional support for the AI SEO Boost for WordPress app in Commerce7, to help AI Search visibility and Google structured data. Nothing changes unless you turn it on.

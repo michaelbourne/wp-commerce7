@@ -838,7 +838,7 @@ class C7WP {
 		<p><small>
 			<?php
 				echo wp_kses(
-					__( 'When set to <strong>yes</strong>, product, collection, cart, checkout, and account routes request titles, meta tags, and a plain wine list from AI SEO Boost. Install that Commerce7 app and paste its site token first. The request includes this site’s address so canonicals stay on this site, including staging. It does not replace a fully rendered catalog.', 'wp-commerce7' ),
+					__( 'Loads the Commerce7 AI SEO Boost app on your storefront when set to <strong>yes</strong>. Install that Commerce7 app first and paste its generated site token below.', 'wp-commerce7' ),
 					array(
 						'strong' => array(),
 					)
