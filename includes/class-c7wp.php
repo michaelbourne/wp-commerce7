@@ -105,6 +105,8 @@ class C7WP {
 
 		// load health check integration
 		require_once C7WP_ROOT . '/includes/health-check.php';
+		require_once C7WP_ROOT . '/includes/seo/class-c7wp-seo-bridge.php';
+		C7WP_SEO_Bridge::register();
 
 		// c7 div output for certain pagebuilders
 		add_shortcode( 'c7wp', array( $this, 'c7wp_shortcode' ) );
@@ -480,6 +482,28 @@ class C7WP {
 		);
 
 		add_settings_field(
+			'c7wp_enable_seo_bridge',
+			__( 'AI SEO Boost for WordPress', 'wp-commerce7' ),
+			array(
+				$this,
+				'c7wp_enable_seo_bridge_render',
+			),
+			'commerce7',
+			'c7wp_commerce7_section'
+		);
+
+		add_settings_field(
+			'c7wp_seo_site_token',
+			__( 'SEO site token', 'wp-commerce7' ),
+			array(
+				$this,
+				'c7wp_seo_site_token_render',
+			),
+			'commerce7',
+			'c7wp_commerce7_section'
+		);
+
+		add_settings_field(
 			'c7wp_enable_custom_routes',
 			__( 'Override front end routes?', 'wp-commerce7' ),
 			array(
@@ -530,6 +554,11 @@ class C7WP {
 			$output['c7wp_frontend_routes'] = array_merge( $existing['c7wp_frontend_routes'], $output['c7wp_frontend_routes'] );
 		}
 
+		// A blank token field means "keep the saved token", so the secret is not reprinted in the form.
+		if ( empty( $output['c7wp_seo_site_token'] ) && ! empty( $existing['c7wp_seo_site_token'] ) ) {
+			$output['c7wp_seo_site_token'] = $existing['c7wp_seo_site_token'];
+		}
+
 		$normalized = c7wp_normalize_settings( array_merge( $existing, $output ) );
 
 		$this->apply_settings( $normalized );
@@ -552,6 +581,11 @@ class C7WP {
 			return trim( sanitize_text_field( $value ) );
 		}
 
+		if ( 'c7wp_seo_site_token' === $key ) {
+			$token = preg_replace( '/[^A-Za-z0-9_\-]/', '', (string) $value );
+			return substr( $token, 0, 128 );
+		}
+
 		// Handle frontend routes (page slugs)
 		if ( 'c7wp_frontend_routes' === $key && ! is_null( $subkey ) ) {
 			// Page slugs should be valid WordPress slugs
@@ -572,6 +606,7 @@ class C7WP {
 			'c7wp_display_cart_color'    => array( 'light', 'dark' ),
 			'c7wp_widget_version'           => array( 'v2', 'v2-compat', 'beta' ),
 			'c7wp_enable_product_reviews'   => array( 'yes', 'no' ),
+			'c7wp_enable_seo_bridge'        => array( 'yes', 'no' ),
 			'c7wp_enable_custom_routes'     => array( 'yes', 'no' ),
 		);
 
@@ -587,6 +622,7 @@ class C7WP {
 				'c7wp_display_cart_color'    => 'light',
 				'c7wp_widget_version'           => 'v2',
 				'c7wp_enable_product_reviews'   => 'no',
+				'c7wp_enable_seo_bridge'        => 'no',
 				'c7wp_enable_custom_routes'     => 'no',
 			);
 			return isset( $defaults[ $key ] ) ? $defaults[ $key ] : '';
@@ -783,6 +819,46 @@ class C7WP {
 					)
 				);
 			?>
+		</small></p>
+		<?php
+	}
+
+	/**
+	 * Render the optional SEO bridge toggle.
+	 */
+	public function c7wp_enable_seo_bridge_render() {
+
+		$options = $this->settings;
+		$value   = $options['c7wp_enable_seo_bridge'] ?? 'no';
+		?>
+		<select name="c7wp_settings[c7wp_enable_seo_bridge]">
+			<option value="no" <?php selected( $value, 'no' ); ?>><?php esc_html_e( 'No', 'wp-commerce7' ); ?></option>
+			<option value="yes" <?php selected( $value, 'yes' ); ?>><?php esc_html_e( 'Yes', 'wp-commerce7' ); ?></option>
+		</select>
+		<p><small>
+			<?php
+				echo wp_kses(
+					__( 'When set to <strong>yes</strong>, product, collection, cart, checkout, and account routes request titles, meta tags, and a plain wine list from AI SEO Boost. Install that Commerce7 app and paste its site token first. The request includes this site’s address so canonicals stay on this site, including staging. It does not replace a fully rendered catalog.', 'wp-commerce7' ),
+					array(
+						'strong' => array(),
+					)
+				);
+			?>
+		</small></p>
+		<?php
+	}
+
+	/**
+	 * Render the SEO site token field.
+	 */
+	public function c7wp_seo_site_token_render() {
+
+		$options = $this->settings;
+		$token   = $options['c7wp_seo_site_token'] ?? '';
+		?>
+		<input type="password" name="c7wp_settings[c7wp_seo_site_token]" value="" autocomplete="new-password" class="regular-text" spellcheck="false" placeholder="<?php echo '' !== $token ? esc_attr__( 'Token saved', 'wp-commerce7' ) : ''; ?>">
+		<p><small>
+			<?php esc_html_e( 'Site token from AI SEO Boost in Commerce7 admin. It is shown once when you create or regenerate it. Leave blank to keep the saved token.', 'wp-commerce7' ); ?>
 		</small></p>
 		<?php
 	}
@@ -1000,9 +1076,10 @@ class C7WP {
 		}
 
 		/**
-		 * Add canonical fix if SEO plugins present
+		 * Canonical fix for SEO plugins. The AI SEO bridge prints its own canonical,
+		 * and this script would replace that href with the browser path.
 		 */
-		if ( $this->seoplugin ) {
+		if ( $this->seoplugin && 'yes' !== ( $options['c7wp_enable_seo_bridge'] ?? 'no' ) ) {
 
 			$routes           = array_merge(
 				c7wp_get_default_frontend_routes(),

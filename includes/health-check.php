@@ -351,6 +351,10 @@ function c7wp_add_debug_info( $info ) {
 				'label' => __( 'Product Reviews Embed', 'wp-commerce7' ),
 				'value' => isset( $options['c7wp_enable_product_reviews'] ) ? $options['c7wp_enable_product_reviews'] : 'no',
 			),
+			'seo_bridge' => array(
+				'label' => __( 'AI SEO Boost for WordPress', 'wp-commerce7' ),
+				'value' => isset( $options['c7wp_enable_seo_bridge'] ) ? $options['c7wp_enable_seo_bridge'] : 'no',
+			),
 		),
 	);
 

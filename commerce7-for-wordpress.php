@@ -11,12 +11,12 @@
  * @wordpress-plugin
  * Plugin Name: Commerce7 for WordPress
  * Description: Integrate Commerce7 functionality into your WordPress site easily
- * Version: 1.8.2
+ * Version: 1.9.0
  * Author: URSA6 & 5forests
  * Author URI: https://5forests.com
  * Plugin URI: https://c7wp.com
  * Requires at least: 6.0
- * Tested up to: 7.1.2
+ * Tested up to: 7.1.4
  * Stable tag: 1.8.1
  * Requires PHP: 8.0
  * License: GPL3
@@ -27,7 +27,7 @@
  * Created Date: Friday September 27th 2019
  * Author: Michael Bourne
  * -----
- * Last Modified: Thursday, October 1st 2026, 8:51:02 pm
+ * Last Modified: Monday, November 2nd 2026, 6:19:49 pm
  * Modified By: Michael Bourne
  * -----
  * Copyright (c) 2019-2026 URSA6
@@ -47,7 +47,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 defined( 'C7WP_ROOT' ) || define( 'C7WP_ROOT', __DIR__ );
 defined( 'C7WP_URI' ) || define( 'C7WP_URI', plugin_dir_url( __FILE__ ) );
-defined( 'C7WP_VERSION' ) || define( 'C7WP_VERSION', '1.8.2' );
+defined( 'C7WP_VERSION' ) || define( 'C7WP_VERSION', '1.9.0' );
 if ( ! defined( 'C7WP_NOTICES_URL' ) ) {
 	define( 'C7WP_NOTICES_URL', 'https://c7wp.com/notices.json' );
 }
@@ -82,6 +82,8 @@ function c7wp_get_default_settings() {
 		'c7wp_display_cart_color'     => 'light',
 		'c7wp_widget_version'         => 'v2',
 		'c7wp_enable_product_reviews' => 'no',
+		'c7wp_enable_seo_bridge'      => 'no',
+		'c7wp_seo_site_token'         => '',
 		'c7wp_enable_custom_routes'   => 'no',
 		'c7wp_frontend_routes'        => c7wp_get_default_frontend_routes(),
 	);

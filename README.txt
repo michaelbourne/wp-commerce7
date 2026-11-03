@@ -3,8 +3,8 @@ Contributors: michaelbourne
 Donate link: https://www.paypal.me/yycpro
 Tags: commerce7
 Requires at least: 6.0
-Tested up to: 7.1.2
-Stable tag: 1.8.2
+Tested up to: 7.1.4
+Stable tag: 1.9.0
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.en.html
 
@@ -23,7 +23,7 @@ A free plugin for Commerce7 customers who wish to integrate their javascript wid
 *   Full integration with Gutenberg
 *   Optional Commerce7 Product Reviews embed (stars, reviews, and schema on product and collection pages)
 
-This plugin relies on a third party service for it's functionality provided by [Commerce7](https://commerce7.com/). As an ecommerce solution, an SSL certificate is required on your website. Your privacy policy should be ammended to include the use of third party software for order processing. The plugin settings page may fetch promotional callout HTML from c7wp.com. No user data is transmitted.
+This plugin relies on a third party service for it's functionality provided by [Commerce7](https://commerce7.com/). As an ecommerce solution, an SSL certificate is required on your website. Your privacy policy should be ammended to include the use of third party software for order processing. The plugin settings page may fetch promotional callout HTML from c7wp.com. When AI SEO Boost for WordPress is enabled, the public page path and Tenant ID are sent to the Commerce7 SEO service at seo.c7wp.com so it can return titles and meta tags. The site token is never sent. No customer order data is transmitted.
 
 Read the [Commerce7 for WordPress](https://c7wp.com) website to get started.
 
@@ -54,6 +54,10 @@ Both! Simply choose which version you'd like to use in the plugin settings. Reas
 
 Install the Commerce7 Product Reviews app for your tenant and configure PDP/PLP options in the app settings. In Commerce7 for WordPress, set **Enable Product Reviews embed** to **Yes**, ensure your Tenant ID is set, and match **Custom Front-end Routes** to your product and collection page slugs. Resave permalinks after changing routes.
 
+= How do I enable AI SEO Boost for WordPress? =
+
+Install the "AI SEO Boost for WordPress" app in Commerce7 for your tenant, copy the site token it issues, and paste that token into **SEO site token**. Set **AI SEO Boost for WordPress** to **Yes**. Product and collection routes then receive a title, description, and social tags. Collection routes also receive a plain list of wine titles and links. Cart, checkout, and account routes can be marked noindex. This does not add on-site product search or server-rendered product pages.
+
 = I'm having trouble with __________, what should I do? =
 
 First, make sure you aren't using a subfolder install for WordPress, Commerce7 can only work on root domains and subdomains.
@@ -77,7 +81,10 @@ Removing this plugin will render your widgets and/or blocks inactive, but will n
 
 == Changelog ==
 
-= 1.8.2 - October 1, 2026 =
+= 1.9.0 - November 3, 2026 =
+* Added: Optional AI SEO Boost for Commerce7 routes. A site token signs requests to the SEO service, which returns titles, meta tags, and a plain collection wine list.
+
+= 1.8.2 - October 13, 2026 =
 * Added: Dismissible admin notice for sites still using V1 (legacy) storefront widgets, which reach end of life at the end of 2026.
 * Improved: Widget version setting copy now notes the V1 end-of-life date.
 * Improved: Settings and front-end routes are normalized on load, save, activation, and upgrade so missing values fall back to defaults.
@@ -136,8 +143,6 @@ Removing this plugin will render your widgets and/or blocks inactive, but will n
 * Added: WP Health Check screen
 * Fixed: RankMath canonical tag
 * Added: Uninstall handler to remove plugin data
-
-
 
 = 1.5.4 - August 11, 2025 =
 * Fix: Gutenberg block settings for old beta frontend
@@ -291,6 +296,9 @@ Removing this plugin will render your widgets and/or blocks inactive, but will n
 
 
 == Upgrade Notice ==
+
+= 1.9.0 =
+New AI SEO Boost app for Commerce7 launched! Install the app in Commerce7 and enable in plugin settings to increase your AI Search visibility and SEO baseline. Every site should use this new feature.
 
 = 1.8.0 =
 New Gutenberg blocks (Cart, Login, Club Selector v2), Product Reviews embed, and expanded page builder support. Backup before upgrading and test widgets on key pages. Resave permalinks if you change front-end routes or enable Product Reviews. Back up before updating and test everything afterwards!
