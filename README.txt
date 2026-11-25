@@ -147,6 +147,7 @@ Your Commerce7 blocks and widgets stop working, but the pages and content stay. 
 
 = 1.9.1 - November 25, 2026 =
 * Fix: AI SEO Boost places the collection wine list after Elementor has built the page, so the list stays in the HTML visitors and crawlers receive.
+* Edit: Reservation form alignment tweaks
 
 The full history is in changelog.txt in the plugin folder.
 

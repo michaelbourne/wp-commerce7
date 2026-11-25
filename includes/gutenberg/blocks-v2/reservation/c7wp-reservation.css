@@ -1,40 +1,64 @@
 .wp-block-c7wp-reservation {
-    overflow: hidden;
-    z-index: 1;
+	overflow: hidden;
+	z-index: 1;
 }
+
 .wp-block-c7wp-reservation > div {
-    max-width: 100%;
+	max-width: 100%;
 }
+
 .wp-block-c7wp-reservation .c7-reservation__search {
-    pointer-events: none;
+	pointer-events: none;
 }
+
 .wp-block-c7wp-reservation .c7-message {
-    pointer-events: none;
+	pointer-events: none;
 }
 
-
-.c7wp-justify-center {
-	.c7-reservation__search {
-		.c7-form__group {
-			justify-content: center;
-		}
-	}
+.wp-block-c7wp-reservation .c7-form {
+	max-width: unset;
 }
 
-.c7wp-justify-right {
-	.c7-reservation__search {
-		margin-right: 0;
-		.c7-form__group {
-			justify-content: flex-end;
-		}
-	}
+.c7wp-justify-center .c7-reservation__search .c7-form__group {
+	justify-content: center;
 }
 
-.c7wp-justify-left {
-	.c7-reservation__search {
-		margin-left: 0;
-		.c7-form__group {
-			justify-content: flex-start;
-		}
-	}
+.c7wp-justify-center .c7-reservation-type__options {
+	text-align: center;
+}
+
+.c7wp-justify-center .c7-reservation-type__booking .c7-label {
+	text-align: center;
+}
+
+.c7wp-justify-center .c7-reservation-type__booking .c7-form__buttons {
+	justify-content: center;
+}
+
+.c7wp-justify-right .c7-reservation__search {
+	margin-right: 0;
+}
+
+.c7wp-justify-right .c7-reservation__search .c7-form__group {
+	justify-content: flex-end;
+}
+
+.c7wp-justify-right .c7-reservation-type__options {
+	text-align: right;
+}
+
+.c7wp-justify-right .c7-reservation-type__booking .c7-label {
+	text-align: right;
+}
+
+.c7wp-justify-right .c7-reservation-type__booking .c7-form__buttons {
+	justify-content: flex-end;
+}
+
+.c7wp-justify-left .c7-reservation__search {
+	margin-left: 0;
+}
+
+.c7wp-justify-left .c7-reservation__search .c7-form__group {
+	justify-content: flex-start;
 }

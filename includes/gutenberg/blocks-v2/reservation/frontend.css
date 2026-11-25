@@ -1,50 +1,57 @@
-.c7wp-justify-center {
-	.c7-reservation__search {
-		.c7-form__group {
-			justify-content: center;
-		}
-	}
+.c7wp-justify-center .c7-reservation__search .c7-form__group {
+	justify-content: center;
 }
 
-.c7wp-justify-right {
-	.c7-reservation__search {
-    margin-right: 0;
-		.c7-form__group {
-			justify-content: flex-end;
-		}
-	}
+.c7wp-justify-center .c7-reservation-type__options {
+	text-align: center;
 }
 
-.c7wp-justify-left {
-	.c7-reservation__search {
-    margin-left: 0;
-		.c7-form__group {
-			justify-content: flex-start;
-		}
-	}
+.c7wp-justify-center .c7-reservation-type__booking .c7-label {
+	text-align: center;
 }
+
+.c7wp-justify-center .c7-reservation-type__booking .c7-form__buttons {
+	justify-content: center;
+}
+
+.c7wp-justify-right .c7-reservation__search {
+	margin-right: 0;
+}
+
+.c7wp-justify-right .c7-reservation__search .c7-form__group {
+	justify-content: flex-end;
+}
+
+.c7wp-justify-right .c7-reservation-type__options {
+	text-align: right;
+}
+
+.c7wp-justify-right .c7-reservation-type__booking .c7-label {
+	text-align: right;
+}
+
+.c7wp-justify-right .c7-reservation-type__booking .c7-form__buttons {
+	justify-content: flex-end;
+}
+
+.c7wp-justify-left .c7-reservation__search {
+	margin-left: 0;
+}
+
+.c7wp-justify-left .c7-reservation__search .c7-form__group {
+	justify-content: flex-start;
+}
+
 @media screen and (max-width: 768px) {
-	.c7wp-justify-center {
-		.c7-reservation__search {
-			.c7-form__group {
-				align-content: center;
-			}
-		}
+	.c7wp-justify-center .c7-reservation__search .c7-form__group {
+		align-content: center;
 	}
 
-	.c7wp-justify-left {
-		.c7-reservation__search {
-			.c7-form__group {
-				align-content: flex-start;
-			}
-		}
+	.c7wp-justify-left .c7-reservation__search .c7-form__group {
+		align-content: flex-start;
 	}
 
-	.c7wp-justify-right {
-		.c7-reservation__search {
-			.c7-form__group {
-				align-content: flex-end;
-			}
-		}
+	.c7wp-justify-right .c7-reservation__search .c7-form__group {
+		align-content: flex-end;
 	}
 }

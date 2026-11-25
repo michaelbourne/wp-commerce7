@@ -1,27 +1,18 @@
-.c7wp-justify-center {
-	.c7-subscribe {
-		.c7-form {
-			margin-left: auto;
-      margin-right: auto;
-		}
-	}
+.c7wp-justify-center .c7-subscribe .c7-form {
+	margin-left: auto;
+	margin-right: auto;
 }
 
-.c7wp-justify-right {
-	.c7-subscribe {
-		.c7-form {
-			margin-right: 0;
-      margin-left: auto;
-		}
-	}
+.c7wp-justify-right .c7-subscribe .c7-form {
+	margin-right: 0;
+	margin-left: auto;
 }
 
-.c7wp-justify-left {
-	.c7-subscribe {
-    margin-left: 0;
-		.c7-form {
-      margin-right: auto;
-      margin-left: 0;
-		}
-	}
+.c7wp-justify-left .c7-subscribe {
+	margin-left: 0;
+}
+
+.c7wp-justify-left .c7-subscribe .c7-form {
+	margin-right: auto;
+	margin-left: 0;
 }
