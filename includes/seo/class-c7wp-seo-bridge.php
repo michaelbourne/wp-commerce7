@@ -58,7 +58,7 @@ class C7WP_SEO_Bridge {
 	public static function register() {
 		add_action( 'template_redirect', array( __CLASS__, 'prepare' ), 0 );
 		add_action( 'wp_head', array( __CLASS__, 'print_head' ), 1 );
-		add_filter( 'the_content', array( __CLASS__, 'insert_list' ), 8 );
+		add_filter( 'the_content', array( __CLASS__, 'insert_list' ), 12 );
 		add_action( 'wp_footer', array( __CLASS__, 'enqueue_list_script' ), 1 );
 		add_action( 'shutdown', array( __CLASS__, 'refresh_stale' ) );
 
@@ -152,6 +152,11 @@ class C7WP_SEO_Bridge {
 	 *
 	 * The list stays in the HTML for crawlers that do not run JavaScript.
 	 * It is clipped out of the layout, then removed once Commerce7 fills #c7-content.
+	 * Whitespace or a non-breaking space inside the mount still counts as empty.
+	 *
+	 * Hooked at priority 12 so it runs after Elementor replaces the_content
+	 * (priority 9) and after do_shortcode (priority 11). The widget HTML,
+	 * including #c7-content, is already in the string Elementor returns.
 	 *
 	 * @param string $content Post content.
 	 * @return string
@@ -168,7 +173,8 @@ class C7WP_SEO_Bridge {
 
 		self::$list_printed = true;
 		$list               = self::list_markup( $payload['list'] );
-		$pattern            = '/<div\b[^>]*\bid=(["\'])c7-content\1[^>]*>\s*<\/div>/i';
+		// NBSP as a character or as &nbsp; / &#160; / &#xA0; is still an empty mount.
+		$pattern            = '/<div\b[^>]*\bid=(["\'])c7-content\1[^>]*>(?:\s|&nbsp;|&#0*160;|&#x0*a0;|\xC2\xA0)*<\/div>/i';
 		$updated            = preg_replace_callback(
 			$pattern,
 			static function ( $matches ) use ( $list ) {

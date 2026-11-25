@@ -3,7 +3,7 @@ Contributors: michaelbourne
 Tags: commerce7, winery, wine, wine club, ecommerce
 Requires at least: 6.0
 Tested up to: 7.1
-Stable tag: 1.9.0
+Stable tag: 1.9.1
 Requires PHP: 8.0
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.en.html
@@ -145,12 +145,12 @@ Your Commerce7 blocks and widgets stop working, but the pages and content stay. 
 
 == Changelog ==
 
-= 1.9.0 - November 3, 2026 =
-* Added: Optional AI SEO Boost for WordPress support. A site token signs requests to the SEO service, which returns titles, meta tags and a plain collection wine list.
+= 1.9.1 - November 25, 2026 =
+* Fix: AI SEO Boost places the collection wine list after Elementor has built the page, so the list stays in the HTML visitors and crawlers receive.
 
 The full history is in changelog.txt in the plugin folder.
 
 == Upgrade Notice ==
 
-= 1.9.0 =
-Adds optional support for the AI SEO Boost for WordPress app in Commerce7, to help AI Search visibility and Google structured data. Nothing changes unless you turn it on.
+= 1.9.1 =
+Fixes the AI SEO Boost collection wine list on Elementor built pages.
